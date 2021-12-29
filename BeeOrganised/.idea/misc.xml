@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/BeeOrganised/app/src/main/res/drawable/background_for_btn.xml" value="0.3141025641025641" />
+        <entry key="..\:/BeeOrganised/app/src/main/res/drawable/background_for_tasks.xml" value="0.310126582278481" />
+        <entry key="..\:/BeeOrganised/app/src/main/res/drawable/ic_launcher_background.xml" value="0.21770833333333334" />
+        <entry key="..\:/BeeOrganised/app/src/main/res/drawable/ic_main_bg.xml" value="0.325" />
+        <entry key="..\:/BeeOrganised/app/src/main/res/drawable/ic_personal_use.xml" value="0.22135416666666666" />
+        <entry key="..\:/BeeOrganised/app/src/main/res/drawable/ic_suncepoz.xml" value="0.21495726495726497" />
+        <entry key="..\:/BeeOrganised/app/src/main/res/font-mcc381/aristotelica.xml" value="0.29583333333333334" />
+        <entry key="..\:/BeeOrganised/app/src/main/res/font/fontzabrojke.xml" value="0.2547008547008547" />
+        <entry key="..\:/BeeOrganised/app/src/main/res/layout-v21/activity_kalendar.xml" value="0.36666666666666664" />
+        <entry key="..\:/BeeOrganised/app/src/main/res/layout-v21/activity_worker.xml" value="0.4143646408839779" />
+        <entry key="..\:/BeeOrganised/app/src/main/res/layout/activity_kalendar.xml" value="0.30085470085470084" />
+        <entry key="..\:/BeeOrganised/app/src/main/res/layout/activity_main.xml" value="0.16" />
+        <entry key="..\:/BeeOrganised/app/src/main/res/layout/activity_worker.xml" value="0.22" />
+        <entry key="..\:/BeeOrganised/app/src/main/res/layout/activity_worker2.xml" value="0.2547008547008547" />
+        <entry key="..\:/BeeOrganised/app/src/main/res/layout/calendar_cell.xml" value="0.30085470085470084" />
+        <entry key="..\:/BeeOrganised/app/src/main/res/layout/layout_bottom_sheet.xml" value="0.30085470085470084" />
+        <entry key="..\:/BeeOrganised/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.22135416666666666" />
+        <entry key="..\:/BeeOrganised/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.22135416666666666" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">BeeOrganised</string>
+    <string name="title_activity_worker">WorkerActivity</string>
+    <string-array name="whenList">
+        <item>Morning</item>
+        <item>Afternoon</item>
+        <item>Evening</item>
+        <item>Night Work</item>
+    </string-array>
+
+
+    <string-array name="priorityList">
+        <item>Must</item>
+        <item>Have to</item>
+        <item>Should</item>
+        <item>Whenever</item>
+    </string-array>
+
+    <string name="FinalTextForSimple">This is given calculated time, if it dont suits you, feel free to calculate it again! </string>
+</resources>
