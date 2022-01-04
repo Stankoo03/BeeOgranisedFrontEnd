@@ -45,9 +45,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
+                    android:fontFamily="@font/brojke"
                     android:paddingTop="10dp"
                     android:text="19"
-                    android:fontFamily="@font/brojke"
                     android:textColor="@color/DateColor"
                     android:textSize="20sp"
 
@@ -59,13 +59,14 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
+                    android:fontFamily="@font/font"
                     android:text="WED"
                     android:textColor="@color/DateColor"
-                    android:textSize="10sp"
                     android:textFontWeight="1000"
-                    android:fontFamily="@font/font"/>
+                    android:textSize="10sp" />
 
             </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/drugiHolder"
                 android:layout_width="wrap_content"
@@ -84,9 +85,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
+                    android:fontFamily="@font/brojke"
                     android:paddingTop="10dp"
                     android:text="20"
-                    android:fontFamily="@font/brojke"
                     android:textColor="@color/DateColor"
                     android:textSize="20sp"
 
@@ -98,15 +99,16 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
+                    android:fontFamily="@font/font"
                     android:text="WED"
                     android:textColor="@color/DateColor"
+                    android:textFontWeight="1000"
                     android:textSize="10sp"
-                    android:textStyle="bold"
-                    android:fontFamily="@font/font"
-                    android:textFontWeight="1000"/>
+                    android:textStyle="bold" />
 
 
             </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/treciHolder"
                 android:layout_width="wrap_content"
@@ -125,9 +127,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
+                    android:fontFamily="@font/brojke"
                     android:paddingTop="10dp"
                     android:text="21"
-                    android:fontFamily="@font/brojke"
                     android:textColor="@color/DateColor"
                     android:textSize="20sp"
 
@@ -139,16 +141,14 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
+                    android:fontFamily="@font/font"
                     android:text="WED"
                     android:textColor="@color/DateColor"
+                    android:textFontWeight="1000"
                     android:textSize="10sp"
-                    android:textStyle="bold"
-                    android:fontFamily="@font/font"
-                    android:textFontWeight="1000"/>
+                    android:textStyle="bold" />
 
             </RelativeLayout>
-
-
 
 
         </LinearLayout>
@@ -174,6 +174,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/optionsHolder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/datumHolder">
@@ -188,19 +189,25 @@
             />
 
             <Switch
+                android:id="@+id/daynightSwitch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:track="@drawable/ic_suncepoz"
-                android:thumb="@drawable/ic_sunce"
                 android:showText="false"
                 android:layout_centerHorizontal="true"
                 android:switchMinWidth="10dp"
                 android:minHeight="60dp"
+                android:thumb="@drawable/suncemesec"
                 />
 
 
         </RelativeLayout>
-
+        <ImageView
+            android:id="@+id/sat"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_clockpm"
+            android:layout_below="@+id/optionsHolder"/>
 
 
 

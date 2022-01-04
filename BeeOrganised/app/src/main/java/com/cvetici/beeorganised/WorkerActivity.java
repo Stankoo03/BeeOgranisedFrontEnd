@@ -16,10 +16,13 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -56,6 +59,9 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     private Button FromTime,ToTime,CaluculateBtn;
     private String Vreme="";
 
+    private Switch daynightSwitch;
+    private ImageView sat;
+
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -74,12 +80,32 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         FindViews();
         RadioGroupClicked();
         FromToTimeSetter();
-
-
-
+        SwitchListener();
         PostaviDatume();
+
+
+
     }
+    private void SwitchListener(){
+
+        daynightSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    sat.setImageResource(R.drawable.ic_clockam);
+                }else{
+                    sat.setImageResource(R.drawable.ic_clockpm);
+                }
+            }
+        });
+
+
+
+    }
+
     private void FindViews(){
+
+        daynightSwitch = (Switch) findViewById(R.id.daynightSwitch);
         d1 = (TextView) findViewById(R.id.firstDate);
         d2 = (TextView) findViewById(R.id.secondDate);
         d3 = (TextView) findViewById(R.id.thirdDate);
@@ -101,7 +127,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         routine = (FloatingActionButton) findViewById(R.id.RoutineButton);
         task = (FloatingActionButton) findViewById(R.id.SimpleButton);
 
-
+        sat = (ImageView) findViewById(R.id.sat);
 
         RG = bottomSheetView.findViewById(R.id.RadioGroup);
         ManualTimeLayout = bottomSheetView.findViewById(R.id.ManualTimeLayout);
@@ -139,7 +165,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                         AiLayout.setVisibility(View.VISIBLE);
 
                         CaluculateBtn.setVisibility(View.VISIBLE);
-                        Toast.makeText(WorkerActivity.this, "Ai Time clicked", Toast.LENGTH_SHORT).show();
+
 
                 }
             }
