@@ -97,6 +97,7 @@ class Routine extends Task
             if( isDateUsed(potential.GetStartTime()) ) {
                 Interval i = period.Intersect(potential);
                 if (i != null) {
+                    i.SetRefferedTask(this);
                     r.add(i);
                 }
             }
