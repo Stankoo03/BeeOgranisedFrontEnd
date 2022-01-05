@@ -16,5 +16,16 @@
         <item>Whenever</item>
     </string-array>
 
+    <string-array name="durationList">
+        <item>Duration</item>
+        <item>5</item>
+        <item>15</item>
+        <item>30</item>
+        <item>1h</item>
+        <item>1.5h</item>
+        <item>2h</item>
+        <item>Choose manually</item>
+    </string-array>
+
     <string name="FinalTextForSimple">This is given calculated time, if it dont suits you, feel free to calculate it again! </string>
 </resources>

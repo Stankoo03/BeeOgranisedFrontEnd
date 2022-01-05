@@ -7,6 +7,7 @@ import androidx.fragment.app.DialogFragment;
 import android.app.ActivityOptions;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.icu.text.DateFormat;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -36,6 +38,7 @@ import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Set;
 
 public class WorkerActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
 
@@ -56,11 +59,17 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     private View bottomSheetView;
     BottomSheetDialog bottomSheetDialog;
 
-    private Button FromTime,ToTime,CaluculateBtn;
+    private Button FromTime,ToTime,CaluculateBtn,SetBtn,TaskButton;
     private String Vreme="";
 
     private Switch daynightSwitch;
     private ImageView sat;
+
+    private EditText enterTask;
+    private SmartToDo std;
+    private int h1=-1,m1=-1,h2=-1,m2=-1;
+    private RelativeLayout TaskLayout;
+
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -85,6 +94,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
 
 
 
+
     }
     private void SwitchListener(){
 
@@ -105,6 +115,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
 
     private void FindViews(){
 
+        std = new SmartToDo(5);
         daynightSwitch = (Switch) findViewById(R.id.daynightSwitch);
         d1 = (TextView) findViewById(R.id.firstDate);
         d2 = (TextView) findViewById(R.id.secondDate);
@@ -128,6 +139,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         task = (FloatingActionButton) findViewById(R.id.SimpleButton);
 
         sat = (ImageView) findViewById(R.id.sat);
+        TaskButton = (Button) findViewById(R.id.TaskButton);
 
         RG = bottomSheetView.findViewById(R.id.RadioGroup);
         ManualTimeLayout = bottomSheetView.findViewById(R.id.ManualTimeLayout);
@@ -136,7 +148,11 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         ToTime = bottomSheetView.findViewById(R.id.toTime);
         AfterCalculateBtn = bottomSheetView.findViewById(R.id.AfterBtnClicked);
         CaluculateBtn = bottomSheetView.findViewById(R.id.CalculateBtn);
+        SetBtn = (Button) bottomSheetView.findViewById(R.id.SetBtn);
+        enterTask = (EditText) bottomSheetView.findViewById(R.id.enterTask);
 
+
+        TaskLayout = findViewById(R.id.ListRelative);
         CaluculateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -144,9 +160,13 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
             }
         });
 
+
+
+
     }
 
     private void RadioGroupClicked(){
+
         RG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
@@ -281,20 +301,59 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     }
 
     public void simpleTaskCard(View view) {
+            RG.clearCheck();
+            SetBtn.setVisibility(View.GONE);
+            ManualTimeLayout.setVisibility(View.GONE);
+            AiLayout.setVisibility(View.GONE);
+            AfterCalculateBtn.setVisibility(View.GONE);
+            CaluculateBtn.setVisibility(View.GONE);
+            enterTask.setText("");
             bottomSheetDialog.show();
+
     }
-
-
 
 
     @Override
     public void onTimeSet(TimePicker timePicker, int Hour, int Minute) {
+
+
         if(!FromTimeClicked) {
             FromTime.setText("Starting time: " + Hour+ ":" + Minute);
+            h1=Hour;
+            m1=Minute;
             FromTimeClicked=true;
         }else{
+            h2=Hour;
+            m2=Minute;
             ToTime.setText("Ending Time: "+ Hour+ ":" + Minute);
-        }
+            if(h1+h2+m1+m2>0){
+                SetBtn.setVisibility(View.VISIBLE);
+                SetBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Task temp = new Task(enterTask.getText().toString(),new Interval(new DateTime(2022,1,5,h1,m1),new DateTime(2022,1,5,h2,m2)));
+                        std.AddTask(temp);
+                        Toast.makeText(WorkerActivity.this, temp.GetTitle().toString(), Toast.LENGTH_LONG).show();
+                    }
+                });
 
+            }
+
+
+        }
+    }
+
+    boolean AlreadyClicked = false;
+
+    public void expandTaskList(View view) {
+        if(AlreadyClicked){
+            TaskLayout.setVisibility(View.GONE);
+            TaskButton.setBackground(getResources().getDrawable(R.drawable.background_for_exbtn));
+            AlreadyClicked=false;
+        }else {
+            AlreadyClicked=true;
+            TaskLayout.setVisibility(View.VISIBLE);
+            TaskButton.setBackground(getResources().getDrawable(R.drawable.background_for_exbtnuser));
+        }
     }
 }

@@ -2,10 +2,8 @@
     android:shape="rectangle">
     <solid android:color="@color/UserChosing"/>
     <corners
-        android:topLeftRadius="25dp"
-        android:topRightRadius="25dp"
-        android:bottomLeftRadius="25dp"
-        android:bottomRightRadius="25dp"
+        android:topRightRadius="22dp"
+        android:bottomRightRadius="22dp"
         />
 
 
