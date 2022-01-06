@@ -3,6 +3,7 @@ package com.cvetici.beeorganised;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ActivityOptions;
 import android.app.TimePickerDialog;
@@ -72,6 +73,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     private SmartToDo std;
     private int h1=-1,m1=-1,h2=-1,m2=-1;
     private RelativeLayout TaskLayout;
+    private RecyclerView ListaTaskova;
 
     private Spinner prioritySp,timeSp,durationSp;
 
@@ -132,6 +134,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
 
         LinearViewHolder =  (LinearLayout) findViewById(R.id.taskLinearHolderId);
 
+        ListaTaskova = (RecyclerView) findViewById(R.id.ListaRV);
         rotateOpen = AnimationUtils.loadAnimation(this,R.anim.rotate_open_anim);
         rotateClose = AnimationUtils.loadAnimation(this,R.anim.rotate_close_anim);
         fromButton = AnimationUtils.loadAnimation(this,R.anim.from_bottom_anim);
@@ -339,6 +342,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                     public void onClick(View view) {
                         Task temp = new Task(enterTask.getText().toString(),new Interval(new DateTime(2022,1,5,h1,m1),new DateTime(2022,1,5,h2,m2)));
                         std.AddTask(temp);
+
                         Toast.makeText(WorkerActivity.this, "Task uspesno postavljen u odredjenom vremenskom intervalu", Toast.LENGTH_LONG).show();
                     }
                 });

@@ -277,7 +277,8 @@
             android:layout_height="match_parent"
             android:layout_below="@id/sat"
             android:background="@drawable/background_for_tasks"
-            android:visibility="invisible">
+            android:padding="5dp"
+            android:visibility="visible">
 
             <View
                 android:id="@+id/razdvojnaLinija"
@@ -346,11 +347,18 @@
             </LinearLayout>
 
             <View
+                android:id="@+id/linija"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_below="@+id/satnice"
                 android:layout_marginTop="3dp"
                 android:background="@color/black" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_below="@+id/linija"
+                android:id="@+id/ListaRV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
 
         </RelativeLayout>
