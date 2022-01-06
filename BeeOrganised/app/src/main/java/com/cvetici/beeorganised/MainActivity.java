@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void goToPersonal(){
-        Intent intent = new Intent(MainActivity.this, WorkerActivity.class);
+        Intent intent = new Intent(MainActivity.this, LoadingScreen.class);
         startActivity(intent);
 
 

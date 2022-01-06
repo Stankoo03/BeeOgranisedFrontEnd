@@ -38,7 +38,7 @@ class ManualTask extends  TaskWorker{
 
 }
 
-/*
+
 class AiTask extends TaskWorker{
 
     int priority;
@@ -66,4 +66,4 @@ class AiTask extends TaskWorker{
     }
 
 
-}*/
+}
