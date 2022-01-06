@@ -50,7 +50,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     private FloatingActionButton main,routine,task;
 
     private Animation rotateOpen,rotateClose,fromButton,toButton ;
-    private Animation openTaskView,closeTaskView;
+    private Animation openListView,closeListView;
 
     private LinearLayout LinearViewHolder,ManualTimeLayout,AiLayout,AfterCalculateBtn;
     private boolean TaskClicked =false,FromTimeClicked=false;
@@ -131,8 +131,8 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         fromButton = AnimationUtils.loadAnimation(this,R.anim.from_bottom_anim);
         toButton = AnimationUtils.loadAnimation(this,R.anim.to_bottom_anim);
 
-        openTaskView = AnimationUtils.loadAnimation(this,R.anim.from_empty_holder);
-        closeTaskView = AnimationUtils.loadAnimation(this,R.anim.from_holder_empty);
+         openListView = AnimationUtils.loadAnimation(this, R.anim.open_list_animation);
+        closeListView = AnimationUtils.loadAnimation(this, R.anim.close_list_animation);
 
         main = (FloatingActionButton) findViewById(R.id.MainButton);
         routine = (FloatingActionButton) findViewById(R.id.RoutineButton);
@@ -333,7 +333,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                     public void onClick(View view) {
                         Task temp = new Task(enterTask.getText().toString(),new Interval(new DateTime(2022,1,5,h1,m1),new DateTime(2022,1,5,h2,m2)));
                         std.AddTask(temp);
-                        Toast.makeText(WorkerActivity.this, temp.GetTitle().toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(WorkerActivity.this, "Task uspesno postavljen u odredjenom vremenskom intervalu", Toast.LENGTH_LONG).show();
                     }
                 });
 
@@ -347,12 +347,14 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
 
     public void expandTaskList(View view) {
         if(AlreadyClicked){
-            TaskLayout.setVisibility(View.GONE);
+            TaskLayout.startAnimation(closeListView);
+            TaskLayout.setVisibility(View.INVISIBLE);
             TaskButton.setBackground(getResources().getDrawable(R.drawable.background_for_exbtn));
             AlreadyClicked=false;
         }else {
-            AlreadyClicked=true;
+            TaskLayout.startAnimation(openListView);
             TaskLayout.setVisibility(View.VISIBLE);
+            AlreadyClicked=true;
             TaskButton.setBackground(getResources().getDrawable(R.drawable.background_for_exbtnuser));
         }
     }

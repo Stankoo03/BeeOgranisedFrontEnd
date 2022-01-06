@@ -201,13 +201,14 @@
 
 
         </RelativeLayout>
+
         <ImageView
             android:id="@+id/sat"
-            android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_clockpm"
-            android:layout_below="@+id/optionsHolder"/>
+            android:layout_below="@+id/optionsHolder"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_clockpm" />
 
 
 
@@ -270,19 +271,89 @@
 
             />
 
-    <RelativeLayout
-        android:id="@+id/ListRelative"
-        android:layout_width="match_parent"
-        android:visibility="gone"
-        android:layout_height="match_parent"
-        android:background="@drawable/background_for_tasks"
-        android:layout_below="@id/sat"
-        >
+        <RelativeLayout
+            android:id="@+id/ListRelative"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/sat"
+            android:background="@drawable/background_for_tasks"
+            android:visibility="invisible">
+
+            <View
+                android:id="@+id/razdvojnaLinija"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="2dp"
+                android:background="@color/black" />
+
+            <LinearLayout
+                android:layout_toStartOf="@id/razdvojnaLinija"
+                android:id="@+id/satnice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/ic_clock" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="7dp"
+                    android:layout_marginTop="2dp"
+                    android:fontFamily="@font/font"
+                    android:text="Schedule"
+                    android:textSize="21sp" />
+
+
+                 </LinearLayout>
+
+            <LinearLayout
+                android:layout_toEndOf="@id/razdvojnaLinija"
+                android:id="@+id/obaveze"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/ic_checkbox_checked" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="7dp"
+                    android:layout_marginTop="2dp"
+                    android:fontFamily="@font/font"
+                    android:text="Obligations"
+                    android:textSize="21sp" />
 
 
 
 
-    </RelativeLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/satnice"
+                android:layout_marginTop="3dp"
+                android:background="@color/black" />
+
+
+        </RelativeLayout>
 
     <Button
         android:id="@+id/TaskButton"

@@ -21,7 +21,6 @@
         android:duration = "150"
         android:fromAlpha = "1"
         android:toAlpha = "0"
-
         />
 
 
