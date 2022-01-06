@@ -12,10 +12,12 @@ import android.icu.text.DateFormat;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.renderscript.RenderScript;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -24,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -70,6 +73,8 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     private int h1=-1,m1=-1,h2=-1,m2=-1;
     private RelativeLayout TaskLayout;
 
+    private Spinner prioritySp,timeSp,durationSp;
+
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -91,6 +96,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         FromToTimeSetter();
         SwitchListener();
         PostaviDatume();
+        AiTaskCalculation();
 
 
 
@@ -150,15 +156,13 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         CaluculateBtn = bottomSheetView.findViewById(R.id.CalculateBtn);
         SetBtn = (Button) bottomSheetView.findViewById(R.id.SetBtn);
         enterTask = (EditText) bottomSheetView.findViewById(R.id.enterTask);
+        prioritySp = bottomSheetView.findViewById(R.id.prioritySpinner);
+        timeSp = bottomSheetView.findViewById(R.id.whenSpinner);
+        durationSp = bottomSheetView.findViewById(R.id.durationSpinner);
 
 
         TaskLayout = findViewById(R.id.ListRelative);
-        CaluculateBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AfterCalculateBtn.setVisibility(View.VISIBLE);
-            }
-        });
+
 
 
 
@@ -176,6 +180,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                         AiLayout.setVisibility(View.GONE);
                         AfterCalculateBtn.setVisibility(View.GONE);
                         CaluculateBtn.setVisibility(View.GONE);
+                        durationSp.setVisibility(View.GONE);
 
                         break;
                     case R.id.AiTime:
@@ -183,7 +188,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                             ManualTimeLayout.setVisibility(View.GONE);
                         }
                         AiLayout.setVisibility(View.VISIBLE);
-
+                        durationSp.setVisibility(View.VISIBLE);
                         CaluculateBtn.setVisibility(View.VISIBLE);
 
 
@@ -307,6 +312,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
             AiLayout.setVisibility(View.GONE);
             AfterCalculateBtn.setVisibility(View.GONE);
             CaluculateBtn.setVisibility(View.GONE);
+            durationSp.setVisibility(View.GONE);
             enterTask.setText("");
             bottomSheetDialog.show();
 
@@ -342,9 +348,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
 
         }
     }
-
     boolean AlreadyClicked = false;
-
     public void expandTaskList(View view) {
         if(AlreadyClicked){
             TaskLayout.startAnimation(closeListView);
@@ -358,4 +362,33 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
             TaskButton.setBackground(getResources().getDrawable(R.drawable.background_for_exbtnuser));
         }
     }
+
+    public void AiTaskCalculation(){
+
+        CaluculateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                int priority=prioritySp.getSelectedItemPosition();
+                int time = timeSp.getSelectedItemPosition();
+                int duration = durationSp.getSelectedItemPosition();
+
+                Toast.makeText(WorkerActivity.this, priority+" "+time+" "+duration, Toast.LENGTH_LONG).show();
+
+                AfterCalculateBtn.setVisibility(View.VISIBLE);
+
+
+
+            }
+        });
+
+
+    }
+
+
+
+
+
+
+
 }

@@ -127,14 +127,14 @@
 
 
         <Spinner
-            android:id="@+id/whenSpinner"
+            android:id="@+id/prioritySpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:entries="@array/priorityList"/>
 
 
         <Spinner
-            android:id="@+id/prioritySpinner"
+            android:id="@+id/whenSpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:entries="@array/whenList"/>
