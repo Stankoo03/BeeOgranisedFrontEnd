@@ -110,9 +110,9 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(b){
-                    sat.setImageResource(R.drawable.ic_clockam);
+                    sat.setImageResource(R.drawable.ic_amclock);
                 }else{
-                    sat.setImageResource(R.drawable.ic_clockpm);
+                    sat.setImageResource(R.drawable.ic_pmclock);
                 }
             }
         });

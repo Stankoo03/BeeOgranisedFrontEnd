@@ -27,5 +27,5 @@
         <item>Choose manually</item>
     </string-array>
 
-    <string name="FinalTextForSimple">This is given calculated time, if it dont suits you, feel free to calculate it again! </string>
+    <string name="FinalTextForSimple">  This is AI calculated time, if it doesnt suit you, feel free to recalculate! </string>
 </resources>

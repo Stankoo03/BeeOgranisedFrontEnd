@@ -37,7 +37,7 @@
                     android:id="@+id/datumPrvi"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:background="@drawable/ic_datum"
+                    android:background="@drawable/ic_datum_fixed_fixed"
                     tools:ignore="SpeakableTextPresentCheck" />
 
                 <TextView
@@ -45,25 +45,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:paddingTop="10dp"
-                    android:text="19"
                     android:fontFamily="@font/brojke"
+                    android:paddingTop="13dp"
+                    android:text="19"
                     android:textColor="@color/DateColor"
-                    android:textSize="20sp"
-
-                    />
+                    android:textSize="23sp" />
 
                 <TextView
                     android:id="@+id/firstWeek"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="@font/font"
                     android:text="WED"
                     android:textColor="@color/DateColor"
-                    android:textSize="10sp"
                     android:textFontWeight="1000"
-                    android:fontFamily="@font/font"/>
+                    android:textSize="12sp" />
 
             </RelativeLayout>
             <RelativeLayout
@@ -76,34 +74,33 @@
                     android:id="@+id/datumDrugi"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:background="@drawable/ic_datum"
+                    android:background="@drawable/ic_datum_fixed_fixed"
                     tools:ignore="SpeakableTextPresentCheck" />
 
                 <TextView
                     android:id="@+id/secondDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:paddingTop="10dp"
-                    android:text="20"
-                    android:fontFamily="@font/brojke"
-                    android:textColor="@color/DateColor"
-                    android:textSize="20sp"
 
-                    />
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/brojke"
+                    android:paddingTop="13dp"
+                    android:text="20"
+                    android:textColor="@color/DateColor"
+                    android:textSize="23sp" />
 
                 <TextView
                     android:id="@+id/secondWeek"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="@font/font"
                     android:text="WED"
                     android:textColor="@color/DateColor"
-                    android:textSize="10sp"
-                    android:textStyle="bold"
-                    android:fontFamily="@font/font"
-                    android:textFontWeight="1000"/>
+                    android:textFontWeight="1000"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
 
 
             </RelativeLayout>
@@ -117,7 +114,7 @@
                     android:id="@+id/datumTreci"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:background="@drawable/ic_datum"
+                    android:background="@drawable/ic_datum_fixed_fixed"
                     tools:ignore="SpeakableTextPresentCheck" />
 
                 <TextView
@@ -125,26 +122,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:paddingTop="10dp"
-                    android:text="21"
                     android:fontFamily="@font/brojke"
+                    android:paddingTop="13dp"
+                    android:text="21"
                     android:textColor="@color/DateColor"
-                    android:textSize="20sp"
-
-                     />
+                    android:textSize="23sp" />
 
                 <TextView
                     android:id="@+id/thirdWeek"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="@font/font"
                     android:text="WED"
                     android:textColor="@color/DateColor"
-                    android:textSize="10sp"
-                    android:textStyle="bold"
-                    android:fontFamily="@font/font"
-                    android:textFontWeight="1000"/>
+                    android:textFontWeight="1000"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
 
             </RelativeLayout>
 
@@ -184,51 +179,54 @@
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
-            android:backgroundTint="@color/DateColor"
+            android:backgroundTint="@color/BeeText"
             android:clickable="true"
             android:focusable="true"
             android:onClick="expandButtons"
-            android:src="@drawable/ic_baseline_add_24"
-            android:tint="@color/white"
+            android:src="@drawable/ic_plusic"
+            android:tint="@color/DateColor"
             app:backgroundTint="@color/BeeText"
             app:rippleColor="@color/UserChosing"
-
-
+            app:tint="@color/DateColor"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/SimpleButton"
-            android:visibility="invisible"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_above="@id/MainButton"
             android:layout_alignParentRight="true"
-            android:backgroundTint="@color/BeeText"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:backgroundTint="@color/ClockBckg"
             android:clickable="true"
             android:focusable="true"
-            android:src="@drawable/ic_baseline_add_24"
+            android:onClick="simpleTaskCard"
+            android:src="@drawable/ic_basictask"
+            android:transitionName="task"
+            android:visibility="invisible"
+            app:tint="@color/DateColor"
             app:backgroundTint="@color/UserChosing"
             app:rippleColor="@color/UserChosing"
-            android:layout_above="@id/MainButton"
-            android:onClick="simpleTaskCard"
 
             />
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/RoutineButton"
-            android:visibility="invisible"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_above="@id/SimpleButton"
             android:layout_alignParentRight="true"
-            android:backgroundTint="@color/BeeText"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:backgroundTint="@color/ClockBckg"
             android:clickable="true"
             android:focusable="true"
-            android:src="@drawable/ic_baseline_add_24"
+            app:tint="@color/DateColor"
+            android:src="@drawable/ic_repeatingtask"
+            android:visibility="invisible"
             app:backgroundTint="@color/UserChosing"
             app:rippleColor="@color/UserChosing"
-            android:layout_above="@id/SimpleButton"
 
             />
 

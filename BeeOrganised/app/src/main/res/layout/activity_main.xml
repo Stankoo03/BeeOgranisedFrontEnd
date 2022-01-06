@@ -12,7 +12,7 @@
         android:id="@+id/welcomeHolder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="35dp"
         android:layout_marginLeft="25dp">
 
         <TextView
@@ -40,6 +40,7 @@
             android:textColor="@color/BeeText"
 
             />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -67,9 +68,10 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:fontFamily="@font/font"
+            android:paddingTop="5sp"
             android:text="What will your user type bee?"
-            android:textFontWeight="1000"
             android:textColor="@color/BeeText"
+            android:textFontWeight="1000"
             android:textSize="25sp" />
 
     </RelativeLayout>
