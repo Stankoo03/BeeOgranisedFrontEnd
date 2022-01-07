@@ -144,8 +144,6 @@
             </RelativeLayout>
 
 
-
-
         </LinearLayout>
         <RelativeLayout
             android:layout_width="match_parent"
@@ -166,9 +164,48 @@
                 tools:ignore="SpeakableTextPresentCheck" />
 
 
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/optionsHolder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/datumHolder">
+
+            <ImageButton
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="15sp"
+                android:background="@drawable/ic_settings" />
+
+            <Switch
+                android:id="@+id/daynightSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:minHeight="60dp"
+                android:paddingTop="20dp"
+                android:showText="false"
+                android:switchMinWidth="10dp"
+                android:thumb="@drawable/suncemesec"
+                android:track="@drawable/daynight" />
 
 
         </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/sat"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:layout_below="@+id/optionsHolder"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="-20dp"
+            android:src="@drawable/ic_pmclock" />
+
+
 
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -222,51 +259,27 @@
             android:backgroundTint="@color/ClockBckg"
             android:clickable="true"
             android:focusable="true"
-            app:tint="@color/DateColor"
             android:src="@drawable/ic_repeatingtask"
             android:visibility="invisible"
+            app:tint="@color/DateColor"
             app:backgroundTint="@color/UserChosing"
             app:rippleColor="@color/UserChosing"
 
             />
 
-        <LinearLayout
-            android:id="@+id/taskLinearHolderId"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/BeeText"
+
+
+        <Button
+            android:id="@+id/TaskButton"
+            android:layout_width="400px"
+            android:layout_height="50px"
             android:layout_alignParentBottom="true"
-            android:visibility="visible"
-            android:orientation="vertical"
-
-            >
-            <TextView
-                android:id="@+id/SimpleTask"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="BASIC TASK"
-                android:textSize="20sp"
-                android:layout_marginTop="10dp"
-                android:fontFamily="@font/font"
-                android:gravity="center"
-                />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_margin="5dp"
-                android:background="@color/black"/>
-
-            <EditText
-                android:id="@+id/enterTask"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Enter the name of your task! "/>
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/background_for_exbtn"
+            android:onClick="expandTaskList"
+            android:text="^" />
 
 
-
-
-
-        </LinearLayout>
 
 
     </RelativeLayout>

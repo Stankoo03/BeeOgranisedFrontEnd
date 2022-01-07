@@ -9,6 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 class ListaTaskovaAdapter extends RecyclerView.Adapter<ListaTaskovaAdapter.ViewHolder> {
@@ -29,6 +31,7 @@ class ListaTaskovaAdapter extends RecyclerView.Adapter<ListaTaskovaAdapter.ViewH
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.txtName.setText(taskovi.get(position).GetTitle());
+        holder.vreme.setText(taskovi.get(position).GetTime().ToString());
     }
 
     @Override
@@ -44,9 +47,11 @@ class ListaTaskovaAdapter extends RecyclerView.Adapter<ListaTaskovaAdapter.ViewH
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView txtName;
+        private TextView vreme;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             txtName = itemView.findViewById(R.id.imeTaska);
+            vreme = itemView.findViewById(R.id.vremeTaska);
         }
     }
 

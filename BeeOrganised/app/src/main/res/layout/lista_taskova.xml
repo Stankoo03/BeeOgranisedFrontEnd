@@ -5,15 +5,52 @@
     android:layout_height="wrap_content"
     android:padding="10dp">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@id/linija2">
 
     <TextView
         android:id="@+id/imeTaska"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Ime taska"
+        android:layout_centerInParent="true"
+        android:textSize="15sp"
+        android:fontFamily="@font/brojke"/>
 
-        android:fontFamily="@font/font"/>
+    </RelativeLayout>
 
+    <View
+        android:id="@+id/linija2"
+        android:layout_width="1dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:background="@color/black" />
+
+    <RelativeLayout
+        android:id="@+id/referenti"
+        android:layout_toEndOf="@+id/linija2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/vremeTaska"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="vreme"
+        android:textSize="15sp"
+        android:fontFamily="@font/brojke"/>
+
+    </RelativeLayout>
+
+    <View
+        android:layout_marginTop="2dp"
+        android:layout_below="@id/referenti"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black" />
 
 
 </RelativeLayout>
