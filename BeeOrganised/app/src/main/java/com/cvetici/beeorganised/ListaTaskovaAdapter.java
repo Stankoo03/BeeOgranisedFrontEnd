@@ -1,5 +1,7 @@
 package com.cvetici.beeorganised;
 
+import android.text.Layout;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -19,12 +21,14 @@ class ListaTaskovaAdapter extends RecyclerView.Adapter<ListaTaskovaAdapter.ViewH
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lista_taskova,parent,false);
+        ViewHolder holder = new ViewHolder(view);
+        return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
+        holder.txtName.setText(taskovi.get(position).GetTitle());
     }
 
     @Override

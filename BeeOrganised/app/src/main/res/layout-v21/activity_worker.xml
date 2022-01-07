@@ -276,7 +276,7 @@
             android:layout_below="@id/sat"
             android:background="@drawable/background_for_tasks"
             android:padding="5dp"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <View
                 android:id="@+id/razdvojnaLinija"
@@ -360,17 +360,15 @@
 
         </RelativeLayout>
 
-    <Button
-        android:id="@+id/TaskButton"
-        android:layout_width="50px"
-        android:layout_height="400px"
-        android:text="->"
-        android:background="@drawable/background_for_exbtn"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="70dp"
-        android:onClick="expandTaskList"
-        />
+        <Button
+            android:id="@+id/TaskButton"
+            android:layout_width="400px"
+            android:layout_height="50px"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/background_for_exbtn"
+            android:onClick="expandTaskList"
+            android:text="^" />
 
 
 

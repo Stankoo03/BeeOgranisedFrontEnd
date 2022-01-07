@@ -3,17 +3,19 @@ package com.cvetici.beeorganised;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.animation.IntArrayEvaluator;
 import android.app.ActivityOptions;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.icu.text.DateFormat;
+import android.icu.text.SimpleDateFormat;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.renderscript.RenderScript;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
@@ -35,14 +37,14 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.truizlop.fabreveallayout.FABRevealLayout;
-import com.truizlop.fabreveallayout.OnRevealChangeListener;
 
-import java.time.LocalDate;
+
+
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Set;
+
 
 public class WorkerActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
 
@@ -57,14 +59,15 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     private Animation openListView,closeListView;
 
     private LinearLayout LinearViewHolder,ManualTimeLayout,AiLayout,AfterCalculateBtn;
-    private boolean TaskClicked =false,FromTimeClicked=false;
+    private boolean AlreadyClicked = false;
 
     private RadioGroup RG;
     private View bottomSheetView;
-    BottomSheetDialog bottomSheetDialog;
+    private BottomSheetDialog bottomSheetDialog;
 
     private Button FromTime,ToTime,CaluculateBtn,SetBtn,TaskButton;
     private String Vreme="";
+    private int Danas=0,Sutra,PSutra,Month,Month1,Month2,Year,Year1,Year2;
 
     private Switch daynightSwitch;
     private ImageView sat;
@@ -74,9 +77,11 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     private int h1=-1,m1=-1,h2=-1,m2=-1;
     private RelativeLayout TaskLayout;
     private RecyclerView ListaTaskova;
-
+    private ArrayList<Task> taskovi;
+    private ListaTaskovaAdapter adapter = new ListaTaskovaAdapter();
     private Spinner prioritySp,timeSp,durationSp;
-
+    private ImageButton datumPrvi,datumDrugi,datumTreci;
+    private SimpleDateFormat dateFormat;
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -99,9 +104,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         SwitchListener();
         PostaviDatume();
         AiTaskCalculation();
-
-
-
+        CalendarButtonClick();
 
     }
     private void SwitchListener(){
@@ -121,6 +124,32 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void CalendarButtonClick(){
+
+        datumPrvi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        datumDrugi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        datumTreci.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+    }
+
+
     private void FindViews(){
 
         std = new SmartToDo(5);
@@ -131,6 +160,10 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         w1 = (TextView) findViewById(R.id.firstWeek);
         w2 = (TextView) findViewById(R.id.secondWeek);
         w3 = (TextView) findViewById(R.id.thirdWeek);
+
+        datumPrvi = (ImageButton)findViewById(R.id.datumPrvi);
+        datumDrugi = (ImageButton)findViewById(R.id.datumDrugi);
+        datumTreci = (ImageButton)findViewById(R.id.datumTreci);
 
         LinearViewHolder =  (LinearLayout) findViewById(R.id.taskLinearHolderId);
 
@@ -150,6 +183,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         sat = (ImageView) findViewById(R.id.sat);
         TaskButton = (Button) findViewById(R.id.TaskButton);
 
+
         RG = bottomSheetView.findViewById(R.id.RadioGroup);
         ManualTimeLayout = bottomSheetView.findViewById(R.id.ManualTimeLayout);
         AiLayout = bottomSheetView.findViewById(R.id.AiTimeLayout);
@@ -166,9 +200,12 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
 
         TaskLayout = findViewById(R.id.ListRelative);
 
+        taskovi = new ArrayList<>();
 
 
-
+        adapter.setTaskovi(taskovi);
+        ListaTaskova.setAdapter(adapter);
+        ListaTaskova.setLayoutManager(new LinearLayoutManager(WorkerActivity.this));
 
     }
 
@@ -205,7 +242,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
             @Override
             public void onClick(View view) {
                 DialogFragment timePicker  = new TimePickerFragment();
-                timePicker.show(getSupportFragmentManager(),"time picker");
+                timePicker.show(getSupportFragmentManager(),"tp1");
 
 
             }
@@ -214,43 +251,75 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
             @Override
             public void onClick(View view) {
                 DialogFragment timePicker  = new TimePickerFragment();
-                timePicker.show(getSupportFragmentManager(),"time picker");
+                timePicker.show(getSupportFragmentManager(),"tp2");
             }
         });
 
     }
 
-
-
-
-
-
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void PostaviDatume(){
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd" );
+        SimpleDateFormat mesec = new SimpleDateFormat("mm");
+        SimpleDateFormat godina = new SimpleDateFormat("yyyy");
+
+        String danas = dateFormat.format(calendar.getTime());
+        String Mesec = mesec.format(calendar.getTime());
+        String Godina = godina.format(calendar.getTime());
         Date currentTime  = calendar.getTime();
 
-        String Danas = DateFormat.getDateInstance(DateFormat.SHORT).format(currentTime);
         String DanasNedelja = DateFormat.getDateInstance(DateFormat.FULL).format(currentTime);
 
-        d1.setText(Danas.substring(0,2));
+        d1.setText(danas);
+        if(danas.startsWith("0")){
+            Danas = Integer.parseInt(danas.substring(1,2));
+        }else{
+            Danas = Integer.parseInt(danas);
+        }
+        Month=Integer.parseInt(Mesec);
+        Year = Integer.parseInt(Godina);
+
         w1.setText(DanasNedelja.substring(0,3).toUpperCase(Locale.ROOT));
 
         //////////////Sutrasnji Dan
         calendar.add(Calendar.DATE,1);
         currentTime = calendar.getTime();
-        String Sutra = DateFormat.getDateInstance(DateFormat.SHORT).format(currentTime);
+        String sutra = dateFormat.format(calendar.getTime());
+        String Mesec1 = mesec.format(calendar.getTime());
+        String Godina1 = godina.format(calendar.getTime());
+        if(sutra.startsWith("0")){
+            Sutra = Integer.parseInt(sutra.substring(1,2));
+        }else{
+            Sutra = Integer.parseInt(danas);
+        }
+        Month1=Integer.parseInt(Mesec1);
+        Year1 = Integer.parseInt(Godina1);
+
+
         String SutraNedelja = DateFormat.getDateInstance(DateFormat.FULL).format(currentTime);
 
-        d2.setText(Sutra.substring(0,2));
+        d2.setText(sutra);
         w2.setText(SutraNedelja.substring(0,3).toUpperCase(Locale.ROOT));
 
         //////////////Prekosutrasnji Dan
         calendar.add(Calendar.DATE,1);
         currentTime = calendar.getTime();
-        String PSutra = DateFormat.getDateInstance(DateFormat.SHORT).format(currentTime);
+        String Mesec2 = mesec.format(calendar.getTime());
+        String Godina2 = godina.format(calendar.getTime());
+
+        String psutra = dateFormat.format(calendar.getTime());
+        if(psutra.startsWith("0")){
+            PSutra = Integer.parseInt(psutra.substring(1,2));
+        }else{
+            PSutra = Integer.parseInt(psutra);
+        }
+        Month2=Integer.parseInt(Mesec2);
+        Year2 = Integer.parseInt(Godina2);
+
         String PSutraNedelja = DateFormat.getDateInstance(DateFormat.FULL).format(currentTime);
 
-        d3.setText(PSutra.substring(0,2));
+        d3.setText(psutra);
         w3.setText(PSutraNedelja.substring(0,3).toUpperCase(Locale.ROOT));
 
     }
@@ -263,6 +332,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         startActivity(intent,options.toBundle());
 
     }
+
     public void expandButtons(View view) {
         setVisibility(clicked);
         setAnimation(clicked);
@@ -321,38 +391,39 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
 
     }
 
-
     @Override
     public void onTimeSet(TimePicker timePicker, int Hour, int Minute) {
-
-
-        if(!FromTimeClicked) {
+        Fragment dateTo =WorkerActivity.this.getSupportFragmentManager().findFragmentByTag("tp1");
+        if(dateTo!=null) {
             FromTime.setText("Starting time: " + Hour+ ":" + Minute);
             h1=Hour;
             m1=Minute;
-            FromTimeClicked=true;
+            dateTo=null;
+
         }else{
             h2=Hour;
             m2=Minute;
             ToTime.setText("Ending Time: "+ Hour+ ":" + Minute);
-            if(h1+h2+m1+m2>0){
-                SetBtn.setVisibility(View.VISIBLE);
-                SetBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Task temp = new Task(enterTask.getText().toString(),new Interval(new DateTime(2022,1,5,h1,m1),new DateTime(2022,1,5,h2,m2)));
-                        std.AddTask(temp);
+            ShowSetSimpleTaskBtn();
+        }
 
-                        Toast.makeText(WorkerActivity.this, "Task uspesno postavljen u odredjenom vremenskom intervalu", Toast.LENGTH_LONG).show();
-                    }
-                });
-
-            }
-
+    }
+    public void ShowSetSimpleTaskBtn(){
+        if(h1+h2+m1+m2>0){
+            SetBtn.setVisibility(View.VISIBLE);
+            SetBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Task temp = new Task(enterTask.getText().toString(),new Interval(new DateTime(Year,Month,Danas,h1,m1),new DateTime(Year,Month,Danas,h2,m2)));
+                    std.AddTask(temp);
+                    taskovi.add(temp);
+                    adapter.notifyDataSetChanged();
+                    Toast.makeText(WorkerActivity.this, "Task uspesno postavljen u odredjenom vremenskom intervalu", Toast.LENGTH_LONG).show();
+                }
+            });
 
         }
     }
-    boolean AlreadyClicked = false;
     public void expandTaskList(View view) {
         if(AlreadyClicked){
             TaskLayout.startAnimation(closeListView);

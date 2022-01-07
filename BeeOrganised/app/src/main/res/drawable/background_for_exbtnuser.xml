@@ -3,7 +3,7 @@
     <solid android:color="@color/UserChosing"/>
     <corners
         android:topRightRadius="22dp"
-        android:bottomRightRadius="22dp"
+        android:topLeftRadius="22dp"
         />
 
 
