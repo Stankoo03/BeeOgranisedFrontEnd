@@ -37,7 +37,7 @@
                     android:id="@+id/datumPrvi"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:background="@drawable/ic_datum_fixed_fixed"
+                    android:background="@drawable/ic_datum_selected"
                     tools:ignore="SpeakableTextPresentCheck" />
 
                 <TextView
@@ -267,103 +267,7 @@
 
             />
 
-        <RelativeLayout
 
-            android:layout_marginTop="5sp"
-            android:id="@+id/ListRelative"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/sat"
-            android:background="@drawable/background_for_tasks"
-            android:padding="5dp"
-            android:visibility="gone">
-
-            <View
-                android:id="@+id/razdvojnaLinija"
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:layout_centerHorizontal="true"
-                android:layout_marginStart="2dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginEnd="2dp"
-                android:layout_marginBottom="2dp"
-                android:alpha="0.7"
-                android:background="@color/DateColor" />
-
-            <LinearLayout
-                android:id="@+id/satnice"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_toStartOf="@id/razdvojnaLinija"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:src="@drawable/ic_clock" />
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginTop="2dp"
-                    android:fontFamily="@font/font"
-                    android:text="Schedule"
-                    android:textColor="@color/DateColor"
-                    android:textSize="18sp" />
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/obaveze"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/razdvojnaLinija"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="5dp"
-                    android:src="@drawable/ic_checkbox_checked" />
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="7dp"
-                    android:layout_marginTop="3dp"
-                    android:fontFamily="@font/font"
-                    android:text="Obligations"
-                    android:textColor="@color/DateColor"
-                    android:textSize="18sp" />
-
-
-            </LinearLayout>
-
-            <View
-                android:id="@+id/linija"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@+id/satnice"
-                android:layout_marginTop="3dp"
-                android:alpha="0.7"
-                android:background="@color/DateColor" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/ListaRV"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/linija" />
-
-
-        </RelativeLayout>
 
         <Button
             android:id="@+id/TaskButton"
