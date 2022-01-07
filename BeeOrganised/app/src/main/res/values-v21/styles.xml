@@ -15,7 +15,19 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
 
-
-
-
+    <style name="Spinner1" parent="Widget.AppCompat.Light.DropDownItem.Spinner">
+        <item name="android:textColor">@color/DateColor</item>
+        <item name="android:fontFamily">@font/brojke</item>
+        <item name="android:textSize">14.5sp</item>
+        <item name="android:dropDownListViewStyle">@style/SpinnerStyle</item>
+    </style>
+    <style name="Spinner2" parent="Widget.AppCompat.Light.DropDownItem.Spinner">
+        <item name="android:textColor">@color/DateColor</item>
+        <item name="android:fontFamily">@font/font</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:dropDownListViewStyle">@style/SpinnerStyle</item>
+    </style>
+    <style name="SpinnerStyle" parent="Widget.AppCompat.ListView.DropDown">
+    <item name="android:divider">@color/DarkBrwn</item>
+        <item name="android:dividerHeight">1dp</item></style>
 </resources>

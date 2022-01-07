@@ -2,6 +2,7 @@
     <string name="app_name">BeeOrganised</string>
     <string name="title_activity_worker">WorkerActivity</string>
     <string-array name="whenList">
+        <item>Time</item>
         <item>Morning</item>
         <item>Afternoon</item>
         <item>Evening</item>
@@ -10,6 +11,7 @@
 
 
     <string-array name="priorityList">
+        <item>Priority</item>
         <item>Must</item>
         <item>Have to</item>
         <item>Should</item>
@@ -17,13 +19,13 @@
     </string-array>
 
     <string-array name="durationList">
-        <item>Duration</item>
-        <item>5</item>
-        <item>15</item>
-        <item>30</item>
-        <item>1h</item>
-        <item>1.5h</item>
-        <item>2h</item>
+        <item> Duration </item>
+        <item>5 min</item>
+        <item>15 min</item>
+        <item>30 min</item>
+        <item>1 h</item>
+        <item>1.5 h</item>
+        <item>2 h</item>
         <item>Choose manually</item>
     </string-array>
 

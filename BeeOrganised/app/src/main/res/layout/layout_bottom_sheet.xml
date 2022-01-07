@@ -88,7 +88,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/DateColor"
             android:text="Starting time"
-            android:textSize="17sp"
+            android:textSize="15sp"
             android:fontFamily="@font/brojke"
             android:layout_marginRight="30dp"
             style="@style/Widget.MaterialComponents.Button.TextButton"
@@ -99,7 +99,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/DateColor"
             android:text="Ending time"
-            android:textSize="17sp"
+            android:textSize="15sp"
             android:fontFamily="@font/brojke"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             />
@@ -130,46 +130,73 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:visibility="gone">
-
-
-
+        android:visibility="visible">
+        <LinearLayout
+        android:id="@+id/AiTimeLayout1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+            android:background="@color/DarkBrwn"
+        android:visibility="visible">
         <Spinner
             android:id="@+id/prioritySpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:dropDownWidth="150dp"
             android:backgroundTint="@color/ClockBckg"
             android:popupBackground="@drawable/spinner"
             android:textColor="@color/DateColor"
-            android:fontFamily="@font/font"
+            android:theme="@style/Spinner2"
+            android:gravity="center"
             android:entries="@array/priorityList"/>
 
-
+    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/space"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:visibility="visible">
+        </LinearLayout>
+        <LinearLayout
+        android:id="@+id/AiTimeLayout2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@color/DarkBrwn"
+        android:visibility="visible">
         <Spinner
             android:id="@+id/whenSpinner"
+            android:dropDownWidth="150dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/ClockBckg"
             android:popupBackground="@drawable/spinner"
             android:textColor="@color/DateColor"
-            android:fontFamily="@font/font"
+            android:theme="@style/Spinner2"
+            android:gravity="center"
             android:entries="@array/whenList"
             />
-
-
+    </LinearLayout>
     </LinearLayout>
     <Spinner
-        android:visibility="gone"
+        android:visibility="visible"
         android:id="@+id/durationSpinner"
         android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:textColor="@color/DateColor"
+        android:gravity="center"
+        android:minWidth="200dp"
         android:backgroundTint="@color/ClockBckg"
+        android:textColor="@color/DateColor"
         android:popupBackground="@drawable/spinner"
-        android:fontFamily="@font/font"
         android:entries="@array/durationList"
+        android:theme="@style/Spinner1"
+
         />
 
 
@@ -188,12 +215,12 @@
         android:backgroundTint="@color/BehindCalendar"
         android:text="Calculate"
         android:fontFamily="@font/font"
-        android:visibility="gone"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="30dp"
         android:layout_marginStart="30dp"
         android:layout_marginBottom="10dp"
         android:textColor="@color/DateColor"
+        android:visibility="visible"
         />
 
     <LinearLayout
