@@ -283,7 +283,11 @@
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:layout_centerHorizontal="true"
-                android:layout_margin="2dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginBottom="2dp"
+                android:alpha="0.7"
                 android:background="@color/DateColor" />
 
             <LinearLayout
@@ -349,6 +353,7 @@
                 android:layout_height="1dp"
                 android:layout_below="@+id/satnice"
                 android:layout_marginTop="3dp"
+                android:alpha="0.7"
                 android:background="@color/DateColor" />
 
             <androidx.recyclerview.widget.RecyclerView
