@@ -48,8 +48,8 @@
 
             <ImageView
                 android:id="@+id/beePath"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
                 android:layout_centerInParent="true"
                 android:background="@drawable/ic_bee_path" />
 
