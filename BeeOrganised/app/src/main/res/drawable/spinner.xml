@@ -6,15 +6,11 @@
                 <solid
                     android:color="@color/BehindCalendar">
                 </solid>
-
-                <corners android:radius="20dp"
+                <corners android:radius="15dp"
                 />
-
-                <padding
-                    android:bottom="3dp"
-                    android:left="3dp"
-                    android:right="3dp"
-                    android:top="2dp" />
+                <stroke
+                    android:width="2dp"
+                    android:color="@color/DarkBrwn"/>
             </shape>
         </item>
 
