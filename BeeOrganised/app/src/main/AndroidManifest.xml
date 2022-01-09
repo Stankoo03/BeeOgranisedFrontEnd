@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BeeOrganised">
         <activity
+            android:name=".LoadingScreen"
+            android:exported="false" />
+        <activity
             android:name=".Kalendar"
             android:exported="false" />
         <activity
