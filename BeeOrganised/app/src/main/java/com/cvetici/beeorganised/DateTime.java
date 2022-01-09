@@ -155,6 +155,10 @@ public class DateTime {
                 GetDay()+"."+GetMonth()+"."+GetYear()+".";
     }
 
+    public String ToStringTime(){
+        return TwoNums(GetHour())+":"+TwoNums(GetMinute());
+    }
+
     public DateTime(DateTime dateFrom, DateTime timeFrom){
         set(dateFrom.GetYear(), dateFrom.GetMonth(), dateFrom.GetDay(),
                 timeFrom.GetHour(), timeFrom.GetMinute());

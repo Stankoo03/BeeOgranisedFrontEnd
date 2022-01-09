@@ -1,6 +1,7 @@
 package com.cvetici.beeorganised;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class SmartToDo{
     private ArrayList<Task> tasks;
@@ -8,8 +9,17 @@ public class SmartToDo{
     private Interval Morning;   //Default: Morning(7-12)
     private Interval Afternoon; //Default: Afternoon(12-17)
     private Interval Evening;   //Default: Evening(17-22)
+    private Interval LateNight; //Default: LateNight(22-3)
 
     private float allowedOffset = 5f;
+
+    private ArrayList<Change> changes;
+    private AiTask pick;
+
+    private float GetMulOffset(boolean plusSign){
+        if (plusSign) return (1f+allowedOffset/100f);
+        else return (1f-allowedOffset/100f);
+    }
 
     //private List<Interval> UsedTime;
 
@@ -19,8 +29,12 @@ public class SmartToDo{
         Morning   = new Interval(new DateTime(1,1,1, 7,0), new DateTime(1,1,1,12,0));
         Afternoon = new Interval(new DateTime(1,1,1,12,0), new DateTime(1,1,1,17,0));
         Evening   = new Interval(new DateTime(1,1,1,17,0), new DateTime(1,1,1,22,0));
+        LateNight = new Interval(new DateTime(1,1,1,22,0), new DateTime(1,1,2, 3,0));
 
         this.allowedOffset = allowedOffset;
+
+        changes = new ArrayList<>();
+        pick = null;
 
         //UsedTime = new List<Interval>();
     }
@@ -36,23 +50,76 @@ public class SmartToDo{
         return R;
     }
 
-    public void AddTask(Task newTask){ //SHOULD BE PRIVATE
+    public void AddTask(Task newTask){
         //Check reccomended
         tasks.add(newTask);
         SortTasks(true);
         //UsedTime = CalcUsedTime(new Interval(DateTime.Today, new TimeSpan(30,0,0)));
     }
 
+    private void AddFluidTask(AiTask newTask){
+        //Check recommended
+        tasks.add(newTask);
+        SortTasks(true);
+    }
+
+    private Interval LowestPriority(ArrayList<Interval> l){
+        Interval t = l.get(0);
+
+        for (int i = 1; i < l.size(); i++) {
+            if(l.get(i).GetRefferedTask().GetPriority() < t.GetRefferedTask().GetPriority()){
+                t = l.get(i);
+            }
+        }
+        return t;
+    }
+
+    private void ChangesToFreeTime(ArrayList<Interval> times, AiTask newTask){
+
+        //should set global variable "pick" and "changes"
+
+        //TODO implement
+    }
+
+    public Interval CalcAiTask(AiTask newTask, Interval prefferedInterval){
+        ArrayList<Interval> times = newTaskCheck(newTask, prefferedInterval);
+        if(times == null || times.size() == 0){
+
+            ChangesToFreeTime(CalcUsedTime(prefferedInterval), newTask);
+            //return pick.GetTime();
+
+            return null; //temporary
+        }
+        else
+        {
+            Random r = new Random();
+            Interval pick = times.get(r.nextInt(times.size()));
+
+            if(pick.GetDuration().GreaterThan(newTask.GetTime().GetDuration().Multiply(GetMulOffset(true)))){
+                //if(r.nextBoolean()){
+                    return new Interval(pick.GetStartTime(), newTask.GetTime().GetDuration());
+                //}
+                //else TODO add more randomness
+            }
+            else return pick;
+        }
+    }
+
+    public void AcceptGuess(){
+        ApplyAllChanges();
+        AddFluidTask(pick);
+    }
+
     public ArrayList<Interval> newTaskCheck(Task newTask){
         return CalcUsedTime(newTask.GetTime());
-        //RETURNS list of USED times in preffered time if exists
+        //RETURNS list of USED times in newTask.time if exists
     }
 
     public ArrayList<Interval> newTaskCheck(Task newTask, Interval preferedInterval){
         ArrayList<Interval> R = CalcFreeTime(preferedInterval);
         ArrayList<Interval> r = new ArrayList<Interval>();
         for(Interval i : R){
-            if(i.GetDuration().GreaterThan((newTask.GetTime().GetDuration().Multiply((1f-allowedOffset/100f))))) {
+            if(i.GetDuration().GreaterThan((newTask.GetTime().GetDuration().Multiply(GetMulOffset(false))))) {
                 r.add(i);
             }
         }
@@ -86,5 +153,26 @@ public class SmartToDo{
                 }
             }
         }
+    }
+
+    private void ApplyAllChanges(){
+        for (Change c: changes) {
+            c.ApplyChange();
+        }
+        changes.clear();
+    }
+}
+
+class Change{
+    private AiTask task; // task to be changed
+    private Interval newTime;
+
+    public Change(AiTask task, Interval newTime) {
+        this.task = task;
+        this.newTime = newTime;
+    }
+
+    public void ApplyChange(){
+        task.SetNewTime(newTime);
     }
 }
