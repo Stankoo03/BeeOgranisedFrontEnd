@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.animation.IntArrayEvaluator;
+import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -39,7 +40,12 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
-
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -76,10 +82,11 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     private SmartToDo std;
     private int h1=-1,m1=-1,h2=-1,m2=-1;
     private RecyclerView ListaTaskova;
-    private ArrayList<Task> taskovi;
     private ListaTaskovaAdapter adapter = new ListaTaskovaAdapter();
     private Spinner prioritySp,timeSp,durationSp;
     private ImageButton datumPrvi,datumDrugi,datumTreci;
+    private ArrayList<Task> currentList;
+
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -102,6 +109,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         );
         ListaItema.setContentView(ListView);
 
+
         FindViews();
         RadioGroupClicked();
         FromToTimeSetter();
@@ -109,6 +117,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         PostaviDatume();
         AiTaskCalculation();
         CalendarButtonClick();
+
 
     }
     private void SwitchListener(){
@@ -134,40 +143,54 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         MainDay = Danas;
         MainMonth = Month;
         MainYear = Year;
+
+
         datumPrvi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                save(MainDay,MainMonth,MainYear,currentList);
                 MainDay = Danas;
                 MainMonth = Month;
                 MainYear = Year;
                 datumPrvi.setBackground(getResources().getDrawable(R.drawable.ic_datum_selected));
                 datumDrugi.setBackground(getResources().getDrawable(R.drawable.ic_datum_fixed_fixed));
                 datumTreci.setBackground(getResources().getDrawable(R.drawable.ic_datum_fixed_fixed));
+                currentList = load(MainDay,MainMonth,MainYear);
+
+
+                adapter.notifyDataSetChanged();
             }
         });
 
         datumDrugi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                save(MainDay,MainMonth,MainYear,currentList);
                 MainDay = Sutra;
                 MainMonth = Month1;
                 MainYear = Year1;
                 datumDrugi.setBackground(getResources().getDrawable(R.drawable.ic_datum_selected));
                 datumPrvi.setBackground(getResources().getDrawable(R.drawable.ic_datum_fixed_fixed));
                 datumTreci.setBackground(getResources().getDrawable(R.drawable.ic_datum_fixed_fixed));
+                currentList = load(MainDay,MainMonth,MainYear);
+                adapter.notifyDataSetChanged();
             }
         });
         datumTreci.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                save(MainDay,MainMonth,MainYear,currentList);
                 MainDay = PSutra;
                 MainMonth = Month2;
                 MainYear = Year2;
                 datumTreci.setBackground(getResources().getDrawable(R.drawable.ic_datum_selected));
                 datumDrugi.setBackground(getResources().getDrawable(R.drawable.ic_datum_fixed_fixed));
                 datumPrvi.setBackground(getResources().getDrawable(R.drawable.ic_datum_fixed_fixed));
+                currentList = load(MainDay,MainMonth,MainYear);
+                adapter.notifyDataSetChanged();
             }
         });
+
 
     }
 
@@ -175,6 +198,8 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     private void FindViews(){
 
         std = new SmartToDo(5);
+
+
         daynightSwitch = (Switch) findViewById(R.id.daynightSwitch);
         d1 = (TextView) findViewById(R.id.firstDate);
         d2 = (TextView) findViewById(R.id.secondDate);
@@ -218,10 +243,9 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         durationSp = bottomSheetView.findViewById(R.id.durationSpinner);
 
 
-        taskovi = new ArrayList<>();
 
-
-        adapter.setTaskovi(taskovi);
+        currentList = new ArrayList<Task>();
+        adapter.setTaskovi(currentList);
         ListaTaskova.setAdapter(adapter);
         ListaTaskova.setLayoutManager(new LinearLayoutManager(WorkerActivity.this));
 
@@ -302,6 +326,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
             Month = Integer.parseInt(Mesec);
         }
         Year = Integer.parseInt(Godina);
+
 
         w1.setText(DanasNedelja.substring(0,3).toUpperCase(Locale.ROOT));
 
@@ -448,9 +473,10 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                     Task temp = new Task(enterTask.getText().toString(),new Interval(new DateTime(MainYear,MainMonth,MainDay,h1,m1),new DateTime(MainYear,MainMonth,MainDay,h2,m2)));
                     std.AddTask(temp);
                     //taskovi = std.GetTasksInInterval(new Interval(new DateTime(Year,Month,Danas-1,0,1),new DateTime(Year,Month,Danas+1,23,59)));
-                    taskovi.add(temp);
+                    currentList.add(temp);
                     adapter.notifyDataSetChanged();
-                    Toast.makeText(WorkerActivity.this, "Task uspesno postavljen u odredjenom vremenskom intervalu", Toast.LENGTH_LONG).show();
+                    Toast.makeText(WorkerActivity.this, "Task uspesno postavljen", Toast.LENGTH_LONG).show();
+
                 }
             });
 
@@ -474,12 +500,22 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                 Toast.makeText(WorkerActivity.this, priority+" "+time+" "+duration, Toast.LENGTH_LONG).show();
                 AfterCalculateBtn.setVisibility(View.VISIBLE);
 
-
-
             }
         });
 
 
+    }
+
+    public void save(int dan,int mesec,int godina,ArrayList<Task> listaCuvanja){
+        String FILE_NAME=dan+"_"+mesec+"_"+godina;
+
+
+
+    }
+    public ArrayList<Task> load(int dan,int mesec,int godina){
+        String FILE_NAME=dan+"_"+mesec+"_"+godina;
+
+        return new ArrayList<Task>();
     }
 
 
