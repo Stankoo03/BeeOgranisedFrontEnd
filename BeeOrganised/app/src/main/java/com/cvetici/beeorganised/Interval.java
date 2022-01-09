@@ -70,6 +70,11 @@ public class Interval{
         return /*"("+refferedTask.GetTitle()+")"+*/ startTime.ToString() + " <--> " + endTime.ToString();
     }
 
+    public String ToStringTime()
+    {
+        return /*"("+refferedTask.GetTitle()+")"+*/ startTime.ToStringTime() + " <--> " + endTime.ToStringTime();
+    }
+
     public boolean NoDuration() {return GetDuration().GetLongMinutes() == 0;}
 
     public void MoveByOffset(TimeSpan offset){

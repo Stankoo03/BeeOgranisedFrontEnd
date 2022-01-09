@@ -34,6 +34,13 @@ public class Task
         return R;
     }
 
+    public int GetPriority(){
+        return 1;
+    }
+
+    public int ComparePriority(Task other){
+        return GetPriority() - other.GetPriority();
+    }
 
     public Task(){
         this.title = "New Task";
@@ -51,16 +58,32 @@ public class Task
     {
         return title + " " + time.ToString();
     }
+
+    public String ToStringTime()
+    {
+        return title + " " + time.ToStringTime();
+    }
 }
 
 class AiTask extends Task
 {
-    protected int priority; //1-3
+    protected int priority; //1-4
     protected Interval prefferedTime;
+
+    @Override
+    public int GetPriority(){
+        return priority;
+    }
+
+    public void SetPriority(int p){
+        if(p<1) priority = 1;
+        else if(p>4) priority = 4;
+        else priority = p;
+    }
 
     public AiTask(String title, Interval time, int priority, Interval prefferedTime){
         super(title,time);
-        this.priority = priority;
+        SetPriority(priority);
         this.prefferedTime = prefferedTime;
     }
 }
