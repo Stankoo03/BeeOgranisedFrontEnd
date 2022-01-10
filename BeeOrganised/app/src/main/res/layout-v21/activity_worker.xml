@@ -188,7 +188,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:minHeight="60dp"
-                android:paddingTop="20dp"
+                android:paddingTop="15dp"
                 android:showText="false"
                 android:switchMinWidth="10dp"
                 android:thumb="@drawable/suncemesec"
