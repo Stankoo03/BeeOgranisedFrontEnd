@@ -53,7 +53,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_marginTop="22dp">
+        android:layout_marginTop="25dp">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
@@ -98,7 +98,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="60dp"
+            android:layout_width="65dp"
             android:layout_height="wrap_content"></LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
@@ -109,7 +109,7 @@
                 android:fontFamily="@font/font"
                 android:textSize="14dp"
                 android:textColor="@color/BeeText"
-                android:text="Languages"
+                android:text=" Languages"
                 android:textFontWeight="900"
                 >
             </TextView>
@@ -158,13 +158,13 @@
                 android:fontFamily="@font/font"
                 android:textSize="14dp"
                 android:textColor="@color/BeeText"
-                android:text="Themes"
+                android:text="Themes "
                 android:textFontWeight="900"
                 >
             </TextView>
         </LinearLayout>
         <LinearLayout
-            android:layout_width="85dp"
+            android:layout_width="87dp"
             android:layout_height="wrap_content" >
         </LinearLayout>
         <LinearLayout
