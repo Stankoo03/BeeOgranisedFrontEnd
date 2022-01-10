@@ -57,6 +57,9 @@
         <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/drawable/ic_mesec.xml" value="0.2703125" />
         <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/drawable/ic_mesecpoz.xml" value="0.2703125" />
         <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/drawable/ic_mesecpoz_fixed.xml" value="0.2703125" />
+        <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/drawable/ic_repeatingtask.xml" value="0.24722222222222223" />
+        <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/drawable/ic_settingsheaderleft.xml" value="0.2703125" />
+        <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/drawable/ic_settingsheaderright.xml" value="0.2703125" />
         <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/drawable/ic_sunce.xml" value="0.2703125" />
         <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/drawable/space.xml" value="0.14635416666666667" />
         <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/drawable/spinner.xml" value="0.2" />
@@ -66,13 +69,14 @@
         <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/drawable/spinnertext.xml" value="0.2421875" />
         <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/drawable/suncemesec.xml" value="0.2703125" />
         <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/font/spinnerfont.xml" value="0.2796296296296296" />
-        <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/layout-v21/activity_worker.xml" value="0.152" />
+        <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/layout-v21/activity_worker.xml" value="0.264" />
         <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/layout/activity_loading_screen.xml" value="0.2" />
         <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/layout/activity_main.xml" value="0.13020833333333334" />
         <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/layout/activity_worker.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/layout/layout_bottom_sheet.xml" value="0.264" />
         <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/layout/list_layout.xml" value="0.13020833333333334" />
         <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/layout/lista_taskova.xml" value="0.13020833333333334" />
+        <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/layout/settings.xml" value="0.264" />
       </map>
     </option>
   </component>

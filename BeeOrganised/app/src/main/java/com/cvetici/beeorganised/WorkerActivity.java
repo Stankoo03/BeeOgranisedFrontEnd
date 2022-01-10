@@ -13,6 +13,8 @@ import android.app.ActivityOptions;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.icu.text.DateFormat;
 import android.icu.text.SimpleDateFormat;
 import android.os.Build;
@@ -43,6 +45,7 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
+import android.app.Dialog;
 import com.google.gson.reflect.TypeToken;
 
 
@@ -95,9 +98,9 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     private RecyclerView ListaTaskova;
     private ListaTaskovaAdapter adapter = new ListaTaskovaAdapter();
     private Spinner prioritySp,timeSp,durationSp;
-    private ImageButton datumPrvi,datumDrugi,datumTreci;
+    private ImageButton datumPrvi,datumDrugi,datumTreci, podeshavanje;
     private List<Task> currentList;
-
+    Dialog dialog;
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -120,6 +123,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         );
         ListaItema.setContentView(ListView);
 
+        dialog = new Dialog(WorkerActivity.this);
 
         FindViews();
         RadioGroupClicked();
@@ -128,9 +132,20 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         PostaviDatume();
         AiTaskCalculation();
         CalendarButtonClick();
+        openSettings();
 
+    }
+    private void openSettings(){
 
-
+        podeshavanje = findViewById(R.id.podeshavanja);
+        podeshavanje.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.setContentView(R.layout.settings);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+            }
+        });
     }
     private void SwitchListener(){
 
