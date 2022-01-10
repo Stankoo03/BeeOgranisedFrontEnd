@@ -173,13 +173,15 @@
             android:layout_below="@id/datumHolder">
 
             <ImageButton
+                android:id="@+id/podeshavanja"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="15sp"
-                android:background="@drawable/ic_settings" />
+                android:background="@drawable/ic_settings"
+                tools:ignore="SpeakableTextPresentCheck" />
 
             <Switch
                 android:id="@+id/daynightSwitch"
