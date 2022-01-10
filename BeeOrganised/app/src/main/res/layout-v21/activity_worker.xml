@@ -172,13 +172,15 @@
             android:layout_below="@id/datumHolder">
 
             <ImageButton
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:id="@+id/podeshavanja"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="15sp"
-                android:background="@drawable/ic_settings" />
+                android:background="@drawable/ic_settings"
+                tools:ignore="SpeakableTextPresentCheck" />
 
             <Switch
                 android:id="@+id/daynightSwitch"
@@ -236,17 +238,17 @@
             android:backgroundTint="@color/ClockBckg"
             android:clickable="true"
             android:focusable="true"
-            android:text="@string/sipleTask"
             android:fontFamily="@font/font"
-            android:textColor="@color/DateColor"
             android:onClick="simpleTaskCard"
+            android:text="@string/sipleTask"
+            android:textColor="@color/DateColor"
+            android:tint="@color/DateColor"
             android:visibility="invisible"
-            app:icon="@drawable/ic_basictask"
             app:backgroundTint="@color/UserChosing"
+            app:icon="@drawable/ic_basictask"
+            app:iconTint="@color/DateColor"
             app:rippleColor="@color/UserChosing"
-            app:tint="@color/DateColor"
-
-            />
+            app:tint="@color/DateColor" />
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/RoutineButton"
@@ -259,16 +261,17 @@
             android:backgroundTint="@color/ClockBckg"
             android:clickable="true"
             android:focusable="true"
-            android:text="@string/routine"
             android:fontFamily="@font/font"
             android:onClick="openRoutines"
-            app:icon="@drawable/ic_repeatingtask"
+            android:text="@string/routine"
+            android:textColor="@color/DateColor"
+            android:tint="@color/DateColor"
             android:visibility="invisible"
-            app:tint="@color/DateColor"
             app:backgroundTint="@color/UserChosing"
+            app:icon="@drawable/ic_repeatingtask"
+            app:iconTint="@color/DateColor"
             app:rippleColor="@color/UserChosing"
-
-            />
+            app:tint="@color/DateColor" />
 
 
         <androidx.appcompat.widget.AppCompatButton
