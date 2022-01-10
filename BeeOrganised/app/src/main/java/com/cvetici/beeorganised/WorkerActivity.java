@@ -507,8 +507,11 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                 public void onClick(View view) {
                     Task temp = new Task(enterTask.getText().toString(),new Interval(new DateTime(MainYear,MainMonth,MainDay,h1,m1),new DateTime(MainYear,MainMonth,MainDay,h2,m2)));
                     std.AddTask(temp);
-                    //taskovi = std.GetTasksInInterval(new Interval(new DateTime(Year,Month,Danas-1,0,1),new DateTime(Year,Month,Danas+1,23,59)));
+                    //currentList = std.GetTasksInInterval(new Interval(new DateTime(Year,Month,Danas,0,1),new DateTime(Year,Month,Danas,23,59)));
                     currentList.add(temp);
+                    //TODO Pogledaj ovo andrijo
+
+
                     adapter.notifyDataSetChanged();
                     save(MainDay,MainMonth,MainYear);
                     Toast.makeText(WorkerActivity.this, "Task uspesno postavljen", Toast.LENGTH_LONG).show();
@@ -536,20 +539,27 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
 
     }
 
+    int priority,time,duration;
     public void AiTaskCalculation(){
+
 
         CaluculateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int priority=prioritySp.getSelectedItemPosition();
-                int time = timeSp.getSelectedItemPosition();
-                int duration = durationSp.getSelectedItemPosition();
+                priority=prioritySp.getSelectedItemPosition();
+                time = timeSp.getSelectedItemPosition();
+                duration = durationSp.getSelectedItemPosition();
                 Toast.makeText(WorkerActivity.this, priority+" "+time+" "+duration, Toast.LENGTH_LONG).show();
                 AfterCalculateBtn.setVisibility(View.VISIBLE);
 
             }
         });
-
+        AfterCalculateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               // std.CalcAiTask(new AiTask("title",new Interval(new DateTime(),new TimeSpan(90)),priority,time),time);
+            }
+        });
 
     }
 
