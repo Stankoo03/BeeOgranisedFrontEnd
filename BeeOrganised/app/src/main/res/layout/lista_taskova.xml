@@ -12,7 +12,7 @@
         android:layout_toLeftOf="@id/linija2">
 
     <TextView
-        android:id="@+id/imeTaska"
+        android:id="@+id/vremeTaska"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Ime taska"
@@ -35,13 +35,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     <TextView
-        android:id="@+id/vremeTaska"
+        android:id="@+id/imeTaska"
         android:layout_centerInParent="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="vreme"
         android:textSize="15sp"
-        android:fontFamily="@font/brojke"/>
+        android:fontFamily="@font/brojke"
+        android:padding="3dp"/>
 
     </RelativeLayout>
 

@@ -30,5 +30,8 @@
         <item>Choose manually</item>
     </string-array>
 
+    <string name="sipleTask">Create tasks</string>
+    <string name="routine">Routines</string>
+
     <string name="FinalTextForSimple">  This is AI calculated time, if it doesnt suit you, feel free to recalculate! </string>
 </resources>

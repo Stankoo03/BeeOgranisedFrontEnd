@@ -61,7 +61,7 @@ public class Task
 
     public String ToStringTime()
     {
-        return title + " " + time.ToStringTime();
+        return time.ToStringTime();
     }
 }
 

@@ -12,10 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.List;
 
 class ListaTaskovaAdapter extends RecyclerView.Adapter<ListaTaskovaAdapter.ViewHolder> {
 
-    private ArrayList<Task> taskovi = new ArrayList<>();
+    private List<Task> taskovi = new ArrayList<>();
     public ListaTaskovaAdapter() {
 
     }
@@ -31,7 +32,7 @@ class ListaTaskovaAdapter extends RecyclerView.Adapter<ListaTaskovaAdapter.ViewH
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.txtName.setText(taskovi.get(position).GetTitle());
-        holder.vreme.setText(taskovi.get(position).GetTime().ToString());
+        holder.vreme.setText(taskovi.get(position).ToStringTime());
     }
 
     @Override
@@ -39,7 +40,7 @@ class ListaTaskovaAdapter extends RecyclerView.Adapter<ListaTaskovaAdapter.ViewH
         return taskovi.size();
     }
 
-    public void setTaskovi(ArrayList<Task> taskovi) {
+    public void setTaskovi(List<Task> taskovi) {
         this.taskovi = taskovi;
         notifyDataSetChanged(); //Refresuje RC view
     }

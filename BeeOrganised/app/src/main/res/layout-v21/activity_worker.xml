@@ -23,7 +23,6 @@
             android:layout_height="wrap_content"
             android:background="@color/BehindCalendar"
 
-
             >
 
             <RelativeLayout
@@ -220,13 +219,13 @@
             android:onClick="expandButtons"
             android:src="@drawable/ic_plusic"
             android:tint="@color/DateColor"
+            android:transitionName="task"
             app:backgroundTint="@color/BeeText"
             app:rippleColor="@color/UserChosing"
-            android:transitionName="task"
             app:tint="@color/DateColor"
             tools:ignore="SpeakableTextPresentCheck" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/SimpleButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -237,16 +236,19 @@
             android:backgroundTint="@color/ClockBckg"
             android:clickable="true"
             android:focusable="true"
+            android:text="@string/sipleTask"
+            android:fontFamily="@font/font"
+            android:textColor="@color/DateColor"
             android:onClick="simpleTaskCard"
-            android:src="@drawable/ic_basictask"
             android:visibility="invisible"
+            app:icon="@drawable/ic_basictask"
             app:backgroundTint="@color/UserChosing"
             app:rippleColor="@color/UserChosing"
             app:tint="@color/DateColor"
 
             />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/RoutineButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -257,7 +259,10 @@
             android:backgroundTint="@color/ClockBckg"
             android:clickable="true"
             android:focusable="true"
-            android:src="@drawable/ic_repeatingtask"
+            android:text="@string/routine"
+            android:fontFamily="@font/font"
+            android:onClick="openRoutines"
+            app:icon="@drawable/ic_repeatingtask"
             android:visibility="invisible"
             app:tint="@color/DateColor"
             app:backgroundTint="@color/UserChosing"
@@ -266,16 +271,19 @@
             />
 
 
-
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/TaskButton"
             android:layout_width="400px"
             android:layout_height="50px"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:background="@drawable/background_for_exbtn"
             android:onClick="expandTaskList"
-            android:text="^" />
+            android:text="^"
+            android:textColor="@color/DateColor"
+            android:background="@drawable/background_for_exbtn"
+            />
+
+
 
 
     </RelativeLayout>

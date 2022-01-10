@@ -72,7 +72,7 @@ public class Interval{
 
     public String ToStringTime()
     {
-        return /*"("+refferedTask.GetTitle()+")"+*/ startTime.ToStringTime() + " <--> " + endTime.ToStringTime();
+        return /*"("+refferedTask.GetTitle()+")"+*/ startTime.ToStringTime() + "->" + endTime.ToStringTime();
     }
 
     public boolean NoDuration() {return GetDuration().GetLongMinutes() == 0;}

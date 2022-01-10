@@ -12,11 +12,13 @@ import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.icu.text.DateFormat;
 import android.icu.text.SimpleDateFormat;
 import android.os.Build;
 import android.os.Bundle;
 
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
@@ -37,18 +39,25 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 
@@ -61,7 +70,8 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     int MainDay,MainMonth,MainYear;
 
     private boolean clicked=false;
-    private FloatingActionButton main,routine,task;
+    private FloatingActionButton main;
+    private ExtendedFloatingActionButton task,routine;
 
     private Animation rotateOpen,rotateClose,fromButton,toButton ;
 
@@ -72,8 +82,9 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     private BottomSheetDialog bottomSheetDialog;
     private BottomSheetDialog ListaItema;
 
-    private Button FromTime,ToTime,CaluculateBtn,SetBtn,TaskButton;
+    private Button FromTime,ToTime,CaluculateBtn,SetBtn,TaskButton;;
     private int Danas=0,Sutra,PSutra,Month,Month1,Month2,Year,Year1,Year2;
+
 
     private Switch daynightSwitch;
     private ImageView sat;
@@ -85,7 +96,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     private ListaTaskovaAdapter adapter = new ListaTaskovaAdapter();
     private Spinner prioritySp,timeSp,durationSp;
     private ImageButton datumPrvi,datumDrugi,datumTreci;
-    private ArrayList<Task> currentList;
+    private List<Task> currentList;
 
 
 
@@ -119,6 +130,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         CalendarButtonClick();
 
 
+
     }
     private void SwitchListener(){
 
@@ -136,7 +148,6 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
 
 
     }
-
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void CalendarButtonClick(){
 
@@ -148,53 +159,53 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         datumPrvi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                save(MainDay,MainMonth,MainYear,currentList);
+                save(MainDay,MainMonth,MainYear);
                 MainDay = Danas;
                 MainMonth = Month;
                 MainYear = Year;
                 datumPrvi.setBackground(getResources().getDrawable(R.drawable.ic_datum_selected));
                 datumDrugi.setBackground(getResources().getDrawable(R.drawable.ic_datum_fixed_fixed));
                 datumTreci.setBackground(getResources().getDrawable(R.drawable.ic_datum_fixed_fixed));
-                currentList = load(MainDay,MainMonth,MainYear);
+                load(Danas,Month,Year);
+                adapter.setTaskovi(currentList);
+                Toast.makeText(WorkerActivity.this, MainDay+"+"+MainMonth+"+"+MainYear, Toast.LENGTH_SHORT).show();
 
-
-                adapter.notifyDataSetChanged();
             }
         });
 
         datumDrugi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                save(MainDay,MainMonth,MainYear,currentList);
+                save(MainDay,MainMonth,MainYear);
                 MainDay = Sutra;
                 MainMonth = Month1;
                 MainYear = Year1;
                 datumDrugi.setBackground(getResources().getDrawable(R.drawable.ic_datum_selected));
                 datumPrvi.setBackground(getResources().getDrawable(R.drawable.ic_datum_fixed_fixed));
                 datumTreci.setBackground(getResources().getDrawable(R.drawable.ic_datum_fixed_fixed));
-                currentList = load(MainDay,MainMonth,MainYear);
-                adapter.notifyDataSetChanged();
+                 load(Sutra,Month1,Year1);
+                adapter.setTaskovi(currentList);
+                Toast.makeText(WorkerActivity.this, MainDay+"+"+MainMonth+"+"+MainYear, Toast.LENGTH_SHORT).show();
             }
         });
         datumTreci.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                save(MainDay,MainMonth,MainYear,currentList);
+                save(MainDay,MainMonth,MainYear);
                 MainDay = PSutra;
                 MainMonth = Month2;
                 MainYear = Year2;
                 datumTreci.setBackground(getResources().getDrawable(R.drawable.ic_datum_selected));
                 datumDrugi.setBackground(getResources().getDrawable(R.drawable.ic_datum_fixed_fixed));
                 datumPrvi.setBackground(getResources().getDrawable(R.drawable.ic_datum_fixed_fixed));
-                currentList = load(MainDay,MainMonth,MainYear);
-                adapter.notifyDataSetChanged();
+                load(PSutra,Month2,Year2);
+                adapter.setTaskovi(currentList);
+                Toast.makeText(WorkerActivity.this, MainDay+"+"+MainMonth+"+"+MainYear, Toast.LENGTH_SHORT).show();
             }
         });
 
 
     }
-
-
     private void FindViews(){
 
         std = new SmartToDo(5);
@@ -222,8 +233,8 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
 
 
         main = (FloatingActionButton) findViewById(R.id.MainButton);
-        routine = (FloatingActionButton) findViewById(R.id.RoutineButton);
-        task = (FloatingActionButton) findViewById(R.id.SimpleButton);
+        routine = (ExtendedFloatingActionButton) findViewById(R.id.RoutineButton);
+        task = (ExtendedFloatingActionButton) findViewById(R.id.SimpleButton);
 
         sat = (ImageView) findViewById(R.id.sat);
         TaskButton = (Button) findViewById(R.id.TaskButton);
@@ -242,15 +253,13 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         timeSp = bottomSheetView.findViewById(R.id.whenSpinner);
         durationSp = bottomSheetView.findViewById(R.id.durationSpinner);
 
+        routine.shrink();
+        task.shrink();
 
 
-        currentList = new ArrayList<Task>();
-        adapter.setTaskovi(currentList);
-        ListaTaskova.setAdapter(adapter);
-        ListaTaskova.setLayoutManager(new LinearLayoutManager(WorkerActivity.this));
+
 
     }
-
     private void RadioGroupClicked(){
 
         RG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -298,7 +307,6 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         });
 
     }
-
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void PostaviDatume(){
 
@@ -326,6 +334,10 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
             Month = Integer.parseInt(Mesec);
         }
         Year = Integer.parseInt(Godina);
+        load(Danas,Month,Year);
+        adapter.setTaskovi(currentList);
+        ListaTaskova.setAdapter(adapter);
+        ListaTaskova.setLayoutManager(new LinearLayoutManager(WorkerActivity.this));
 
 
         w1.setText(DanasNedelja.substring(0,3).toUpperCase(Locale.ROOT));
@@ -339,13 +351,14 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         if(sutra.startsWith("0")){
             Sutra = Integer.parseInt(sutra.substring(1,2));
         }else{
-            Sutra = Integer.parseInt(danas);
+            Sutra = Integer.parseInt(sutra);
         }
         if(Mesec1.startsWith("0")){
             Month1 = Integer.parseInt(Mesec1.substring(1,2));
         }else{
             Month1 = Integer.parseInt(Mesec1);
         }
+
         Year1 = Integer.parseInt(Godina1);
 
 
@@ -380,7 +393,6 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
 
     }
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-
     public void otvoriKalendar(View view) {
         Intent intent = new Intent(WorkerActivity.this , Kalendar.class);
         ImageButton button = (ImageButton) findViewById(R.id.datumCetvrti);
@@ -388,7 +400,6 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         startActivity(intent,options.toBundle());
 
     }
-
     public void expandButtons(View view) {
         setVisibility(clicked);
         setAnimation(clicked);
@@ -406,6 +417,8 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         }else{
             task.setVisibility(View.INVISIBLE) ;
             routine.setVisibility(View.INVISIBLE);
+            task.shrink();
+            routine.shrink();
         }
     }
     private void setAnimation(boolean clicked){
@@ -433,8 +446,8 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
 
 
     }
-
     public void simpleTaskCard(View view) {
+        if(task.isExtended()){
             RG.clearCheck();
             SetBtn.setVisibility(View.GONE);
             ManualTimeLayout.setVisibility(View.GONE);
@@ -444,9 +457,16 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
             durationSp.setVisibility(View.GONE);
             enterTask.setText("");
             bottomSheetDialog.show();
+            task.shrink();
+        }else{
+            task.extend();
+
+        }
+
+
+
 
     }
-
     @Override
     public void onTimeSet(TimePicker timePicker, int Hour, int Minute) {
         Fragment dateTo =WorkerActivity.this.getSupportFragmentManager().findFragmentByTag("tp1");
@@ -475,6 +495,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                     //taskovi = std.GetTasksInInterval(new Interval(new DateTime(Year,Month,Danas-1,0,1),new DateTime(Year,Month,Danas+1,23,59)));
                     currentList.add(temp);
                     adapter.notifyDataSetChanged();
+                    save(MainDay,MainMonth,MainYear);
                     Toast.makeText(WorkerActivity.this, "Task uspesno postavljen", Toast.LENGTH_LONG).show();
 
                 }
@@ -482,8 +503,19 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
 
         }
     }
+    public void openRoutines(View view) {
+        if(routine.isExtended()){
+            //TODO routine list and routine objects
+            routine.shrink();
+        }{
+
+            routine.extend();
+        }
+
+
+    }
+
     public void expandTaskList(View view) {
-        adapter.notifyDataSetChanged();
         ListaItema.show();
 
 
@@ -506,21 +538,28 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
 
     }
 
-    public void save(int dan,int mesec,int godina,ArrayList<Task> listaCuvanja){
+    public void save(int dan, int mesec, int godina){
         String FILE_NAME=dan+"_"+mesec+"_"+godina;
-
-
+        SharedPreferences sharedPreferences = getSharedPreferences(FILE_NAME,MODE_PRIVATE);
+        SharedPreferences.Editor  editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(currentList);
+        editor.putString(FILE_NAME,json);
+        editor.apply();
+    }
+    public void load(int dan,int mesec,int godina){
+        String FILE_NAME=dan+"_"+mesec+"_"+godina;
+        SharedPreferences sharedPreferences = getSharedPreferences(FILE_NAME,MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString(FILE_NAME,null);
+        Type type = new TypeToken<List<Task>>() {}.getType();
+        currentList = gson.fromJson(json,type);
+        if(currentList==null){
+            currentList = new ArrayList<>();
+        }
+        adapter.notifyDataSetChanged();
 
     }
-    public ArrayList<Task> load(int dan,int mesec,int godina){
-        String FILE_NAME=dan+"_"+mesec+"_"+godina;
-
-        return new ArrayList<Task>();
-    }
-
-
-
-
 
 
 

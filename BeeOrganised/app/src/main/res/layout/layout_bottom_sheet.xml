@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/bottomSheetContainer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -16,7 +17,6 @@
         android:text="BASIC TASK"
         android:textSize="23sp"
         android:layout_marginTop="13dp"
-
         android:fontFamily="@font/font"
         android:gravity="center"
         />
@@ -26,14 +26,18 @@
         android:layout_margin="5dp"
         android:background="@color/DateColor"/>
 
-    <EditText
-        android:id="@+id/enterTask"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/font"
-        android:alpha="0.7"
-        android:backgroundTint="@color/DateColor"
-        android:hint="Enter the name of your task! "/>
+
+        <EditText
+            android:id="@+id/enterTask"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/font"
+            android:alpha="0.8"
+            android:hint="Enter the name of your task!"
+            android:backgroundTint="@color/DateColor"/>
+
+
+
 
     <TextView
         android:id="@+id/rememberText"
@@ -287,9 +291,6 @@
         android:layout_height="1dp"
         android:layout_margin="7dp"
         android:background="@color/DateColor"/>
-
-
-
 
 
 
