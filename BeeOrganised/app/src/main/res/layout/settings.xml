@@ -76,12 +76,9 @@
             </ImageButton>
         </LinearLayout>
         <LinearLayout
-            android:layout_width="30dp"
-            android:layout_height="wrap_content" >
-        </LinearLayout>
-        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp">
             <ImageButton
                 android:id="@+id/language"
                 android:layout_width="95dp"
@@ -110,13 +107,11 @@
                 >
             </TextView>
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="65dp"
-            android:layout_height="wrap_content"></LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="65dp"
+            >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -145,12 +140,10 @@
             </ImageButton>
         </LinearLayout>
         <LinearLayout
-            android:layout_width="30dp"
-            android:layout_height="wrap_content" >
-        </LinearLayout>
-        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            >
             <ImageButton
                 android:layout_width="95dp"
                 android:layout_height="95dp"
@@ -178,12 +171,10 @@
             </TextView>
         </LinearLayout>
         <LinearLayout
-            android:layout_width="87dp"
-            android:layout_height="wrap_content" >
-        </LinearLayout>
-        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="87dp"
+            >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
