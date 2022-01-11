@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.animation.IntArrayEvaluator;
 import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
+import android.app.AlertDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -98,10 +99,10 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     private RecyclerView ListaTaskova;
     private ListaTaskovaAdapter adapter = new ListaTaskovaAdapter();
     private Spinner prioritySp,timeSp,durationSp;
-    private ImageButton datumPrvi,datumDrugi,datumTreci, podeshavanje;
+    private ImageButton datumPrvi,datumDrugi,datumTreci, podeshavanje, lang;
     private List<Task> currentList;
-    Dialog dialog;
-
+    Dialog dialog, dialog1;
+    AlertDialog.Builder builder;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -124,6 +125,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         ListaItema.setContentView(ListView);
 
         dialog = new Dialog(WorkerActivity.this);
+        dialog1 = new Dialog(WorkerActivity.this);
 
         FindViews();
         RadioGroupClicked();
@@ -193,8 +195,21 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
             public void onClick(View view) {
                 dialog.setContentView(R.layout.settings);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                lang = (ImageButton) dialog.findViewById(R.id.language);
+                openLanguages();
                 dialog.show();
+            }
+        });
 
+    }
+    private void openLanguages(){
+        lang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                dialog.setContentView(R.layout.languages);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
             }
         });
     }
