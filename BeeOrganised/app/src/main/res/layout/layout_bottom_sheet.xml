@@ -134,7 +134,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:visibility="visible">
+        android:visibility="gone">
         <LinearLayout
         android:id="@+id/AiTimeLayout1"
         android:layout_width="wrap_content"
@@ -142,7 +142,7 @@
         android:orientation="horizontal"
         android:gravity="center"
             android:background="@color/DarkBrwn"
-        android:visibility="visible">
+        android:visibility="gone">
         <Spinner
             android:id="@+id/prioritySpinner"
             android:layout_width="wrap_content"
@@ -162,7 +162,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:visibility="visible">
+        android:visibility="gone">
         </LinearLayout>
         <LinearLayout
         android:id="@+id/AiTimeLayout2"
@@ -187,7 +187,7 @@
     </LinearLayout>
     </LinearLayout>
     <Spinner
-        android:visibility="visible"
+        android:visibility="gone"
         android:id="@+id/durationSpinner"
         android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
@@ -224,7 +224,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginBottom="10dp"
         android:textColor="@color/DateColor"
-        android:visibility="visible"
+        android:visibility="gone"
         />
 
     <LinearLayout

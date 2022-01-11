@@ -159,7 +159,6 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/ic_kalendar"
                 android:onClick="otvoriKalendar"
-                android:transitionName="transition_calendar"
                 tools:ignore="SpeakableTextPresentCheck" />
 
 

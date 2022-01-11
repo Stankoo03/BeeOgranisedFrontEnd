@@ -31,7 +31,7 @@
             android:id="@+id/welcomeTxt2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="BeeOranised!"
+            android:text="BeeOrganised!"
             android:textSize="27sp"
             android:textFontWeight="1000"
             android:fontFamily="@font/font"

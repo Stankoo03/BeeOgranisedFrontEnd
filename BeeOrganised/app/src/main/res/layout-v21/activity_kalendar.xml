@@ -7,7 +7,7 @@
     tools:context=".Kalendar"
     android:background="@color/UserChosing"
     android:orientation="vertical"
-    android:transitionName="transition_calendar">
+>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -116,7 +116,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="SUN"
+            android:text="SAT"
             android:textColor="@color/BeeText"
             android:textAlignment="center"
             android:textSize="16sp"
@@ -128,13 +128,41 @@
 
 
     </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/calendarRecyclerView"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/calendarRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
 
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/SimpleButtonKalendar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_alignParentBottom="true"
+            android:backgroundTint="@color/ClockBckg"
+            android:clickable="true"
+            android:focusable="true"
+            android:fontFamily="@font/font"
+            android:text="@string/sipleTask"
+            android:textColor="@color/DateColor"
+            android:tint="@color/DateColor"
+            android:visibility="visible"
+            app:icon="@drawable/ic_basictask"
+            app:backgroundTint="@color/UserChosing"
+            app:iconTint="@color/DateColor"
+            app:rippleColor="@color/UserChosing"
+            app:tint="@color/DateColor"
+            android:layout_alignParentRight="true"
+            android:onClick="dodajTaskNaKalendar"
 
+            />
+
+    </RelativeLayout>
 
 
 

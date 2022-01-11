@@ -135,6 +135,56 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         openSettings();
 
     }
+    private void FindViews(){
+
+        std = new SmartToDo(5);
+
+        daynightSwitch = (Switch) findViewById(R.id.daynightSwitch);
+        d1 = (TextView) findViewById(R.id.firstDate);
+        d2 = (TextView) findViewById(R.id.secondDate);
+        d3 = (TextView) findViewById(R.id.thirdDate);
+        w1 = (TextView) findViewById(R.id.firstWeek);
+        w2 = (TextView) findViewById(R.id.secondWeek);
+        w3 = (TextView) findViewById(R.id.thirdWeek);
+
+        datumPrvi = (ImageButton)findViewById(R.id.datumPrvi);
+        datumDrugi = (ImageButton)findViewById(R.id.datumDrugi);
+        datumTreci = (ImageButton)findViewById(R.id.datumTreci);
+
+
+        ListaTaskova = ListView.findViewById(R.id.ListaRV);
+        rotateOpen = AnimationUtils.loadAnimation(this,R.anim.rotate_open_anim);
+        rotateClose = AnimationUtils.loadAnimation(this,R.anim.rotate_close_anim);
+        fromButton = AnimationUtils.loadAnimation(this,R.anim.from_bottom_anim);
+        toButton = AnimationUtils.loadAnimation(this,R.anim.to_bottom_anim);
+
+
+        main = (FloatingActionButton) findViewById(R.id.MainButton);
+        routine = (ExtendedFloatingActionButton) findViewById(R.id.RoutineButton);
+        task = (ExtendedFloatingActionButton) findViewById(R.id.SimpleButton);
+
+        sat = (ImageView) findViewById(R.id.sat);
+        TaskButton = (Button) findViewById(R.id.TaskButton);
+
+
+        RG = bottomSheetView.findViewById(R.id.RadioGroup);
+        ManualTimeLayout = bottomSheetView.findViewById(R.id.ManualTimeLayout);
+        AiLayout = bottomSheetView.findViewById(R.id.AiTimeLayout);
+        FromTime = bottomSheetView.findViewById(R.id.fromTime);
+        ToTime = bottomSheetView.findViewById(R.id.toTime);
+        AfterCalculateBtn = bottomSheetView.findViewById(R.id.AfterBtnClicked);
+        CaluculateBtn = bottomSheetView.findViewById(R.id.CalculateBtn);
+        SetBtn = (Button) bottomSheetView.findViewById(R.id.SetBtn);
+        enterTask = (EditText) bottomSheetView.findViewById(R.id.enterTask);
+        prioritySp = bottomSheetView.findViewById(R.id.prioritySpinner);
+        timeSp = bottomSheetView.findViewById(R.id.whenSpinner);
+        durationSp = bottomSheetView.findViewById(R.id.durationSpinner);
+
+        routine.shrink();
+        task.shrink();
+
+    }
+
     private void openSettings(){
 
         podeshavanje = findViewById(R.id.podeshavanja);
@@ -144,6 +194,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                 dialog.setContentView(R.layout.settings);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
+
             }
         });
     }
@@ -221,60 +272,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
 
 
     }
-    private void FindViews(){
 
-        std = new SmartToDo(5);
-
-
-        daynightSwitch = (Switch) findViewById(R.id.daynightSwitch);
-        d1 = (TextView) findViewById(R.id.firstDate);
-        d2 = (TextView) findViewById(R.id.secondDate);
-        d3 = (TextView) findViewById(R.id.thirdDate);
-        w1 = (TextView) findViewById(R.id.firstWeek);
-        w2 = (TextView) findViewById(R.id.secondWeek);
-        w3 = (TextView) findViewById(R.id.thirdWeek);
-
-        datumPrvi = (ImageButton)findViewById(R.id.datumPrvi);
-        datumDrugi = (ImageButton)findViewById(R.id.datumDrugi);
-        datumTreci = (ImageButton)findViewById(R.id.datumTreci);
-
-
-        ListaTaskova = ListView.findViewById(R.id.ListaRV);
-        rotateOpen = AnimationUtils.loadAnimation(this,R.anim.rotate_open_anim);
-        rotateClose = AnimationUtils.loadAnimation(this,R.anim.rotate_close_anim);
-        fromButton = AnimationUtils.loadAnimation(this,R.anim.from_bottom_anim);
-        toButton = AnimationUtils.loadAnimation(this,R.anim.to_bottom_anim);
-
-
-
-        main = (FloatingActionButton) findViewById(R.id.MainButton);
-        routine = (ExtendedFloatingActionButton) findViewById(R.id.RoutineButton);
-        task = (ExtendedFloatingActionButton) findViewById(R.id.SimpleButton);
-
-        sat = (ImageView) findViewById(R.id.sat);
-        TaskButton = (Button) findViewById(R.id.TaskButton);
-
-
-        RG = bottomSheetView.findViewById(R.id.RadioGroup);
-        ManualTimeLayout = bottomSheetView.findViewById(R.id.ManualTimeLayout);
-        AiLayout = bottomSheetView.findViewById(R.id.AiTimeLayout);
-        FromTime = bottomSheetView.findViewById(R.id.fromTime);
-        ToTime = bottomSheetView.findViewById(R.id.toTime);
-        AfterCalculateBtn = bottomSheetView.findViewById(R.id.AfterBtnClicked);
-        CaluculateBtn = bottomSheetView.findViewById(R.id.CalculateBtn);
-        SetBtn = (Button) bottomSheetView.findViewById(R.id.SetBtn);
-        enterTask = (EditText) bottomSheetView.findViewById(R.id.enterTask);
-        prioritySp = bottomSheetView.findViewById(R.id.prioritySpinner);
-        timeSp = bottomSheetView.findViewById(R.id.whenSpinner);
-        durationSp = bottomSheetView.findViewById(R.id.durationSpinner);
-
-        routine.shrink();
-        task.shrink();
-
-
-
-
-    }
     private void RadioGroupClicked(){
 
         RG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -309,8 +307,6 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
             public void onClick(View view) {
                 DialogFragment timePicker  = new TimePickerFragment();
                 timePicker.show(getSupportFragmentManager(),"tp1");
-
-
             }
         });
         ToTime.setOnClickListener(new View.OnClickListener() {
@@ -411,8 +407,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     public void otvoriKalendar(View view) {
         Intent intent = new Intent(WorkerActivity.this , Kalendar.class);
         ImageButton button = (ImageButton) findViewById(R.id.datumCetvrti);
-        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this,button,"transition_calendar");
-        startActivity(intent,options.toBundle());
+        startActivity(intent);
 
     }
     public void expandButtons(View view) {
@@ -510,8 +505,6 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                     //currentList = std.GetTasksInInterval(new Interval(new DateTime(Year,Month,Danas,0,1),new DateTime(Year,Month,Danas,23,59)));
                     currentList.add(temp);
                     //TODO Pogledaj ovo andrijo
-
-
                     adapter.notifyDataSetChanged();
                     save(MainDay,MainMonth,MainYear);
                     Toast.makeText(WorkerActivity.this, "Task uspesno postavljen", Toast.LENGTH_LONG).show();
@@ -526,17 +519,12 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
             //TODO routine list and routine objects
             routine.shrink();
         }{
-
             routine.extend();
         }
-
-
     }
 
     public void expandTaskList(View view) {
         ListaItema.show();
-
-
     }
 
     int priority,time,duration;
