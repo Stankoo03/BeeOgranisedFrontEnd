@@ -24,9 +24,6 @@
             android:background="@drawable/ic_arrowleft"
 
             />
-
-
-
             <TextView
                 android:id="@+id/monthYearTV"
                 android:layout_width="0dp"
@@ -37,8 +34,6 @@
                 android:textAlignment="center"
                 android:textColor="@color/BeeText"
                 />
-
-
 
         <ImageButton
             android:layout_marginRight="20dp"
@@ -122,12 +117,8 @@
             android:textSize="16sp"
             />
 
-
-
-
-
-
     </LinearLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">

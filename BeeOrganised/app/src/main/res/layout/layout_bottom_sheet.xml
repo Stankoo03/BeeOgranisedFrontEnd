@@ -134,36 +134,31 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:visibility="gone">
+        android:visibility="visible">
         <LinearLayout
-        android:id="@+id/AiTimeLayout1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-            android:background="@color/DarkBrwn"
-        android:visibility="gone">
-        <Spinner
-            android:id="@+id/prioritySpinner"
+            android:id="@+id/AiTimeLayout1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:dropDownWidth="150dp"
-            android:backgroundTint="@color/ClockBckg"
-            android:popupBackground="@drawable/spinner"
-            android:textColor="@color/DateColor"
-            android:theme="@style/Spinner2"
+            android:orientation="horizontal"
             android:gravity="center"
-            android:entries="@array/priorityList"/>
+            android:background="@color/DarkBrwn"
+            android:visibility="visible"
+            android:layout_marginRight="20dp">
+            <Spinner
+                android:id="@+id/prioritySpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:dropDownWidth="150dp"
+                android:backgroundTint="@color/ClockBckg"
+                android:popupBackground="@drawable/spinner"
+                android:textColor="@color/DateColor"
+                android:theme="@style/Spinner2"
+                android:gravity="center"
+                android:entries="@array/priorityList"/>
 
     </LinearLayout>
-        <LinearLayout
-            android:id="@+id/space"
-        android:layout_width="20dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:visibility="gone">
-        </LinearLayout>
+
+
         <LinearLayout
         android:id="@+id/AiTimeLayout2"
         android:layout_width="wrap_content"
@@ -278,9 +273,6 @@
                 />
 
         </LinearLayout>
-
-
-
 
     </LinearLayout>
 
