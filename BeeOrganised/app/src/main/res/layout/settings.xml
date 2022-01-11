@@ -22,7 +22,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=" settings "
+                        android:text="@string/settings"
                         android:fontFamily="@font/font"
                         android:textColor="@color/BeeText"
                         android:textSize="38dp"
@@ -74,7 +74,7 @@
                 android:textSize="14dp"
                 android:textColor="@color/BeeText"
                 android:textFontWeight="900"
-                android:text="User type"
+                android:text="@string/user"
                 >
             </TextView>
             <TextView
@@ -83,7 +83,7 @@
                 android:fontFamily="@font/font"
                 android:textSize="14dp"
                 android:textColor="@color/BeeText"
-                android:text=" Languages"
+                android:text="@string/lan"
                 android:textFontWeight="900"
                 android:layout_marginLeft="65dp"
                 >
@@ -118,7 +118,7 @@
                 android:fontFamily="@font/font"
                 android:textSize="14dp"
                 android:textColor="@color/BeeText"
-                android:text="Themes "
+                android:text="@string/themes"
                 android:textFontWeight="900"
                 >
             </TextView>
@@ -128,7 +128,7 @@
                 android:fontFamily="@font/font"
                 android:textSize="14dp"
                 android:textColor="@color/BeeText"
-                android:text="Sound"
+                android:text="@string/sound"
                 android:textFontWeight="900"
                 android:layout_marginLeft="87dp"
                 >

@@ -9,11 +9,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.animation.IntArrayEvaluator;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.icu.text.DateFormat;
@@ -99,10 +103,9 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     private RecyclerView ListaTaskova;
     private ListaTaskovaAdapter adapter = new ListaTaskovaAdapter();
     private Spinner prioritySp,timeSp,durationSp;
-    private ImageButton datumPrvi,datumDrugi,datumTreci, podeshavanje, lang;
+    private ImageButton datumPrvi,datumDrugi,datumTreci, podeshavanje, lang, srb, eng;
     private List<Task> currentList;
-    Dialog dialog, dialog1;
-    AlertDialog.Builder builder;
+    Dialog dialog;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -125,8 +128,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         ListaItema.setContentView(ListView);
 
         dialog = new Dialog(WorkerActivity.this);
-        dialog1 = new Dialog(WorkerActivity.this);
-
+        loadLocale();
         FindViews();
         RadioGroupClicked();
         FromToTimeSetter();
@@ -209,9 +211,52 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                 dialog.dismiss();
                 dialog.setContentView(R.layout.languages);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                srb = (ImageButton) dialog.findViewById(R.id.srb);
+                eng = (ImageButton) dialog.findViewById(R.id.eng);
+                srpski();
+                engleski();
                 dialog.show();
             }
         });
+    }
+    private void srpski(){
+        srb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                setLocale("sr");
+                recreate();
+                dialog.dismiss();
+            }
+        });
+    }
+    private void engleski(){
+        eng.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                setLocale("en");
+                recreate();
+                dialog.dismiss();
+            }
+        });
+    }
+    private void setLocale( String lng){
+        Locale locale = new Locale (lng);
+        Locale.setDefault(locale);
+        Configuration con = new Configuration();
+        con.locale = locale;
+        getBaseContext().getResources().updateConfiguration(con, getBaseContext().getResources().getDisplayMetrics());
+
+
+        SharedPreferences.Editor editor = getSharedPreferences("Settings", MODE_PRIVATE).edit();
+        editor.putString("my lan", lng);
+        editor.apply();
+    }
+    public void loadLocale(){
+        SharedPreferences prefs = getSharedPreferences("Settings", Activity.MODE_PRIVATE);
+        String lang = prefs.getString("my lan","");
+        setLocale( lang);
     }
     private void SwitchListener(){
 

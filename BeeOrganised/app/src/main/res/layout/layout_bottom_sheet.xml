@@ -142,7 +142,7 @@
         android:orientation="horizontal"
         android:gravity="center"
             android:background="@color/DarkBrwn"
-        android:visibility="gone">
+        android:visibility="visible">
         <Spinner
             android:id="@+id/prioritySpinner"
             android:layout_width="wrap_content"
@@ -162,7 +162,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:visibility="gone">
+        android:visibility="visible">
         </LinearLayout>
         <LinearLayout
         android:id="@+id/AiTimeLayout2"

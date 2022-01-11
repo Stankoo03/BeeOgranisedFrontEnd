@@ -1,6 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">BeeOrganised</string>
-    <string name="title_activity_worker" translatable="false">WorkerActivity</string>
+    <string name="app_name">BeeOrganised</string>
+    <string name="title_activity_worker">WorkerActivity</string>
     <string-array name="whenList">
         <item>Time</item>
         <item>Morning</item>
@@ -30,16 +31,14 @@
         <item>Choose manually</item>
     </string-array>
 
-    <string name="langs"> languages </string>
-    <string name="settings"> settings </string>
-    <string name="user"> User type </string>
-    <string name="lan"> Languages </string>
-    <string name="themes"> Themes </string>
-    <string name="sound"> Sound </string>
-
     <string name="sipleTask">Create tasks</string>
     <string name="routine">Routines</string>
 
     <string name="FinalTextForSimple">  This is AI calculated time, if it doesnt suit you, feel free to recalculate! </string>
-
+    <string name="langs">sprachen</string>
+    <string name="settings">einstellungen</string>
+    <string name="user">/</string>
+    <string name="lan">/</string>
+    <string name="themes">/</string>
+    <string name="sound">/</string>
 </resources>

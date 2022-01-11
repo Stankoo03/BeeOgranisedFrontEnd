@@ -33,7 +33,7 @@
                 android:textSize="30dp"
                 android:textColor="@color/BeeText"
                 android:textFontWeight="750"
-                android:text="languages"
+                android:text="@string/langs"
                 >
             </TextView>
     </LinearLayout>
@@ -56,11 +56,13 @@
         android:gravity="center"
         android:layout_marginTop="23dp">
             <ImageButton
+                android:id="@+id/eng"
                 android:layout_width="76dp"
                 android:layout_height="76dp"
                 android:background="@drawable/ic_english"></ImageButton>
 
             <ImageButton
+                android:id="@+id/srb"
                 android:layout_marginLeft="15dp"
                 android:layout_width="76dp"
                 android:layout_height="76dp"
@@ -68,6 +70,7 @@
                 tools:ignore="SpeakableTextPresentCheck">
             </ImageButton>
             <ImageButton
+                android:id="@+id/ger"
                 android:layout_marginLeft="15dp"
                 android:layout_width="76dp"
                 android:layout_height="76dp"
