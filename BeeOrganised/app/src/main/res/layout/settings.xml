@@ -9,45 +9,45 @@
     android:layout_gravity="center"
     android:background="@drawable/ic_settingsbg"
     >
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="55dp">
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-            <ImageView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/ic_settingsheaderleft">
-            </ImageView>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" settings "
-                android:fontFamily="@font/font"
-                android:textColor="@color/BeeText"
-                android:textSize="38dp"
-                android:textFontWeight="900"
-                >
-            </TextView>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ic_settingsheaderright">
-            </ImageView>
-        </LinearLayout>
+                android:gravity="center"
+                android:layout_marginTop="55dp">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ic_settingsheaderleft">
+                    </ImageView>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" settings "
+                        android:fontFamily="@font/font"
+                        android:textColor="@color/BeeText"
+                        android:textSize="38dp"
+                        android:textFontWeight="900"
+                        >
+                    </TextView>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ic_settingsheaderright">
+                    </ImageView>
+                </LinearLayout>
 
-    </LinearLayout>
+            </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -195,4 +195,4 @@
         </LinearLayout>
     </LinearLayout>
 
-</LinearLayout>
+    </LinearLayout>
