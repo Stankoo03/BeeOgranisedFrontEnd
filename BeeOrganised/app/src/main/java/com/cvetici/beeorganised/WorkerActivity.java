@@ -236,7 +236,6 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         MainMonth = Month;
         MainYear = Year;
 
-
         datumPrvi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -249,8 +248,6 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                 datumTreci.setBackground(getResources().getDrawable(R.drawable.ic_datum_fixed_fixed));
                 load(Danas,Month,Year);
                 adapter.setTaskovi(currentList);
-                Toast.makeText(WorkerActivity.this, MainDay+"+"+MainMonth+"+"+MainYear, Toast.LENGTH_SHORT).show();
-
             }
         });
 
@@ -266,7 +263,6 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                 datumTreci.setBackground(getResources().getDrawable(R.drawable.ic_datum_fixed_fixed));
                  load(Sutra,Month1,Year1);
                 adapter.setTaskovi(currentList);
-                Toast.makeText(WorkerActivity.this, MainDay+"+"+MainMonth+"+"+MainYear, Toast.LENGTH_SHORT).show();
             }
         });
         datumTreci.setOnClickListener(new View.OnClickListener() {
@@ -281,7 +277,6 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                 datumPrvi.setBackground(getResources().getDrawable(R.drawable.ic_datum_fixed_fixed));
                 load(PSutra,Month2,Year2);
                 adapter.setTaskovi(currentList);
-                Toast.makeText(WorkerActivity.this, MainDay+"+"+MainMonth+"+"+MainYear, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -300,7 +295,6 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                         AfterCalculateBtn.setVisibility(View.GONE);
                         CaluculateBtn.setVisibility(View.GONE);
                         durationSp.setVisibility(View.GONE);
-
                         break;
                     case R.id.AiTime:
                         if(ManualTimeLayout.getVisibility()==View.VISIBLE){
@@ -309,8 +303,6 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                         AiLayout.setVisibility(View.VISIBLE);
                         durationSp.setVisibility(View.VISIBLE);
                         CaluculateBtn.setVisibility(View.VISIBLE);
-
-
                 }
             }
         });
