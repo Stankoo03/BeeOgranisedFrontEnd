@@ -59,6 +59,7 @@ public class Interval{
     public Interval(DateTime sTime, DateTime eTime, int intersectType) { startTime = sTime; SetEndTime(eTime); SetIntersectType(intersectType); }
     public Interval(DateTime sTime, DateTime eTime, Task refferedTask) { startTime = sTime; SetEndTime(eTime); this.refferedTask = refferedTask; }
     public Interval(DateTime sTime, TimeSpan dur) { startTime = sTime; SetDuration(dur); }
+    public Interval(TimeSpan dur, DateTime endTime) { startTime = endTime.SubDur(dur); SetDuration(dur); }
     public Interval(Interval toCopy) { startTime = toCopy.GetStartTime(); SetEndTime(toCopy.GetEndTime()); intesectType = toCopy.intesectType; refferedTask = toCopy.refferedTask; }
     public Interval(DateTime date, int sHour, int sMin, int eHour, int eMin){
         startTime = new DateTime(date.GetYear(), date.GetMonth(), date.GetDay(), sHour, sMin);
@@ -80,6 +81,15 @@ public class Interval{
     public void MoveByOffset(TimeSpan offset){
         startTime = startTime.AddDur(offset);
         endTime = endTime.AddDur(offset);
+    }
+
+    public Interval MoveNextTo(Interval other, boolean rightSide){
+        if(rightSide){
+            return new Interval(other.GetEndTime(), GetDuration());
+        }
+        else{
+            return new Interval(GetDuration(), other.GetStartTime());
+        }
     }
 
     public Interval Intersect(Interval other){
