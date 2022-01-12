@@ -2,6 +2,7 @@ package com.cvetici.beeorganised;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -93,6 +94,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     private Button FromTime,ToTime,CaluculateBtn,SetBtn,TaskButton;;
     private int Danas=0,Sutra,PSutra,Month,Month1,Month2,Year,Year1,Year2;
 
+    private NotificationHelper mHelper;
 
     private Switch daynightSwitch;
     private ImageView sat;
@@ -183,6 +185,8 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         prioritySp = bottomSheetView.findViewById(R.id.prioritySpinner);
         timeSp = bottomSheetView.findViewById(R.id.whenSpinner);
         durationSp = bottomSheetView.findViewById(R.id.durationSpinner);
+
+        mHelper = new NotificationHelper(this);
 
         routine.shrink();
         task.shrink();
@@ -293,6 +297,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                 datumTreci.setBackground(getResources().getDrawable(R.drawable.ic_datum_fixed_fixed));
                 load(Danas,Month,Year);
                 adapter.setTaskovi(currentList);
+                sendOnChannel1("BeeOrganised","Poruka");
             }
         });
 
@@ -308,6 +313,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                 datumTreci.setBackground(getResources().getDrawable(R.drawable.ic_datum_fixed_fixed));
                  load(Sutra,Month1,Year1);
                 adapter.setTaskovi(currentList);
+                sendOnChannel2("BeeOrganised","Poruka");
             }
         });
         datumTreci.setOnClickListener(new View.OnClickListener() {
@@ -327,6 +333,8 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
 
 
     }
+
+
 
     private void RadioGroupClicked(){
 
@@ -624,6 +632,15 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         }
         adapter.notifyDataSetChanged();
 
+    }
+    private void sendOnChannel1(String title,String message){
+        NotificationCompat.Builder nb = mHelper.getChannel1Notification(title,message);
+        mHelper.getManager().notify(1,nb.build());
+
+    }
+    private void sendOnChannel2(String title, String message) {
+        NotificationCompat.Builder nb = mHelper.getChannel1Notification(title,message);
+        mHelper.getManager().notify(2,nb.build());
     }
 
 
