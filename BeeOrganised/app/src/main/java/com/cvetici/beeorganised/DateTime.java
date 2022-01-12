@@ -104,25 +104,21 @@ public class DateTime {
     public DateTime(int year, int month, int day, int hour, int minute){
 
         set(year,month,day,hour,minute);
-        /*
-        int min = 0;
-        year-=2020;
-        min += year*minutesInYear;
-        //min += LeapDays(year) * minutesInDay;
-        min += MonthToDays(month,isLeapYear(year+2020))*minutesInDay;
-        min += (day-1) * minutesInDay;
-        min += hour * minutesInHour;
-        min += minute;
+    }
 
-        if(min<0) min = 0;
+    public DateTime(DateTime dateFrom, int hour, int minute){
+        set(dateFrom.GetYear(),dateFrom.GetMonth(),dateFrom.GetDay(), hour, minute);
+    }
 
-        this.minutes = min;*/
+    public DateTime(int hour, int minute){
+        DateTime now = Now();
+        set(now.GetYear(),now.GetMonth(),now.GetDay(),hour,minute);
     }
 
     public DateTime(int longMinutes){
         this.minutes = longMinutes;
     }
-    public DateTime() {minutes = 0;}
+    public DateTime() {minutes = Now().GetLongMinutes();}
 
     public TimeSpan Difference(DateTime other){
         return new TimeSpan(Math.abs(minutes - other.minutes));
@@ -138,6 +134,10 @@ public class DateTime {
 
     public DateTime AddDur(TimeSpan dur){
         return new DateTime(minutes + dur.GetLongMinutes());
+    }
+
+    public DateTime SubDur(TimeSpan dur){
+        return new DateTime(minutes - dur.GetLongMinutes());
     }
 
     public static DateTime Now(){

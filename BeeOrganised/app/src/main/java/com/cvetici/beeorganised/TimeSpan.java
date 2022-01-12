@@ -26,6 +26,10 @@ public class TimeSpan {
         minutes = longMinutes;
     }
 
+    public void Add(TimeSpan other){
+        minutes += other.GetLongMinutes();
+    }
+
     public TimeSpan Multiply(float mul){
         return new TimeSpan( Math.round(minutes*mul) );
     }

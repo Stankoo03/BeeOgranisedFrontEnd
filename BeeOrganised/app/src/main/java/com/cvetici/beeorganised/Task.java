@@ -86,6 +86,42 @@ class AiTask extends Task
         SetPriority(priority);
         this.prefferedTime = prefferedTime;
     }
+
+    private TimeSpan intToDur(int i){
+        int min = 0;
+        switch (i){
+            case 1:
+                min = 5;
+                break;
+            case 2:
+                min = 15;
+                break;
+            case 3:
+                min = 30;
+                break;
+            case 4:
+                min = 60;
+                break;
+            case 5:
+                min = 90;
+                break;
+            case 6:
+                min = 120;
+                break;
+            default:
+                min = 0;
+        }
+        return new TimeSpan(min);
+    }
+
+
+    public AiTask(String title, int duration, int priority, Interval prefferedTime){
+        super(title, new Interval(new DateTime(0,0), new TimeSpan(0)));
+        time.SetDuration(intToDur(duration));
+
+        this.SetPriority(priority);
+        this.prefferedTime = prefferedTime;
+    }
 }
 
 class Routine extends Task

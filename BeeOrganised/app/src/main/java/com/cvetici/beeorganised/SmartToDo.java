@@ -2,14 +2,15 @@ package com.cvetici.beeorganised;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Vector;
 
 public class SmartToDo{
     private ArrayList<Task> tasks;
 
-    private Interval Morning;   //Default: Morning(7-12)
-    private Interval Afternoon; //Default: Afternoon(12-17)
-    private Interval Evening;   //Default: Evening(17-22)
-    private Interval LateNight; //Default: LateNight(22-3)
+    public Interval Morning;   //Default: Morning(7-12)
+    public Interval Afternoon; //Default: Afternoon(12-17)
+    public Interval Evening;   //Default: Evening(17-22)
+    public Interval LateNight; //Default: LateNight(22-3)
 
     private float allowedOffset = 5f;
 
@@ -50,11 +51,16 @@ public class SmartToDo{
         return R;
     }
 
-    public void AddTask(Task newTask){
-        //Check reccomended
-        tasks.add(newTask);
-        SortTasks(true);
-        //UsedTime = CalcUsedTime(new Interval(DateTime.Today, new TimeSpan(30,0,0)));
+    public boolean AddTask(Task newTask){
+        ArrayList<Interval> times = newTaskCheck(newTask);
+        if(times == null || times.size() == 0) {
+            tasks.add(newTask);
+            SortTasks(true);
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     private void AddFluidTask(AiTask newTask){
@@ -63,7 +69,7 @@ public class SmartToDo{
         SortTasks(true);
     }
 
-    private Interval LowestPriority(ArrayList<Interval> l){
+    private int LowestPriority(ArrayList<Interval> l){
         Interval t = l.get(0);
 
         for (int i = 1; i < l.size(); i++) {
@@ -71,12 +77,83 @@ public class SmartToDo{
                 t = l.get(i);
             }
         }
-        return t;
+        return t.GetRefferedTask().GetPriority();
+    }
+/*
+    private ArrayList<Interval> FilterWithHighestPriority(ArrayList<Interval> times, int highestPriority){
+        ArrayList<Interval> r = new ArrayList<>();
+
+        for (Interval i :
+                times) {
+            if(i.GetRefferedTask().GetPriority() >= highestPriority){
+                r.add(i);
+            }
+        }
+        return r;
     }
 
-    private void ChangesToFreeTime(ArrayList<Interval> times, AiTask newTask){
+    private ArrayList<Interval> FilterWithLowestPriority(ArrayList<Interval> times, int lowestPriority){
+        ArrayList<Interval> r = new ArrayList<>();
 
+        for (Interval i :
+                times) {
+            if(i.GetRefferedTask().GetPriority() <= lowestPriority){
+                r.add(i);
+            }
+        }
+        return r;
+    }
+*/
+    private TimeSpan SumOfDurations(ArrayList<Interval> times){
+        TimeSpan r = new TimeSpan(0);
+        for (Interval i :
+                times) {
+            r.Add(i.GetDuration());
+        }
+        return r;
+    }
+
+    /*private void Rearange(){
+
+    }*/
+
+    private int EmptyTime(ArrayList<Interval> times){
+        for (int i = 0; i < times.size()-1; i++) {
+            if(times.get(i).GetEndTime().Before(times.get(i+1).GetStartTime())){
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private void ChangesToFreeTime(ArrayList<Interval> times, AiTask newTask, Interval prefferedInterval){
+/*
         //should set global variable "pick" and "changes"
+        Random r = new Random();
+
+        if(r.nextBoolean()){
+            for (int i = 0; i < times.size(); i++) {
+                if()
+            }
+        }
+        else{
+
+        }
+
+/*
+        int middle = EmptyTime(times);
+        if(middle == -1) middle = times.size()/2;
+
+
+        if(r.nextBoolean()){
+            for()
+        }
+        else{
+
+        }
+*/
+
+
 
         //TODO implement
     }
@@ -85,7 +162,7 @@ public class SmartToDo{
         ArrayList<Interval> times = newTaskCheck(newTask, prefferedInterval);
         if(times == null || times.size() == 0){
 
-            ChangesToFreeTime(CalcUsedTime(prefferedInterval), newTask);
+            ChangesToFreeTime(CalcUsedTime(prefferedInterval), newTask, prefferedInterval);
             //return pick.GetTime();
 
             return null; //temporary
@@ -93,15 +170,17 @@ public class SmartToDo{
         else
         {
             Random r = new Random();
-            Interval pick = times.get(r.nextInt(times.size()));
+            Interval localPick = times.get(r.nextInt(times.size()));
 
-            if(pick.GetDuration().GreaterThan(newTask.GetTime().GetDuration().Multiply(GetMulOffset(true)))){
-                //if(r.nextBoolean()){
-                    return new Interval(pick.GetStartTime(), newTask.GetTime().GetDuration());
-                //}
-                //else TODO add more randomness
+            if(localPick.GetDuration().GreaterThan(newTask.GetTime().GetDuration().Multiply(GetMulOffset(true)))){
+                if(r.nextBoolean()){
+                    return new Interval(localPick.GetStartTime(), newTask.GetTime().GetDuration());
+                }
+                else {
+                    return new Interval(newTask.GetTime().GetDuration(), localPick.GetEndTime());
+                }
             }
-            else return pick;
+            else return localPick;
         }
     }
 
@@ -136,6 +215,21 @@ public class SmartToDo{
         }
         R = Interval.SortByStartTime(R);
         return R;
+    }
+
+    public Interval IntToPTime(int i){
+        switch (i){
+            case 1:
+                return Morning;
+            case 2:
+                return Afternoon;
+            case 3:
+                return Evening;
+            case 4:
+                return LateNight;
+            default:
+                return Morning;
+        }
     }
 
     private ArrayList<Interval> CalcFreeTime(Interval period){
