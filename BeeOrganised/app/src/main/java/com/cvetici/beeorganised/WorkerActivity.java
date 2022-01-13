@@ -13,6 +13,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
+import android.app.Application;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -254,8 +255,10 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         Locale.setDefault(locale);
         Configuration con = new Configuration();
         con.locale = locale;
+
         getBaseContext().getResources().updateConfiguration(con, getBaseContext().getResources().getDisplayMetrics());
 
+        getApplicationContext().getResources().updateConfiguration(con, getApplicationContext().getResources().getDisplayMetrics());
 
         SharedPreferences.Editor editor = getSharedPreferences("Settings", MODE_PRIVATE).edit();
         editor.putString("my lan", lng);
