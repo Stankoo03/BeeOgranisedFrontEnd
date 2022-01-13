@@ -56,12 +56,12 @@
 
     <string name="schedule">Schedule</string>
     <string name="obligations">Obligations</string>
-    <string name="sun">SUN</string>
-    <string name="mon">MON</string>
-    <string name="tue">TUE</string>
-    <string name="wed">WED</string>
-    <string name="thu">THU</string>
-    <string name="fri">FRI</string>
-    <string name="sat">SAT</string>
+    <string name="sun" translatable="false">SUN</string>
+    <string name="mon" translatable="false">MON</string>
+    <string name="tue" translatable="false">TUE</string>
+    <string name="wed" translatable="false">WED</string>
+    <string name="thu" translatable="false">THU</string>
+    <string name="fri" translatable="false">FRI</string>
+    <string name="sat" translatable="false">SAT</string>
 
 </resources>

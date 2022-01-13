@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="whenList">
+        <item>Hora</item>
+        <item>Mañana</item>
+        <item>Tarde</item>
+        <item>Noche</item>
+        <item>Trabajo nocturno</item>
+        <item>Lo que</item>
+    </string-array>
+
+
+    <string-array name="priorityList">
+        <item>Prioridad</item>
+        <item>Deber</item>
+        <item>Definitivamente</item>
+        <item>Deberían</item>
+        <item>Lo que</item>
+    </string-array>
+
+    <string-array name="durationList">
+        <item> Duración </item>
+        <item>5 min</item>
+        <item>15 min</item>
+        <item>30 min</item>
+        <item>1 h</item>
+        <item>1.5 h</item>
+        <item>2 h</item>
+        <item>Elegir manualmente</item>
+    </string-array>
+
+    <string name="app_name">BeeOrganised</string>
+    <string name="langs">idiomas</string>
+    <string name="lan">Idiomas</string>
+    <string name="settings">ajustes</string>
+    <string name="user">Tipo de usuario</string>
+    <string name="themes">Temas</string>
+    <string name="sound">Sonar</string>
+    <string name="sipleTask">Crear tareas</string>
+    <string name="routine">Rutinas</string>
+    <string name="FinalTextForSimple">"   Este es el tiempo calculado por IA, si no te conviene, ¡no dudes en volver a calcularlo!"</string>
+    <string name="basictask">TAREA BÁSICA</string>
+    <string name="edittext">Introduzca el nombre de su tarea!</string>
+    <string name="orchoose">"   O elija entre los nombres recordados:"</string>
+    <string name="custom">Hora personalizada</string>
+    <string name="aitime">Elección del tiempo de IA</string>
+    <string name="starting">Tiempo de empezar</string>
+    <string name="ending">Hora de finalización</string>
+    <string name="set">ESTABLECER</string>
+    <string name="calc">CALCULAR</string>
+    <string name="until">"hasta "</string>
+    <string name="schedule">Calendario</string>
+    <string name="obligations">Obligaciones</string>
+</resources>

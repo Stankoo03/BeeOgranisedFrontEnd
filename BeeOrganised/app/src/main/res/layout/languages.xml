@@ -124,11 +124,13 @@
         android:gravity="center"
         android:layout_marginTop="9dp">
         <ImageButton
+            android:id="@+id/spa"
             android:layout_width="76dp"
             android:layout_height="76dp"
             android:background="@drawable/ic_spain"></ImageButton>
 
         <ImageButton
+            android:id="@+id/fran"
             android:layout_marginLeft="15dp"
             android:layout_width="76dp"
             android:layout_height="76dp"

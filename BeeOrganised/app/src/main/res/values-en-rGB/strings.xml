@@ -57,7 +57,7 @@
     <string name="starting">Starting time</string>
     <string name="ending">Ending time</string>
     <string name="set">SET</string>
-    <string name="calc">SET</string>
+    <string name="calc">CALCULATE</string>
     <string name="until">until</string>
     <string name="schedule">Schedule</string>
     <string name="obligations">Obligations</string>
