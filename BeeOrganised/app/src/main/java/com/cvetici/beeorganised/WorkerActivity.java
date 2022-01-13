@@ -116,6 +116,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        loadLocale();
         setContentView(R.layout.activity_worker);
         calendar = Calendar.getInstance();
         bottomSheetDialog = new BottomSheetDialog(
@@ -133,7 +134,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         ListaItema.setContentView(ListView);
 
         dialog = new Dialog(WorkerActivity.this);
-        loadLocale();
+
         FindViews();
         RadioGroupClicked();
         FromToTimeSetter();
@@ -249,7 +250,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                 dialog.dismiss();
             }
         });
-    }
+    } 
     private void setLocale( String lng){
         Locale locale = new Locale (lng);
         Locale.setDefault(locale);
@@ -265,7 +266,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         editor.apply();
     }
     public void loadLocale(){
-        SharedPreferences prefs = getSharedPreferences("Settings", Activity.MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences("Settings", Application.MODE_PRIVATE);
         String lang = prefs.getString("my lan","");
         setLocale( lang);
     }
