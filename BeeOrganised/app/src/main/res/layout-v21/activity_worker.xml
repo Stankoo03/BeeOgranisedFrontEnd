@@ -205,18 +205,15 @@
 
 
             <ImageView
-                android:id="@+id/sat"
+
                 android:layout_width="match_parent"
                 android:layout_height="350dp"
-                android:src="@drawable/ic_pmclock"
+                android:src="@drawable/ic_clock_base"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 />
-
-
-
             <com.cvetici.beeorganised.CrtajObaveze
                 android:id="@+id/crtajObaveze"
                 android:layout_width="300dp"
@@ -226,6 +223,20 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/sat"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:src="@drawable/ic_amclock_ontop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+
+
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

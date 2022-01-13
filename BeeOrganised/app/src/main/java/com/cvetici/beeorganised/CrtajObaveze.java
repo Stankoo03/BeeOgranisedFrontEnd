@@ -24,16 +24,15 @@ public class CrtajObaveze extends View {
     private List<Task> listaTaskova;
     Random rand = new Random();
     private int[] boje = {
-            getResources().getColor(R.color.ProzirnaUserBoja),
-            getResources().getColor(R.color.ProzirnaBehindText),
-            getResources().getColor(R.color.ProzirnaBeeBoja)
+            getResources().getColor(R.color.UserChosing),
+            getResources().getColor(R.color.BeeText),
+            getResources().getColor(R.color.DateColor)
     };
 
 
     public CrtajObaveze(Context context) {
         super(context);
     }
-
     public CrtajObaveze(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
