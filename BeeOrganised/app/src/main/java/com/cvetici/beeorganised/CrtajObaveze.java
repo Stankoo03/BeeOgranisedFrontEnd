@@ -67,6 +67,7 @@ public class CrtajObaveze extends View {
                 float loc1 = (hour1+minute1/60);
                 float angle1 = (float) ((Math.PI/6)*loc1-Math.PI/2);
                 float hour2 =item.GetTime().GetEndTime().GetHour();
+                hour2 = hour2>12?hour2-12:hour2;
                 float minute2 =item.GetTime().GetEndTime().GetMinute();
                 float loc2 = (hour2+minute2/60);
                 float angle2 = (float) ((Math.PI/6)*loc2-Math.PI/2)-angle1;
