@@ -26,6 +26,8 @@
                         android:fontFamily="@font/font"
                         android:textColor="@color/BeeText"
                         android:textSize="38dp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
                         android:textFontWeight="900"
                         >
                     </TextView>

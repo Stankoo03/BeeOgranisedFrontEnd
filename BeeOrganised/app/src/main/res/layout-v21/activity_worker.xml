@@ -238,17 +238,17 @@
             android:focusable="true"
             android:fontFamily="@font/font"
             android:onClick="simpleTaskCard"
+            android:scaleX="0.9"
+            android:scaleY="0.9"
             android:text="@string/sipleTask"
-            android:visibility="invisible"
             android:textColor="@color/DateColor"
             android:tint="@color/DateColor"
+            android:visibility="invisible"
             app:backgroundTint="@color/UserChosing"
             app:icon="@drawable/ic_basictask"
             app:iconTint="@color/DateColor"
             app:rippleColor="@color/UserChosing"
-            app:tint="@color/DateColor"
-            android:scaleX="0.9"
-            android:scaleY="0.9"/>
+            app:tint="@color/DateColor" />
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/RoutineButton"

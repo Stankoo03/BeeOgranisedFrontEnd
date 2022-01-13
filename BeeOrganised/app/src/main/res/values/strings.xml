@@ -1,6 +1,7 @@
+
 <resources>
-    <string name="app_name" translatable="false">BeeOrganised</string>
-    <string name="title_activity_worker" translatable="false">WorkerActivity</string>
+    <string name="app_name">BeeOrganised</string>
+    <string name="title_activity_worker">WorkerActivity</string>
     <string-array name="whenList">
         <item>Time</item>
         <item>Morning</item>
@@ -41,5 +42,26 @@
     <string name="routine">Routines</string>
 
     <string name="FinalTextForSimple">  This is AI calculated time, if it doesnt suit you, feel free to recalculate! </string>
+
+    <string name="basictask">BASIC TASK </string>
+    <string name="edittext">Enter the name of your task!</string>
+    <string name="orchoose">   Or choose from remembered names:</string>
+    <string name="custom">Custom time</string>
+    <string name="aitime">AI time choosing</string>
+    <string name="starting">Starting time</string>
+    <string name="ending">Ending time</string>
+    <string name="set">SET</string>
+    <string name="calc">CALCULATE</string>
+    <string name="until">until</string>
+
+    <string name="schedule">Schedule</string>
+    <string name="obligations">Obligations</string>
+    <string name="sun">SUN</string>
+    <string name="mon">MON</string>
+    <string name="tue">TUE</string>
+    <string name="wed">WED</string>
+    <string name="thu">THU</string>
+    <string name="fri">FRI</string>
+    <string name="sat">SAT</string>
 
 </resources>
