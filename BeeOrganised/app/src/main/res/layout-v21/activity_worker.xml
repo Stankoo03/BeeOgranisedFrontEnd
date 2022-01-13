@@ -228,7 +228,7 @@
                 android:id="@+id/sat"
                 android:layout_width="match_parent"
                 android:layout_height="350dp"
-                android:src="@drawable/ic_amclock_ontop"
+                android:src="@drawable/ic_pmclock_ontop"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

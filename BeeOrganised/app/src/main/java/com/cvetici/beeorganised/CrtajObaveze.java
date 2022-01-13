@@ -65,11 +65,17 @@ public class CrtajObaveze extends View {
                 float minute1 = item.GetTime().GetStartTime().GetMinute();
                 hour1 = hour1>12?hour1-12:hour1;
                 float loc1 = (hour1+minute1/60);
-                float angle1 = (float) ((Math.PI/6)*loc1-Math.PI/2);
                 float hour2 =item.GetTime().GetEndTime().GetHour();
                 hour2 = hour2>12?hour2-12:hour2;
                 float minute2 =item.GetTime().GetEndTime().GetMinute();
                 float loc2 = (hour2+minute2/60);
+                if(loc2<loc1){
+                    float temp = loc2;
+                    loc2=loc1;
+                    loc1=temp;
+
+                }
+                float angle1 = (float) ((Math.PI/6)*loc1-Math.PI/2);
                 float angle2 = (float) ((Math.PI/6)*loc2-Math.PI/2)-angle1;
                 canvas.drawArc(80, 80, width - 80, height - 80, (float) (180*angle1/Math.PI), (float)(180*angle2/Math.PI) , true, paint);
 
