@@ -109,6 +109,8 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     private List<Task> currentList;
     Dialog dialog;
 
+    private CrtajObaveze crtaj;
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -187,6 +189,8 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         durationSp = bottomSheetView.findViewById(R.id.durationSpinner);
 
         mHelper = new NotificationHelper(this);
+
+        crtaj = findViewById(R.id.crtajObaveze);
 
         routine.shrink();
         task.shrink();
@@ -298,6 +302,8 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                 load(Danas,Month,Year);
                 adapter.setTaskovi(currentList);
                 sendOnChannel1("BeeOrganised","Poruka");
+                crtaj.drawLists(currentList);
+                crtaj.Refreshuj();
             }
         });
 
@@ -314,6 +320,8 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                  load(Sutra,Month1,Year1);
                 adapter.setTaskovi(currentList);
                 sendOnChannel2("BeeOrganised","Poruka");
+                crtaj.drawLists(currentList);
+                crtaj.Refreshuj();
             }
         });
         datumTreci.setOnClickListener(new View.OnClickListener() {
@@ -328,6 +336,8 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                 datumPrvi.setBackground(getResources().getDrawable(R.drawable.ic_datum_fixed_fixed));
                 load(PSutra,Month2,Year2);
                 adapter.setTaskovi(currentList);
+                crtaj.drawLists(currentList);
+                crtaj.Refreshuj();
             }
         });
 
@@ -409,7 +419,8 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         adapter.setTaskovi(currentList);
         ListaTaskova.setAdapter(adapter);
         ListaTaskova.setLayoutManager(new LinearLayoutManager(WorkerActivity.this));
-
+        crtaj.drawLists(currentList);
+        crtaj.Refreshuj();
 
         w1.setText(DanasNedelja.substring(0,3).toUpperCase(Locale.ROOT));
 
@@ -562,10 +573,11 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                 public void onClick(View view) {
                     Task temp = new Task(enterTask.getText().toString(),new Interval(new DateTime(MainYear,MainMonth,MainDay,h1,m1),new DateTime(MainYear,MainMonth,MainDay,h2,m2)));
                     std.AddTask(temp);
-                    //currentList = std.GetTasksInInterval(new Interval(new DateTime(Year,Month,Danas,0,1),new DateTime(Year,Month,Danas,23,59)));
+                   // currentList = std.GetTasksInInterval(new Interval(new DateTime(Year,Month,Danas,0,1),new DateTime(Year,Month,Danas,23,59)));
                     currentList.add(temp);
+                    crtaj.Refreshuj();
+                    adapter.setTaskovi(currentList);
                     //TODO Pogledaj ovo andrijo
-                    adapter.notifyDataSetChanged();
                     save(MainDay,MainMonth,MainYear);
                     Toast.makeText(WorkerActivity.this, "Task uspesno postavljen", Toast.LENGTH_LONG).show();
 

@@ -194,15 +194,46 @@
 
 
         </RelativeLayout>
-
-        <ImageView
-            android:id="@+id/sat"
-            android:layout_width="match_parent"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
             android:layout_height="350dp"
             android:layout_below="@+id/optionsHolder"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="-20dp"
-            android:src="@drawable/ic_pmclock" />
+            android:orientation="vertical"
+            android:clipChildren="false">
+
+
+            <ImageView
+                android:id="@+id/sat"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:src="@drawable/ic_pmclock"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+
+
+            <com.cvetici.beeorganised.CrtajObaveze
+                android:id="@+id/crtajObaveze"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:layout_gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
 
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
