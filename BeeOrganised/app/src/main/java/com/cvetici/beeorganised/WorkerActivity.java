@@ -106,7 +106,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     private RecyclerView ListaTaskova;
     private ListaTaskovaAdapter adapter = new ListaTaskovaAdapter();
     private Spinner prioritySp,timeSp,durationSp;
-    private ImageButton datumPrvi,datumDrugi,datumTreci, podeshavanje, lang, srb, eng;
+    private ImageButton datumPrvi,datumDrugi,datumTreci, podeshavanje, lang, srb, eng, ger, spa, fran;
     private List<Task> currentList;
     Dialog dialog;
 
@@ -223,8 +223,14 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 srb = (ImageButton) dialog.findViewById(R.id.srb);
                 eng = (ImageButton) dialog.findViewById(R.id.eng);
+                ger = (ImageButton) dialog.findViewById(R.id.ger);
+                spa = (ImageButton) dialog.findViewById(R.id.spa);
+                fran = (ImageButton) dialog.findViewById(R.id.fran);
                 srpski();
                 engleski();
+                nemacki();
+                francuski();
+                spanski();
                 dialog.show();
             }
         });
@@ -233,7 +239,6 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         srb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 setLocale("sr");
                 recreate();
                 dialog.dismiss();
@@ -244,13 +249,42 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         eng.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 setLocale("en");
                 recreate();
                 dialog.dismiss();
             }
         });
-    } 
+    }
+    private void nemacki(){
+        ger.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setLocale("de");
+                recreate();
+                dialog.dismiss();
+            }
+        });
+    }
+    private void spanski(){
+        spa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setLocale("es");
+                recreate();
+                dialog.dismiss();
+            }
+        });
+    }
+    private void francuski(){
+        fran.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setLocale("fr");
+                recreate();
+                dialog.dismiss();
+            }
+        });
+    }
     private void setLocale( String lng){
         Locale locale = new Locale (lng);
         Locale.setDefault(locale);
