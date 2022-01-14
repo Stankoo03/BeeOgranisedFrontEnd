@@ -7,6 +7,7 @@ public class Task
     protected String title;
     //protected String desc;
     protected Interval time;
+    private boolean done = false;
 
     public String GetTitle() {
         return title;
@@ -14,11 +15,15 @@ public class Task
     public Interval GetTime() {
         return time;
     };
+    public boolean GetDone() {return done;}
 
     public void SetNewTime(Interval time) {
         this.time = time;
     };
     //TODO other setters and getters...
+
+    public void CheckDone(){done = !done;}
+
 
     public Interval Intersect(Task other){
         return time.Intersect(other.time);

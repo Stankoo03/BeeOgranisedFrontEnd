@@ -40,6 +40,14 @@ public class SmartToDo{
         //UsedTime = new List<Interval>();
     }
 
+    public void RemoveTask(int index){
+        tasks.remove(index);
+    }
+
+    public void RemoveTask(Task t){
+        tasks.remove(t);
+    }
+
     public ArrayList<Task> GetTasksInInterval(Interval i){
         ArrayList<Task> R = new ArrayList<>();
         for(Task t : tasks) {
