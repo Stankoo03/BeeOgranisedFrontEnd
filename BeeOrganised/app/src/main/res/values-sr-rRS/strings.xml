@@ -8,7 +8,7 @@
         <item>Поподне</item>
         <item>Вече</item>
         <item>Ноћни рад</item>
-        <item>Било када</item>
+        <item>Биᴫо када</item>
     </string-array>
 
 
@@ -16,8 +16,8 @@
         <item>Приоритет</item>
         <item>Обавезно</item>
         <item>Мора</item>
-        <item>Требало би</item>
-        <item>Било шта</item>
+        <item>Требаᴫо би</item>
+        <item>Биᴫо шта</item>
     </string-array>
 
     <string-array name="durationList">
@@ -34,7 +34,7 @@
     <string name="sipleTask">Направи задатак</string>
     <string name="routine">Рутинa</string>
 
-    <string name="FinalTextForSimple">  Ово је време калкулисано од стране АИ, уколико вам не одговара, рекалкулишите! </string>
+    <string name="FinalTextForSimple">  Ово је време каᴫкуᴫисано од стране АИ, укоᴫико вам не одговара, рекаᴫкуᴫишите! </string>
     <string name="langs">језици</string>
     <string name="settings">подешавања</string>
     <string name="user">Тип корисника</string>
@@ -50,7 +50,7 @@
     <string name="sat">СУБ</string>
     <string name="basictask">ОСНОВНИ ЗАДАТАК</string>
     <string name="edittext">Упишите име вашег задатка!</string>
-    <string name="orchoose">"   Или изаберите неко од упамћених имена:"</string>
+    <string name="orchoose">"   Иᴫи изаберите неко од упамћених имена:"</string>
     <string name="custom">Бирај време</string>
     <string name="aitime">Аи бира време</string>
     <string name="starting">Почетно време</string>
