@@ -24,6 +24,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.icu.text.DateFormat;
 import android.icu.text.SimpleDateFormat;
+import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -107,7 +108,9 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     private ListaTaskovaAdapter adapter = new ListaTaskovaAdapter();
     private Spinner prioritySp,timeSp,durationSp;
     private ImageButton datumPrvi,datumDrugi,datumTreci, podeshavanje, lang, srb, eng, ger, spa, fran;
+    private ImageButton changeUserBtn;
     private List<Task> currentList;
+    public boolean dan;
     Dialog dialog;
 
     private CrtajObaveze crtaj;
@@ -143,7 +146,12 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         AiTaskCalculation();
         CalendarButtonClick();
         openSettings();
+        changeUser();
 
+
+    }
+    public boolean getDay(){
+        return dan;
     }
     private void FindViews(){
 
@@ -190,6 +198,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         timeSp = bottomSheetView.findViewById(R.id.whenSpinner);
         durationSp = bottomSheetView.findViewById(R.id.durationSpinner);
 
+
         mHelper = new NotificationHelper(this);
 
         crtaj = findViewById(R.id.crtajObaveze);
@@ -235,6 +244,23 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
             }
         });
     }
+    private void changeUser(){
+        dialog.dismiss();
+        dialog.setContentView(R.layout.settings);
+        changeUserBtn =(ImageButton) dialog.findViewById(R.id.changeUser);
+        changeUserBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(WorkerActivity.this, MainActivity.class);
+                startActivity(intent);
+                Toast.makeText(WorkerActivity.this, "Penis", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
+    }
+
     private void srpski(){
         srb.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -304,6 +330,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         String lang = prefs.getString("my lan","");
         setLocale( lang);
     }
+
     private void SwitchListener(){
 
         daynightSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -311,8 +338,11 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(b){
                     sat.setImageResource(R.drawable.ic_amclock_ontop);
+                    crtaj.CrtajDan(false);
                 }else{
+
                     sat.setImageResource(R.drawable.ic_pmclock_ontop);
+                    crtaj.CrtajDan(true);
                 }
             }
         });
@@ -381,9 +411,6 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
 
 
     }
-
-
-
     private void RadioGroupClicked(){
 
         RG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -562,8 +589,6 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
             routine.setClickable(false);
 
         }
-
-
     }
     public void simpleTaskCard(View view) {
         if(task.isExtended()){
@@ -581,9 +606,6 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
             task.extend();
 
         }
-
-
-
 
     }
     @Override

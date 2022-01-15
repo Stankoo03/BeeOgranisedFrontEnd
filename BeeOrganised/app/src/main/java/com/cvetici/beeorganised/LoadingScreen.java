@@ -35,18 +35,31 @@ public class LoadingScreen extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
 
             public void run() {
-                Intent intent = new Intent(LoadingScreen.this, MainActivity.class);
-                startActivity(intent);
-                finish();
+
+                if(load()==0) {
+                    Intent intent = new Intent(LoadingScreen.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }else if(load()==1){
+                    Intent intent = new Intent(LoadingScreen.this, WorkerActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+
             }
-        }, 1800);
+        }, 1500);
     }
     public int load(){
         String FILE_NAME="UserData";
         SharedPreferences sharedPreferences = getSharedPreferences(FILE_NAME,MODE_PRIVATE);
         Gson gson = new Gson();
-        String json = sharedPreferences.getString(FILE_NAME,null);
-        return 0;
+        String json = sharedPreferences.getString("brUsera",null);
+        if(json==null){
+            return 0;
+        }else{
+            return Integer.parseInt(json);
+        }
+
     }
 
 

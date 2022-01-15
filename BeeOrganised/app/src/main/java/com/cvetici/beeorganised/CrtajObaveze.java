@@ -23,6 +23,8 @@ public class CrtajObaveze extends View {
     private RectF oval;
     private List<Task> listaTaskova;
     Random rand = new Random();
+    private boolean dan=true;
+    private WorkerActivity wa= new WorkerActivity();
     private int[] boje = {
             getResources().getColor(R.color.UserChosing),
             getResources().getColor(R.color.BeeText),
@@ -41,7 +43,6 @@ public class CrtajObaveze extends View {
         super(context, attrs, defStyleAttr);
     }
     private void initClock(){
-
         oval = new RectF();
         height = getHeight();
         width = getWidth();
@@ -63,33 +64,63 @@ public class CrtajObaveze extends View {
                 paint.setColor(boje[rand.nextInt(boje.length-1)]);
                 float hour1 =item.GetTime().GetStartTime().GetHour();
                 float minute1 = item.GetTime().GetStartTime().GetMinute();
-                hour1 = hour1>12?hour1-12:hour1;
-                float loc1 = (hour1+minute1/60);
                 float hour2 =item.GetTime().GetEndTime().GetHour();
-                hour2 = hour2>12?hour2-12:hour2;
                 float minute2 =item.GetTime().GetEndTime().GetMinute();
-                float loc2 = (hour2+minute2/60);
-                if(loc2<loc1){
-                    float temp = loc2;
-                    loc2=loc1;
-                    loc1=temp;
+                float loc1,loc2;
+                loc1 = (hour1+minute1/60);
+                loc2 = (hour2+minute2/60);
+                if (dan == true && (hour1 > 12 || hour2 > 12)) {
+                    hour1 = hour1 > 12 ? hour1 - 12 : hour1;
+                    hour2 = hour2 > 12 ? hour2 - 12 : hour2;
+                    loc1 = (hour1+minute1/60);
+                    loc2 = (hour2+minute2/60);
+                    float angle1 = (float) ((Math.PI / 6) * loc1 - Math.PI / 2);
+                    float angle2 = (float) ((Math.PI / 6) * loc2 - Math.PI / 2) - angle1;
+                    canvas.drawArc(80, 80, width - 80, height - 80, (float) (180 * angle1 / Math.PI), (float) (180 * angle2 / Math.PI), true, paint);
 
                 }
-                float angle1 = (float) ((Math.PI/6)*loc1-Math.PI/2);
-                float angle2 = (float) ((Math.PI/6)*loc2-Math.PI/2)-angle1;
-                canvas.drawArc(80, 80, width - 80, height - 80, (float) (180*angle1/Math.PI), (float)(180*angle2/Math.PI) , true, paint);
+                if (dan == false && loc1 < 12 && loc2 < 12) {
+                    float angle1 = (float) ((Math.PI / 6) * loc1 - Math.PI / 2);
+                    float angle2 = (float) ((Math.PI / 6) * loc2 - Math.PI / 2) - angle1;
+                    canvas.drawArc(80, 80, width - 80, height - 80, (float) (180 * angle1 / Math.PI), (float) (180 * angle2 / Math.PI), true, paint);
+
+
+                }
 
             }
 
         }
 
     }
+
+
+
+    private void proveriPrelom(float loc1,float hour3,float minute3,Canvas canvas) {
+        float angle3;
+        if(dan==true) {
+            float loc3=(hour3+minute3/60);
+            float angle = (float)((2*Math.PI-Math.PI/2));
+            angle3 = (float) ((Math.PI / 6) * loc3 - Math.PI / 2);
+            canvas.drawArc(80, 80, width - 80, height - 80, (float) (180* angle/Math.PI), (float) (180 * angle3 / Math.PI), true, paint);
+        }else{
+            angle3 =(float) ((Math.PI / 6) * loc1 - Math.PI / 2);
+            float angle = (float)((2*Math.PI-Math.PI/2))-angle3;
+            canvas.drawArc(80, 80, width - 80, height - 80, (float) (180 * angle3 / Math.PI), (float) (180* angle/Math.PI), true, paint);
+        }
+
+    }
+
     public void drawLists(List<Task> listaTaskova){
         this.listaTaskova = listaTaskova;
     }
     public void Refreshuj(){
         postInvalidateDelayed(1000);
         invalidate();
+
+    }
+    public void CrtajDan(boolean dan){
+        this.dan = dan;
+        Refreshuj();
 
     }
 

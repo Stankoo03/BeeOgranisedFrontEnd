@@ -55,6 +55,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <ImageButton
+                    android:id="@+id/changeUser"
                     android:layout_width="95dp"
                     android:layout_height="95dp"
                     android:background="@drawable/ic_switch_user">

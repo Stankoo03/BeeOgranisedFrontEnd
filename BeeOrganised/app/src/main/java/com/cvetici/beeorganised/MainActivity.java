@@ -49,9 +49,7 @@ public class MainActivity extends AppCompatActivity {
         Locale.setDefault(locale);
         Configuration con = new Configuration();
         con.locale = locale;
-
         getBaseContext().getResources().updateConfiguration(con, getBaseContext().getResources().getDisplayMetrics());
-
         getApplicationContext().getResources().updateConfiguration(con, getApplicationContext().getResources().getDisplayMetrics());
     }
     private void goToPersonal(){
@@ -65,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor  editor = sharedPreferences.edit();
         Gson gson = new Gson();
         String json = gson.toJson(user);
-        editor.putString(FILE_NAME,json);
+        editor.putString("brUsera",json);
         editor.apply();
     }
 
