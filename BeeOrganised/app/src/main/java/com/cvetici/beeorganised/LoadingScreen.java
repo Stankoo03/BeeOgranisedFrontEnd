@@ -1,6 +1,7 @@
 package com.cvetici.beeorganised;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModel;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LoadingScreen extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Animation top, bottom;
@@ -48,6 +50,8 @@ public class LoadingScreen extends AppCompatActivity {
 
             }
         }, 1500);
+
+
     }
     public int load(){
         String FILE_NAME="UserData";

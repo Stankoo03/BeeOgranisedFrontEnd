@@ -72,7 +72,7 @@ import java.util.List;
 import java.util.Locale;
 
 
-public class WorkerActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
+public class WorkerActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener,ListaTaskovaAdapter.OnTaskListener{
 
     private Calendar calendar;
     private TextView d1,d2,d3;
@@ -105,7 +105,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     private SmartToDo std;
     private int h1=-1,m1=-1,h2=-1,m2=-1;
     private RecyclerView ListaTaskova;
-    private ListaTaskovaAdapter adapter = new ListaTaskovaAdapter();
+    private ListaTaskovaAdapter adapter = new ListaTaskovaAdapter(this::onTaskClick);
     private Spinner prioritySp,timeSp,durationSp;
     private ImageButton datumPrvi,datumDrugi,datumTreci, podeshavanje, lang, srb, eng, ger, spa, fran;
     private ImageButton changeUserBtn;
@@ -481,6 +481,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         }
         Year = Integer.parseInt(Godina);
         load(Danas,Month,Year);
+        std.SetTaskList((ArrayList<Task>) currentList);
         adapter.setTaskovi(currentList);
         ListaTaskova.setAdapter(adapter);
         ListaTaskova.setLayoutManager(new LinearLayoutManager(WorkerActivity.this));
@@ -632,14 +633,17 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                 @Override
                 public void onClick(View view) {
                     Task temp = new Task(enterTask.getText().toString(),new Interval(new DateTime(MainYear,MainMonth,MainDay,h1,m1),new DateTime(MainYear,MainMonth,MainDay,h2,m2)));
-                    std.AddTask(temp);
-                   // currentList = std.GetTasksInInterval(new Interval(new DateTime(Year,Month,Danas,0,1),new DateTime(Year,Month,Danas,23,59)));
-                    currentList.add(temp);
+                    if(std.AddTask(temp)){
+                        Toast.makeText(WorkerActivity.this, "Task uspesno postavljen", Toast.LENGTH_LONG).show();
+                    }else{
+                        Toast.makeText(WorkerActivity.this, "Postoji problem sa dodavanjem vaseg taska", Toast.LENGTH_LONG).show();
+                    }
+                    currentList = std.GetTasksInInterval(new Interval(new DateTime(Year,Month,Danas,0,1),new DateTime(Year,Month,Danas,23,59)));
                     crtaj.Refreshuj();
                     adapter.setTaskovi(currentList);
                     //TODO Pogledaj ovo andrijo
                     save(MainDay,MainMonth,MainYear);
-                    Toast.makeText(WorkerActivity.this, "Task uspesno postavljen", Toast.LENGTH_LONG).show();
+
 
                 }
             });
@@ -716,5 +720,8 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     }
 
 
-
+    @Override
+    public void onTaskClick(int position) {
+        Toast.makeText(WorkerActivity.this, position+" ", Toast.LENGTH_SHORT).show();
+    }
 }

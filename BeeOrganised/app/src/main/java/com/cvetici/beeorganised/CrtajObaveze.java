@@ -69,7 +69,7 @@ public class CrtajObaveze extends View {
                 float loc1,loc2;
                 loc1 = (hour1+minute1/60);
                 loc2 = (hour2+minute2/60);
-                if (dan == true && (hour1 > 12 || hour2 > 12)) {
+                if (dan == true && (hour1 > 12 && hour2 > 12)) {
                     hour1 = hour1 > 12 ? hour1 - 12 : hour1;
                     hour2 = hour2 > 12 ? hour2 - 12 : hour2;
                     loc1 = (hour1+minute1/60);
@@ -78,12 +78,14 @@ public class CrtajObaveze extends View {
                     float angle2 = (float) ((Math.PI / 6) * loc2 - Math.PI / 2) - angle1;
                     canvas.drawArc(80, 80, width - 80, height - 80, (float) (180 * angle1 / Math.PI), (float) (180 * angle2 / Math.PI), true, paint);
 
+                }if(loc1 < 12 && loc2 >= 12){
+                    proveriPrelom(loc1,hour2-12,minute2,canvas);
+
                 }
                 if (dan == false && loc1 < 12 && loc2 < 12) {
                     float angle1 = (float) ((Math.PI / 6) * loc1 - Math.PI / 2);
                     float angle2 = (float) ((Math.PI / 6) * loc2 - Math.PI / 2) - angle1;
                     canvas.drawArc(80, 80, width - 80, height - 80, (float) (180 * angle1 / Math.PI), (float) (180 * angle2 / Math.PI), true, paint);
-
 
                 }
 
@@ -93,21 +95,17 @@ public class CrtajObaveze extends View {
 
     }
 
-
-
     private void proveriPrelom(float loc1,float hour3,float minute3,Canvas canvas) {
-        float angle3;
-        if(dan==true) {
-            float loc3=(hour3+minute3/60);
-            float angle = (float)((2*Math.PI-Math.PI/2));
-            angle3 = (float) ((Math.PI / 6) * loc3 - Math.PI / 2);
-            canvas.drawArc(80, 80, width - 80, height - 80, (float) (180* angle/Math.PI), (float) (180 * angle3 / Math.PI), true, paint);
-        }else{
-            angle3 =(float) ((Math.PI / 6) * loc1 - Math.PI / 2);
-            float angle = (float)((2*Math.PI-Math.PI/2))-angle3;
-            canvas.drawArc(80, 80, width - 80, height - 80, (float) (180 * angle3 / Math.PI), (float) (180* angle/Math.PI), true, paint);
+        if(dan==true){
+            float angle1 = (float) (-Math.PI / 2);
+            float loc3 = (hour3+minute3/60);
+            float angle3 = (float) ((Math.PI / 6) * loc3 - Math.PI / 2)-angle1;
+            canvas.drawArc(80, 80, width - 80, height - 80, (float) (180 * angle1 / Math.PI), (float) (180 * angle3 / Math.PI), true, paint);
+        }else {
+            float angle1 = (float) ((Math.PI / 6) * loc1 - Math.PI / 2);
+            float angle3 = (float) ((Math.PI / 6) * 11.99f - Math.PI / 2)-angle1;
+            canvas.drawArc(80, 80, width - 80, height - 80, (float) (180 * angle1 / Math.PI), (float) (180 * angle3 / Math.PI), true, paint);
         }
-
     }
 
     public void drawLists(List<Task> listaTaskova){

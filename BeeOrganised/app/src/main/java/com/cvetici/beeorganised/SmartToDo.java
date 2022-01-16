@@ -1,6 +1,7 @@
 package com.cvetici.beeorganised;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Vector;
 
@@ -38,6 +39,9 @@ public class SmartToDo{
         pick = null;
 
         //UsedTime = new List<Interval>();
+    }
+    public void SetTaskList(ArrayList<Task> task){
+        tasks = task;
     }
 
     public void RemoveTask(int index){
