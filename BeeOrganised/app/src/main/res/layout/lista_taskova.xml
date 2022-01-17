@@ -36,21 +36,21 @@
         android:background="@color/DateColor" />
 
     <RelativeLayout
-        android:layout_centerInParent="true"
         android:id="@+id/referenti"
-        android:layout_toEndOf="@+id/linija2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    <TextView
-        android:id="@+id/imeTaska"
-        android:layout_centerInParent="true"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="vreme"
-        android:textSize="15sp"
-        android:fontFamily="@font/brojke"
-        android:padding="3dp"/>
+        android:layout_centerInParent="true"
+        android:layout_toEndOf="@+id/linija2">
 
+        <TextView
+            android:id="@+id/imeTaska"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/brojke"
+            android:padding="3dp"
+            android:text="vreme"
+            android:textSize="15sp" />
 
 
     </RelativeLayout>
