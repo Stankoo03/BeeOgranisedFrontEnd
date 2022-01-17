@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
@@ -36,6 +38,7 @@ class ListaTaskovaAdapter extends RecyclerView.Adapter<ListaTaskovaAdapter.ViewH
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.txtName.setText(taskovi.get(position).GetTitle());
         holder.vreme.setText(taskovi.get(position).ToStringTime());
+
     }
 
     @Override
@@ -64,11 +67,11 @@ class ListaTaskovaAdapter extends RecyclerView.Adapter<ListaTaskovaAdapter.ViewH
 
         @Override
         public void onClick(View v) {
-            onTaskListener.onTaskClick(getAdapterPosition());
+            onTaskListener.onTaskClick(getAdapterPosition(),itemView);
         }
     }
     public interface OnTaskListener{
-        void onTaskClick(int position);
+        void onTaskClick(int position,View itemView);
 
     }
 
