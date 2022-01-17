@@ -72,7 +72,6 @@ public class CrtajObaveze extends View {
         osnovaKruga = new RectF(80, 80, width - 80, height - 80);
         IsTouched = false;
         animacijaOtvaranja = AnimationUtils.loadAnimation(context,R.anim.polako_pojavi);
-
         animacijaZatvaranja = AnimationUtils.loadAnimation(context,R.anim.polako_zatvori);
 
 
@@ -105,12 +104,7 @@ public class CrtajObaveze extends View {
                     angle2 = (float) (180 * angle2 / Math.PI);
                     angle1 = (float) (180 * angle1 / Math.PI);
                     canvas.drawArc(osnovaKruga, angle1, angle2 , true, paint);
-
-                    if(IsTouched&&angle1<=touchAngle&&touchAngle<=angle2+angle1 ){
-                        canvas.drawArc(osnovaKruga,(float) angle1, (float) angle2,true,paint1);
-                        changeTaskColor();
-                        IsTouched = false;
-                    }
+                    clickListener(angle1,angle2,canvas);
 
 
                 }if(loc1 < 12 && loc2 >= 12){
@@ -123,10 +117,7 @@ public class CrtajObaveze extends View {
                     angle2 = (float) (180 * angle2 / Math.PI);
                     angle1 = (float) (180 * angle1 / Math.PI);
                     canvas.drawArc(osnovaKruga, angle1 , angle2 , true, paint);
-                    if(IsTouched&&angle1<=touchAngle&&touchAngle<=angle2+angle1 ){
-                        canvas.drawArc(osnovaKruga,(float) angle1, (float) angle2,true,paint1);
-                        IsTouched = false;
-                    }
+                    clickListener(angle1,angle2,canvas);
 
                 }
                 if(IsTouched){
@@ -184,6 +175,14 @@ public class CrtajObaveze extends View {
                 invalidate();
         }
         return super.onTouchEvent(event);
+    }
+    public void clickListener(float angle1, float angle2,Canvas canvas){
+        if(IsTouched&&angle1<=touchAngle&&touchAngle<=angle2+angle1 ){
+            canvas.drawArc(osnovaKruga,(float) angle1, (float) angle2,true,paint1);
+            IsTouched = false;
+        }
+
+
     }
 
     public void changeTaskColor(){
