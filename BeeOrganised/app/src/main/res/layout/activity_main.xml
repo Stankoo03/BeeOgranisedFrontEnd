@@ -12,7 +12,7 @@
         android:id="@+id/welcomeHolder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="50dp"
         android:layout_marginLeft="25dp">
 
         <TextView
