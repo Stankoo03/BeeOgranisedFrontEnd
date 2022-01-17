@@ -45,8 +45,8 @@
     <string name="orchoose">"   Oder wählen Sie aus den bekannten Namen:"</string>
     <string name="custom">Benutzerdefinierte Zeit</string>
     <string name="aitime">KI-Zeitauswahl</string>
-    <string name="starting">Anfangszeit</string>
-    <string name="ending">Endzeit</string>
+    <string name="starting">Anfangszeit:</string>
+    <string name="ending">Endzeit:</string>
     <string name="set">EINSTELLEN</string>
     <string name="calc">BERECHNUNG</string>
     <string name="until">noch bis</string>

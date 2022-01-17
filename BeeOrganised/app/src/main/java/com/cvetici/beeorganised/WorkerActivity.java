@@ -146,7 +146,6 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         AiTaskCalculation();
         CalendarButtonClick();
         openSettings();
-        changeUser();
 
 
     }
@@ -217,6 +216,8 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                 dialog.setContentView(R.layout.settings);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 lang = (ImageButton) dialog.findViewById(R.id.language);
+                changeUserBtn =(ImageButton) dialog.findViewById(R.id.changeUser);
+                changeUser();
                 openLanguages();
                 dialog.show();
             }
@@ -245,16 +246,13 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         });
     }
     private void changeUser(){
-        dialog.dismiss();
-        dialog.setContentView(R.layout.settings);
-        changeUserBtn =(ImageButton) dialog.findViewById(R.id.changeUser);
         changeUserBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dialog.dismiss();
                 Intent intent = new Intent(WorkerActivity.this, MainActivity.class);
-                startActivity(intent);
-                Toast.makeText(WorkerActivity.this, "Penis", Toast.LENGTH_SHORT).show();
-
+                startActivity(intent); 
+                finish();
             }
         });
 
