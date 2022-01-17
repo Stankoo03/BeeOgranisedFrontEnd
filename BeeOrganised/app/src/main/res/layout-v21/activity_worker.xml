@@ -239,19 +239,135 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <RelativeLayout
-            android:id="@+id/changeTask"
-            android:layout_width="200dp"
-            android:layout_height="150dp"
-            android:layout_below="@id/satHolder"
-            android:layout_centerHorizontal="true"
-            android:background="@color/Gray"
-            android:visibility="invisible" />
+    <RelativeLayout
+        android:id="@+id/changeTask"
+        android:layout_below="@id/satHolder"
+        android:layout_width="230dp"
+        android:layout_height="138dp"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/ic_task_bckg"
+        android:visibility="invisible">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageButton
+                android:layout_marginTop="24dp"
+                android:layout_marginLeft="32dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:background="@drawable/ic_checkbox_unchecked"
+                />
+            <TextView
+                android:id="@+id/imeTaska"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="18dp"
+                android:text="task name"
+                android:fontFamily="@font/font"
+                android:textColor="@color/BeeText"
+                android:layout_weight="900"
+                android:textSize="21dp"
+                />
+        </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="5dp"
+                android:layout_marginLeft="82dp"
+                android:layout_marginTop="40dp"
+                android:background="@drawable/ic_line" />
+        </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="82dp"
+            android:layout_marginTop="45dp">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="900"
+                android:fontFamily="@font/brojke"
+                android:text="10:00"
+                android:textColor="@color/BeeText"
+                android:textSize="19dp" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:text="➜"
+                android:textColor="@color/BeeText"
+                android:textSize="15dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="900"
+                android:fontFamily="@font/brojke"
+                android:text="10:00"
+                android:textColor="@color/BeeText"
+                android:textSize="19dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="5dp"
+            android:gravity="center_horizontal">
+
+            <ImageView
+                android:layout_width="180dp"
+                android:layout_height="8dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/ic_line" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="81dp"
+            android:gravity="center_horizontal">
+
+            <ImageView
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/ic_edit_icon" />
+
+            <ImageView
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/ic_colors_icon" />
+
+            <ImageView
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/ic_bin" />
+
+            <ImageView
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/ic_info_icon" />
+
+        </LinearLayout>
+</RelativeLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/MainButton"
@@ -330,12 +446,11 @@
             android:layout_height="50px"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
+            android:background="@drawable/background_for_exbtn"
             android:onClick="expandTaskList"
             android:text="▲"
-            android:textSize="12dp"
             android:textColor="@color/DateColor"
-            android:background="@drawable/background_for_exbtn"
-            />
+            android:textSize="12dp" />
 
 
 
