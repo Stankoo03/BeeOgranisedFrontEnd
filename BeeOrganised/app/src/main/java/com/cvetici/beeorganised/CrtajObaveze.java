@@ -178,14 +178,16 @@ public class CrtajObaveze extends View {
     }
     public void clickListener(float angle1, float angle2,Canvas canvas){
         if(IsTouched&&angle1<=touchAngle&&touchAngle<=angle2+angle1 ){
-            canvas.drawArc(osnovaKruga,(float) angle1, (float) angle2,true,paint1);
             IsTouched = false;
+            canvas.drawArc(osnovaKruga,(float) angle1, (float) angle2,true,paint1);
+            changeTaskColor();
         }
 
 
     }
 
     public void changeTaskColor(){
+
         taskChangerLayout.setVisibility(VISIBLE);
         taskChangerLayout.startAnimation(animacijaOtvaranja);
 
