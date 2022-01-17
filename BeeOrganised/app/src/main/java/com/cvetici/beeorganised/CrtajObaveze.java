@@ -120,7 +120,7 @@ public class CrtajObaveze extends View {
                     clickListener(angle1,angle2,canvas);
 
                 }
-                if(IsTouched){
+                if(IsTouched&&taskChangerLayout.getVisibility()==VISIBLE){
                     taskChangerLayout.startAnimation(animacijaZatvaranja);
                     taskChangerLayout.setVisibility(INVISIBLE);
 
@@ -187,9 +187,10 @@ public class CrtajObaveze extends View {
     }
 
     public void changeTaskColor(){
-
-        taskChangerLayout.setVisibility(VISIBLE);
-        taskChangerLayout.startAnimation(animacijaOtvaranja);
+        if(taskChangerLayout.getVisibility()==INVISIBLE) {
+            taskChangerLayout.setVisibility(VISIBLE);
+            taskChangerLayout.startAnimation(animacijaOtvaranja);
+        }
 
     }
 }
