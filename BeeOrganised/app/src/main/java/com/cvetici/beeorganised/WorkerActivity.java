@@ -251,8 +251,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
             public void onClick(View v) {
                 dialog.dismiss();
                 Intent intent = new Intent(WorkerActivity.this, MainActivity.class);
-                startActivity(intent);
-                Toast.makeText(WorkerActivity.this, "Penis", Toast.LENGTH_SHORT).show();
+                startActivity(intent); 
                 finish();
             }
         });
