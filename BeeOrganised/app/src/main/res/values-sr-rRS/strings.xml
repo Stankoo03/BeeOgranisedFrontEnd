@@ -53,8 +53,8 @@
     <string name="orchoose">"   Иᴫи изаберите неко од упамћених имена:"</string>
     <string name="custom">Бирај време</string>
     <string name="aitime">Аи бира време</string>
-    <string name="starting">Почетно време:</string>
-    <string name="ending">Завршно време:</string>
+    <string name="starting">Почетно време</string>
+    <string name="ending">Завршно време</string>
     <string name="set">ПОСТАВИ</string>
     <string name="calc">КАЛКУЛИШИ</string>
     <string name="until">траје до</string>

@@ -5,13 +5,16 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.graphics.drawable.shapes.ArcShape;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -30,6 +33,7 @@ public class CrtajObaveze extends View {
             getResources().getColor(R.color.BeeText),
             getResources().getColor(R.color.DateColor)
     };
+
 
 
     public CrtajObaveze(Context context) {

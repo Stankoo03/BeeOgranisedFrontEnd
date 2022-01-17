@@ -11,7 +11,9 @@
 
     </style>
 
-    <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+    <style name="BottomSheetStyle2" parent="Theme.MaterialComponents.Light.NoActionBar">
+    </style>
+    <style name="BottomSheetStyle" parent="BottomSheetStyle2">
         <item name="android:background">@android:color/transparent</item>
     </style>
 

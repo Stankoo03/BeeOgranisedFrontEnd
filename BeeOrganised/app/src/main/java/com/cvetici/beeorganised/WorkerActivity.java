@@ -146,6 +146,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         AiTaskCalculation();
         CalendarButtonClick();
         openSettings();
+        changeUser();
 
 
     }
@@ -216,8 +217,6 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                 dialog.setContentView(R.layout.settings);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 lang = (ImageButton) dialog.findViewById(R.id.language);
-                changeUserBtn =(ImageButton) dialog.findViewById(R.id.changeUser);
-                changeUser();
                 openLanguages();
                 dialog.show();
             }
@@ -246,13 +245,16 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         });
     }
     private void changeUser(){
+        dialog.dismiss();
+        dialog.setContentView(R.layout.settings);
+        changeUserBtn =(ImageButton) dialog.findViewById(R.id.changeUser);
         changeUserBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
                 Intent intent = new Intent(WorkerActivity.this, MainActivity.class);
-                startActivity(intent); 
-                finish();
+                startActivity(intent);
+                Toast.makeText(WorkerActivity.this, "Penis", Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -368,6 +370,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                 load(Danas,Month,Year);
                 adapter.setTaskovi(currentList);
                 sendOnChannel1("BeeOrganised","Poruka");
+                std.SetTaskList((ArrayList)currentList);
                 crtaj.drawLists(currentList);
                 crtaj.Refreshuj();
             }
@@ -386,6 +389,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                  load(Sutra,Month1,Year1);
                 adapter.setTaskovi(currentList);
                 sendOnChannel2("BeeOrganised","Poruka");
+                std.SetTaskList((ArrayList)currentList);
                 crtaj.drawLists(currentList);
                 crtaj.Refreshuj();
             }
@@ -401,6 +405,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                 datumDrugi.setBackground(getResources().getDrawable(R.drawable.ic_datum_fixed_fixed));
                 datumPrvi.setBackground(getResources().getDrawable(R.drawable.ic_datum_fixed_fixed));
                 load(PSutra,Month2,Year2);
+                std.SetTaskList((ArrayList)currentList);
                 adapter.setTaskovi(currentList);
                 crtaj.drawLists(currentList);
                 crtaj.Refreshuj();
@@ -719,7 +724,10 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
 
 
     @Override
-    public void onTaskClick(int position) {
-        Toast.makeText(WorkerActivity.this, position+" ", Toast.LENGTH_SHORT).show();
+    public void onTaskClick(int position,View itemView) {
+
+
+
+
     }
 }
