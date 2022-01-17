@@ -1,5 +1,6 @@
 package com.cvetici.beeorganised;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -8,8 +9,14 @@ import android.graphics.RectF;
 import android.graphics.drawable.shapes.ArcShape;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -21,39 +28,53 @@ import java.util.Random;
 public class CrtajObaveze extends View {
     private int height,width=0;
     private int radius=0;
-    private Paint paint;
+    private Paint paint,paint1;
     private boolean isInit=false;
     private RectF oval;
     private List<Task> listaTaskova;
     Random rand = new Random();
     private boolean dan=true;
-    private WorkerActivity wa= new WorkerActivity();
+    private RectF osnovaKruga;
+    private boolean IsTouched;
+    private float touchAngle;
+    private RelativeLayout taskChangerLayout;
+    private Animation animacijaOtvaranja,animacijaZatvaranja;
+    Context context;
     private int[] boje = {
-            getResources().getColor(R.color.UserChosing),
-            getResources().getColor(R.color.BeeText),
-            getResources().getColor(R.color.DateColor)
+            getResources().getColor(R.color.UserChosing)
     };
+    private View WorkerActivity;
 
 
 
     public CrtajObaveze(Context context) {
         super(context);
+        this.context=context;
     }
     public CrtajObaveze(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        this.context=context;
     }
 
     public CrtajObaveze(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        this.context=context;
     }
     private void initClock(){
-        oval = new RectF();
         height = getHeight();
         width = getWidth();
         int min = Math.min(height,width);
         radius = min/2;
         paint = new Paint();
+        paint1 = new Paint();
+        taskChangerLayout = ((Activity)context).findViewById(R.id.changeTask);
         isInit=true;
+        osnovaKruga = new RectF(80, 80, width - 80, height - 80);
+        IsTouched = false;
+        animacijaOtvaranja = AnimationUtils.loadAnimation(context,R.anim.polako_pojavi);
+
+        animacijaZatvaranja = AnimationUtils.loadAnimation(context,R.anim.polako_zatvori);
+
 
     }
 
@@ -65,7 +86,8 @@ public class CrtajObaveze extends View {
         if(listaTaskova!=null) {
 
             for(Task item:listaTaskova) {
-                paint.setColor(boje[rand.nextInt(boje.length-1)]);
+                paint.setColor(boje[0]);
+                paint1.setColor(Color.RED);
                 float hour1 =item.GetTime().GetStartTime().GetHour();
                 float minute1 = item.GetTime().GetStartTime().GetMinute();
                 float hour2 =item.GetTime().GetEndTime().GetHour();
@@ -80,7 +102,16 @@ public class CrtajObaveze extends View {
                     loc2 = (hour2+minute2/60);
                     float angle1 = (float) ((Math.PI / 6) * loc1 - Math.PI / 2);
                     float angle2 = (float) ((Math.PI / 6) * loc2 - Math.PI / 2) - angle1;
-                    canvas.drawArc(80, 80, width - 80, height - 80, (float) (180 * angle1 / Math.PI), (float) (180 * angle2 / Math.PI), true, paint);
+                    angle2 = (float) (180 * angle2 / Math.PI);
+                    angle1 = (float) (180 * angle1 / Math.PI);
+                    canvas.drawArc(osnovaKruga, angle1, angle2 , true, paint);
+
+                    if(IsTouched&&angle1<=touchAngle&&touchAngle<=angle2+angle1 ){
+                        canvas.drawArc(osnovaKruga,(float) angle1, (float) angle2,true,paint1);
+                        changeTaskColor();
+                        IsTouched = false;
+                    }
+
 
                 }if(loc1 < 12 && loc2 >= 12){
                     proveriPrelom(loc1,hour2-12,minute2,canvas);
@@ -89,7 +120,18 @@ public class CrtajObaveze extends View {
                 if (dan == false && loc1 < 12 && loc2 < 12) {
                     float angle1 = (float) ((Math.PI / 6) * loc1 - Math.PI / 2);
                     float angle2 = (float) ((Math.PI / 6) * loc2 - Math.PI / 2) - angle1;
-                    canvas.drawArc(80, 80, width - 80, height - 80, (float) (180 * angle1 / Math.PI), (float) (180 * angle2 / Math.PI), true, paint);
+                    angle2 = (float) (180 * angle2 / Math.PI);
+                    angle1 = (float) (180 * angle1 / Math.PI);
+                    canvas.drawArc(osnovaKruga, angle1 , angle2 , true, paint);
+                    if(IsTouched&&angle1<=touchAngle&&touchAngle<=angle2+angle1 ){
+                        canvas.drawArc(osnovaKruga,(float) angle1, (float) angle2,true,paint1);
+                        IsTouched = false;
+                    }
+
+                }
+                if(IsTouched){
+                    taskChangerLayout.startAnimation(animacijaZatvaranja);
+                    taskChangerLayout.setVisibility(INVISIBLE);
 
                 }
 
@@ -104,11 +146,11 @@ public class CrtajObaveze extends View {
             float angle1 = (float) (-Math.PI / 2);
             float loc3 = (hour3+minute3/60);
             float angle3 = (float) ((Math.PI / 6) * loc3 - Math.PI / 2)-angle1;
-            canvas.drawArc(80, 80, width - 80, height - 80, (float) (180 * angle1 / Math.PI), (float) (180 * angle3 / Math.PI), true, paint);
+            canvas.drawArc(osnovaKruga, (float) (180 * angle1 / Math.PI), (float) (180 * angle3 / Math.PI), true, paint);
         }else {
             float angle1 = (float) ((Math.PI / 6) * loc1 - Math.PI / 2);
             float angle3 = (float) ((Math.PI / 6) * 11.99f - Math.PI / 2)-angle1;
-            canvas.drawArc(80, 80, width - 80, height - 80, (float) (180 * angle1 / Math.PI), (float) (180 * angle3 / Math.PI), true, paint);
+            canvas.drawArc(osnovaKruga, (float) (180 * angle1 / Math.PI), (float) (180 * angle3 / Math.PI), true, paint);
         }
     }
 
@@ -126,4 +168,27 @@ public class CrtajObaveze extends View {
 
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        float touchX,touchY;
+        if(event.getAction()==MotionEvent.ACTION_DOWN){
+               IsTouched = true;
+                touchX = event.getX()-width/2;
+                touchY = event.getY()-height/2;
+                 touchAngle= (float) Math.toDegrees(Math.atan2(touchY,touchX)+Math.PI/2);
+                 touchAngle-=90;
+                if (touchAngle < 0) {
+                    touchAngle += 360;
+                }
+
+                invalidate();
+        }
+        return super.onTouchEvent(event);
+    }
+
+    public void changeTaskColor(){
+        taskChangerLayout.setVisibility(VISIBLE);
+        taskChangerLayout.startAnimation(animacijaOtvaranja);
+
+    }
 }

@@ -200,6 +200,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
 
         mHelper = new NotificationHelper(this);
 
+        crtaj = new CrtajObaveze(getApplicationContext());
         crtaj = findViewById(R.id.crtajObaveze);
 
         routine.shrink();
@@ -639,7 +640,8 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                     }else{
                         Toast.makeText(WorkerActivity.this, "Postoji problem sa dodavanjem vaseg taska", Toast.LENGTH_LONG).show();
                     }
-                    currentList = std.GetTasksInInterval(new Interval(new DateTime(Year,Month,Danas,0,1),new DateTime(Year,Month,Danas,23,59)));
+                    currentList = std.GetTasksInInterval(new Interval(new DateTime(MainYear,MainMonth,MainDay,0,0),new DateTime(MainYear,MainMonth,MainDay,23,59)));
+                    crtaj.drawLists(currentList);
                     crtaj.Refreshuj();
                     adapter.setTaskovi(currentList);
                     //TODO Pogledaj ovo andrijo

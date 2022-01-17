@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".WorkerActivity">
+    tools:context=".WorkerActivity"
+    android:id="@+id/frameLayout">
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -195,6 +196,7 @@
 
         </RelativeLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/satHolder"
             android:layout_width="wrap_content"
             android:layout_height="350dp"
             android:layout_below="@+id/optionsHolder"
@@ -235,12 +237,16 @@
                 app:layout_constraintTop_toTopOf="parent"
                 />
 
-
-
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <RelativeLayout
+            android:id="@+id/changeTask"
+            android:layout_width="200dp"
+            android:layout_height="150dp"
+            android:layout_below="@id/satHolder"
+            android:layout_centerHorizontal="true"
+            android:background="@color/Gray"
+            android:visibility="invisible" />
 
 
 
@@ -305,6 +311,8 @@
             android:focusable="true"
             android:fontFamily="@font/font"
             android:onClick="openRoutines"
+            android:scaleX="0.9"
+            android:scaleY="0.9"
             android:text="@string/routine"
             android:textColor="@color/DateColor"
             android:tint="@color/DateColor"
@@ -313,9 +321,7 @@
             app:icon="@drawable/ic_repeatingtask"
             app:iconTint="@color/DateColor"
             app:rippleColor="@color/UserChosing"
-            app:tint="@color/DateColor"
-            android:scaleX="0.9"
-            android:scaleY="0.9"/>
+            app:tint="@color/DateColor" />
 
 
         <androidx.appcompat.widget.AppCompatButton
