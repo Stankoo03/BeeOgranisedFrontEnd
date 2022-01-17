@@ -51,11 +51,11 @@
     <string name="sat">SAT</string>
     <string name="basictask">BASIC TASK</string>
     <string name="edittext">Enter the name of your task!</string>
-    <string name="orchoose">"   Or choose from remembered names:"</string>
+    <string name="orchoose">    Or choose from remembered names:"</string>
     <string name="custom">Custom time</string>
     <string name="aitime">AI time choosing</string>
-    <string name="starting">Starting time</string>
-    <string name="ending">Ending time</string>
+    <string name="starting">Starting time:</string>
+    <string name="ending">Ending time:</string>
     <string name="set">SET</string>
     <string name="calc">CALCULATE</string>
     <string name="until">until</string>

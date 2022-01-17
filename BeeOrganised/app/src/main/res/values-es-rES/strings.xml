@@ -45,8 +45,8 @@
     <string name="orchoose">"   O elija entre los nombres recordados:"</string>
     <string name="custom">Hora personalizada</string>
     <string name="aitime">Elección del tiempo de IA</string>
-    <string name="starting">Tiempo de empezar</string>
-    <string name="ending">Hora de finalización</string>
+    <string name="starting">Tiempo de empezar:</string>
+    <string name="ending">Hora de finalización:</string>
     <string name="set">ESTABLECER</string>
     <string name="calc">CALCULAR</string>
     <string name="until">"hasta "</string>
