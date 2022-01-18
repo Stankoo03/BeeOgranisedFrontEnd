@@ -15,6 +15,8 @@ import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.app.Application;
 import android.app.TimePickerDialog;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -29,6 +31,7 @@ import android.os.Build;
 import android.os.Bundle;
 
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
@@ -42,6 +45,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.RemoteViews;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -149,6 +153,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
 
 
     }
+
     public boolean getDay(){
         return dan;
     }
@@ -223,6 +228,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                 openLanguages();
                 openHelp();
                 dialog.show();
+
             }
         });
 
@@ -344,6 +350,17 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     }
 
     private void SwitchListener(){
+        if(calendar.get(Calendar.HOUR_OF_DAY)>=12){
+            daynightSwitch.setChecked(false);
+            sat.setImageResource(R.drawable.ic_amclock_ontop);
+            crtaj.CrtajDan(true);
+            crtaj.Refreshuj();
+        }else{
+            daynightSwitch.setChecked(true);
+            sat.setImageResource(R.drawable.ic_pmclock_ontop);
+            crtaj.CrtajDan(false);
+            crtaj.Refreshuj();
+        }
 
         daynightSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -743,4 +760,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
 
 
     }
+
+
+
 }

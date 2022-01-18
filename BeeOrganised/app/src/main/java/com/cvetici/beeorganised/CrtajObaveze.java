@@ -149,7 +149,6 @@ public class CrtajObaveze extends View {
         this.listaTaskova = listaTaskova;
     }
     public void Refreshuj(){
-        postInvalidateDelayed(1000);
         invalidate();
 
     }
