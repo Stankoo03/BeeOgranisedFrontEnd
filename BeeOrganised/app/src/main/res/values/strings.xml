@@ -37,6 +37,8 @@
     <string name="lan"> Languages </string>
     <string name="themes"> Themes </string>
     <string name="sound"> Sound </string>
+    <string name="help"> Help </string>
+    <string name="helply"> help </string>
 
     <string name="sipleTask">Create tasks</string>
     <string name="routine">Routines</string>

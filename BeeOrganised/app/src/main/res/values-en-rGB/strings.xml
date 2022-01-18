@@ -61,5 +61,7 @@
     <string name="until">until</string>
     <string name="schedule">Schedule</string>
     <string name="obligations">Obligations</string>
+    <string name="help">Help</string>
+    <string name="helply">help</string>
 
 </resources>

@@ -52,4 +52,6 @@
     <string name="until">"hasta "</string>
     <string name="schedule">Calendario</string>
     <string name="obligations">Obligaciones</string>
+    <string name="help">Ayudar</string>
+    <string name="helply">ayudar</string>
 </resources>

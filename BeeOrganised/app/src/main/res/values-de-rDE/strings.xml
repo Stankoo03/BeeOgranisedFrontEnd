@@ -59,4 +59,6 @@
     <string name="thu">DO</string>
     <string name="fri">FRI</string>
     <string name="sat">SAM</string>
+    <string name="help">Hilfe</string>
+    <string name="helply">hilfe</string>
 </resources>
