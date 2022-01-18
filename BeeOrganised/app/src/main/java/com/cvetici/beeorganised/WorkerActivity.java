@@ -107,7 +107,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     private RecyclerView ListaTaskova;
     private ListaTaskovaAdapter adapter = new ListaTaskovaAdapter(this::onTaskClick);
     private Spinner prioritySp,timeSp,durationSp;
-    private ImageButton datumPrvi,datumDrugi,datumTreci, podeshavanje, lang, srb, eng, ger, spa, fran;
+    private ImageButton datumPrvi,datumDrugi,datumTreci, podeshavanje, lang, srb, eng, ger, spa, fran, help;
     private ImageButton changeUserBtn;
     private List<Task> currentList;
     public boolean dan;
@@ -218,8 +218,10 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 lang = (ImageButton) dialog.findViewById(R.id.language);
                 changeUserBtn =(ImageButton) dialog.findViewById(R.id.changeUser);
+                help =(ImageButton) dialog.findViewById(R.id.help);
                 changeUser();
                 openLanguages();
+                openHelp();
                 dialog.show();
             }
         });
@@ -242,6 +244,17 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                 nemacki();
                 francuski();
                 spanski();
+                dialog.show();
+            }
+        });
+    }
+    private void openHelp(){
+        help.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                dialog.setContentView(R.layout.help);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
             }
         });

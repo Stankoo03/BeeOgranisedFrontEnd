@@ -50,4 +50,6 @@
     <string name="until">jusqu\'à</string>
     <string name="schedule">Programme</string>
     <string name="obligations">Obligations</string>
+    <string name="help">Aider</string>
+    <string name="helply">aider</string>
 </resources>
