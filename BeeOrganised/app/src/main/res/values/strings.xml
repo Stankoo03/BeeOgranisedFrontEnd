@@ -1,7 +1,7 @@
 
 <resources>
-    <string name="app_name">BeeOrganised</string>
-    <string name="title_activity_worker">WorkerActivity</string>
+    <string name="app_name" translatable="false">BeeOrganised</string>
+    <string name="title_activity_worker" translatable="false">WorkerActivity</string>
     <string-array name="whenList">
         <item>Time</item>
         <item>Morning</item>

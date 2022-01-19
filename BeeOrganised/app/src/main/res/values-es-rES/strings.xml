@@ -30,7 +30,6 @@
         <item>Elegir manualmente</item>
     </string-array>
 
-    <string name="app_name">BeeOrganised</string>
     <string name="langs">idiomas</string>
     <string name="lan">Idiomas</string>
     <string name="settings">ajustes</string>
