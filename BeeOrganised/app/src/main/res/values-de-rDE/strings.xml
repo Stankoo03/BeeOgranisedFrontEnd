@@ -61,4 +61,17 @@
     <string name="sat">SAM</string>
     <string name="help">Hilfe</string>
     <string name="helply">hilfe</string>
+
+    <string name="clockhelp">Die Uhr\nDie Uhren zeigen die Zeit, sowohl morgens als auch abends, mit Ihren Aufgaben für den Tag, ihrer zeitlichen Platzierung und Dauer.</string>
+    <string name="switchhelp">Der Schalter\nDie Schalter werden zum manuellen Umschalten zwischen AM und PM auf der Uhr verwendet, um einen besseren Einblick zu erhalten.</string>
+    <string name="dateshelp">Die Daten\nDie Daten oben auf dem Bildschirm ermöglichen einen vollständigen Einblick in die Aufgaben des aktuellen und der zwei nächsten Tage.</string>
+    <string name="calendarhelp">Das Kalender\nDas Kalendersymbol öffnet den Kalender, in dem Sie Aufgaben viele Tage im Voraus festlegen und anzeigen können.</string>
+    <string name="plushelp">Das Plus\nDas ermöglicht Ihnen das Hinzufügen neuer Aufgaben, sowohl in regelmäßiger als auch in routinemäßiger Form.</string>
+    <string name="basichelp">Grundaufgabe\nHier fügen Sie Aufgaben und ihre Zeit hinzu, die manuell eingestellt oder von der KI berechnet werden können.</string>
+    <string name="routinehelp">Routinen\nHier fügen Sie Ihre Routinen hinzu, Aufgaben, die sich täglich oder in einem bestimmten Intervall wiederholen.</string>
+    <string name="edithelp">Bearbeiten\nAufgabe bearbeiten ermöglicht es Ihnen, eine imputierte Aufgabe zu bearbeiten.</string>
+    <string name="colorhelp">Farbpalette\nDas Farbpalettensymbol lässt Sie eine benutzerdefinierte Aufgabenfarbe auswählen.</string>
+    <string name="binhelp">Papierkorb\nMit dem Papierkorb-Symbol können Sie eine vorhandene Aufgabe löschen.</string>
+    <string name="infohelp">Info\nDas Info-Symbol ermöglicht Ihnen die Eingabe weiterer Aufgabendetails.</string>
+
 </resources>

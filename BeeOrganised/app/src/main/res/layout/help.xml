@@ -71,9 +71,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="3dp"
+                android:layout_marginBottom="5dp"
                 android:layout_marginRight="25dp"
                 android:fontFamily="@font/font"
-                android:text="The clock\nThe clocks show time, both AM and PM, with your tasks for the day, their time palcement and duration."
+                android:text="@string/clockhelp"
                 android:textColor="@color/BeeText" />
         </LinearLayout>
         <LinearLayout
@@ -95,7 +96,7 @@
                 android:layout_marginRight="125dp"
                 android:layout_marginLeft="35dp"
                 android:layout_marginTop="3dp"
-                android:text="The switch\nThe switches are used to manually switch between AM and PM on the clock for better insight."
+                android:text="@string/switchhelp"
                 android:textColor="@color/BeeText" />
             <ImageView
                 android:layout_width="100dp"
@@ -130,7 +131,7 @@
                 android:layout_marginTop="-3dp"
                 android:layout_marginRight="25dp"
                 android:fontFamily="@font/font"
-                android:text="The dates\nThe dates on the top of the screen enable full insight to tasks for the current, and two next days."
+                android:text="@string/dateshelp"
                 android:textColor="@color/BeeText" />
         </LinearLayout>
         <LinearLayout
@@ -152,7 +153,7 @@
                 android:layout_marginRight="125dp"
                 android:layout_marginLeft="35dp"
                 android:layout_marginTop="3dp"
-                android:text="The calendar\nThe calendar icon opens up the calendar where you can set and view tasks many days in advance."
+                android:text="@string/calendarhelp"
                 android:textColor="@color/BeeText" />
             <ImageView
                 android:layout_width="75dp"
@@ -189,7 +190,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="25dp"
                 android:fontFamily="@font/font"
-                android:text="The plus\nThe enables you to add new tasks, both in regular and routine form."
+                android:text="@string/plushelp"
                 android:textColor="@color/BeeText" />
         </LinearLayout>
         <LinearLayout
@@ -211,7 +212,7 @@
                 android:layout_marginRight="125dp"
                 android:layout_marginLeft="35dp"
                 android:layout_marginTop="3dp"
-                android:text="Basic task\nHere you add tasks and their time, that can be set manually or AI calculated."
+                android:text="@string/basichelp"
                 android:textColor="@color/BeeText" />
             <ImageView
                 android:layout_width="75dp"
@@ -246,7 +247,7 @@
                 android:layout_marginTop="3dp"
                 android:layout_marginRight="25dp"
                 android:fontFamily="@font/font"
-                android:text="Routines\nHere you add your routines, tasks that repeat, every day or at a certain interval."
+                android:text="@string/routinehelp"
                 android:textColor="@color/BeeText" />
         </LinearLayout>
         <LinearLayout
@@ -260,15 +261,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp">
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/font"
                 android:layout_marginRight="125dp"
                 android:layout_marginLeft="35dp"
-                android:text="Edit\nEdit task enables you to, well, edit imputed task."
+                android:text="@string/edithelp"
                 android:textColor="@color/BeeText" />
             <ImageView
                 android:layout_width="55dp"
@@ -286,7 +287,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="3dp">
 
             <ImageView
                 android:layout_width="55dp"
@@ -301,7 +303,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="25dp"
                 android:fontFamily="@font/font"
-                android:text="Color palette\nColor palette icon lets you choose a custom task color."
+                android:text="@string/colorhelp"
                 android:textColor="@color/BeeText" />
         </LinearLayout>
         <LinearLayout
@@ -315,15 +317,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp">
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/font"
                 android:layout_marginRight="125dp"
                 android:layout_marginLeft="35dp"
-                android:text="Bin\nThe bin icon enables you to delete an existing task."
+                android:text="@string/binhelp"
                 android:textColor="@color/BeeText" />
             <ImageView
                 android:layout_width="55dp"
@@ -342,7 +344,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="3dp">
 
             <ImageView
                 android:layout_width="55dp"
@@ -357,7 +360,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="25dp"
                 android:fontFamily="@font/font"
-                android:text="Info\nThe info icon enables you to imput more task details."
+                android:text="@string/infohelp"
                 android:textColor="@color/BeeText" />
         </LinearLayout>
     </LinearLayout>
