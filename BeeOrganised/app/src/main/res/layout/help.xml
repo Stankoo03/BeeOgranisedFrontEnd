@@ -1,54 +1,365 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ScrollView01"
     android:layout_width="344dp"
     android:layout_height="470dp"
-    android:orientation="vertical"
-    tools:context=".WorkerActivity"
     android:layout_gravity="center"
     android:background="@drawable/ic_settingsbg"
-    >
+    android:orientation="vertical"
+    android:paddingTop="20dp"
+    android:paddingBottom="20dp"
+    tools:context=".WorkerActivity">
+
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:gravity="center"
-        android:layout_marginTop="32dp">
-        <ImageView
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:background="@drawable/ic_questionmark">
-        </ImageView>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/instructions_view"
+        android:layout_width="344dp"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="-12dp"
-        >
-        <TextView
-            android:layout_width="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="15dp"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        android:scrollbars="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:layout_marginTop="12dp"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:background="@drawable/ic_questionmark"></ImageView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/font"
-            android:textSize="30dp"
-            android:textColor="@color/BeeText"
-            android:textFontWeight="750"
-            android:text="@string/helply"
-            >
-        </TextView>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:gravity="center"
-        >
+            android:layout_marginTop="-12dp"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font"
+                android:text="@string/helply"
+                android:textColor="@color/BeeText"
+                android:textFontWeight="750"
+                android:textSize="30dp"></TextView>
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="180dp"
             android:layout_height="10dp"
             android:layout_gravity="center"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/ic_line"></LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:layout_width="95dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="25dp"
+                android:background="@drawable/ic_help_clocks" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginRight="25dp"
+                android:fontFamily="@font/font"
+                android:text="The clock\nThe clocks show time, both AM and PM, with your tasks for the day, their time palcement and duration."
+                android:textColor="@color/BeeText" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="290dp"
+            android:layout_height="5dp"
+            android:layout_marginTop="3dp"
+            android:alpha="0.7"
+            android:layout_gravity="center"
             android:background="@drawable/ic_line"
-            ></LinearLayout>
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font"
+                android:layout_marginRight="125dp"
+                android:layout_marginLeft="35dp"
+                android:layout_marginTop="3dp"
+                android:text="The switch\nThe switches are used to manually switch between AM and PM on the clock for better insight."
+                android:textColor="@color/BeeText" />
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:padding="-5dp"
+                android:layout_marginLeft="-125dp"
+                android:background="@drawable/ic_help_switch" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="290dp"
+            android:layout_height="5dp"
+            android:alpha="0.7"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_line"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:layout_width="85dp"
+                android:layout_height="85dp"
+                android:layout_marginLeft="30dp"
+                android:padding="10dp"
+                android:background="@drawable/ic_datum" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="-3dp"
+                android:layout_marginRight="25dp"
+                android:fontFamily="@font/font"
+                android:text="The dates\nThe dates on the top of the screen enable full insight to tasks for the current, and two next days."
+                android:textColor="@color/BeeText" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="290dp"
+            android:layout_height="5dp"
+            android:layout_marginTop="3dp"
+            android:alpha="0.7"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_line"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font"
+                android:layout_marginRight="125dp"
+                android:layout_marginLeft="35dp"
+                android:layout_marginTop="3dp"
+                android:text="The calendar\nThe calendar icon opens up the calendar where you can set and view tasks many days in advance."
+                android:textColor="@color/BeeText" />
+            <ImageView
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="-110dp"
+                android:background="@drawable/ic_kalendar" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="290dp"
+            android:layout_height="5dp"
+            android:alpha="0.7"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_line"
+            />
+        />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp">
+
+            <ImageView
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginLeft="30dp"
+                android:padding="20dp"
+                android:background="@drawable/ic_help_plusic" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="25dp"
+                android:fontFamily="@font/font"
+                android:text="The plus\nThe enables you to add new tasks, both in regular and routine form."
+                android:textColor="@color/BeeText" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="290dp"
+            android:layout_height="5dp"
+            android:layout_marginTop="3dp"
+            android:alpha="0.7"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_line"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font"
+                android:layout_marginRight="125dp"
+                android:layout_marginLeft="35dp"
+                android:layout_marginTop="3dp"
+                android:text="Basic task\nHere you add tasks and their time, that can be set manually or AI calculated."
+                android:textColor="@color/BeeText" />
+            <ImageView
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_marginLeft="-115dp"
+                android:background="@drawable/ic_help_basictask" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="290dp"
+            android:layout_height="5dp"
+            android:alpha="0.7"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_line"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="3dp">
+
+            <ImageView
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_marginLeft="25dp"
+                android:background="@drawable/ic_help_repeatingtask" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginRight="25dp"
+                android:fontFamily="@font/font"
+                android:text="Routines\nHere you add your routines, tasks that repeat, every day or at a certain interval."
+                android:textColor="@color/BeeText" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="290dp"
+            android:layout_height="5dp"
+            android:layout_marginTop="3dp"
+            android:alpha="0.7"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_line"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font"
+                android:layout_marginRight="125dp"
+                android:layout_marginLeft="35dp"
+                android:text="Edit\nEdit task enables you to, well, edit imputed task."
+                android:textColor="@color/BeeText" />
+            <ImageView
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_marginLeft="-100dp"
+                android:background="@drawable/ic_edit_icon" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="290dp"
+            android:layout_height="5dp"
+            android:alpha="0.7"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_line"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
+
+            <ImageView
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_marginLeft="30dp"
+                android:padding="10dp"
+                android:background="@drawable/ic_colors_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="25dp"
+                android:fontFamily="@font/font"
+                android:text="Color palette\nColor palette icon lets you choose a custom task color."
+                android:textColor="@color/BeeText" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="290dp"
+            android:layout_height="5dp"
+            android:layout_marginTop="3dp"
+            android:alpha="0.7"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_line"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font"
+                android:layout_marginRight="125dp"
+                android:layout_marginLeft="35dp"
+                android:text="Bin\nThe bin icon enables you to delete an existing task."
+                android:textColor="@color/BeeText" />
+            <ImageView
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_marginLeft="-100dp"
+                android:background="@drawable/ic_bin" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="290dp"
+            android:layout_height="5dp"
+            android:alpha="0.7"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_line"
+            />
+        />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
+
+            <ImageView
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_marginLeft="30dp"
+                android:padding="10dp"
+                android:background="@drawable/ic_info_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="25dp"
+                android:fontFamily="@font/font"
+                android:text="Info\nThe info icon enables you to imput more task details."
+                android:textColor="@color/BeeText" />
+        </LinearLayout>
     </LinearLayout>
 
-</LinearLayout>
+</ScrollView>
