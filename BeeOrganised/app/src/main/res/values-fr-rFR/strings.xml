@@ -28,7 +28,6 @@
         <item>2 h</item>
         <item>Choisir manuellement</item>
     </string-array>
-    <string name="app_name">BeeOrganised</string>
     <string name="langs">langues</string>
     <string name="lan">Langues</string>
     <string name="settings">réglages</string>
@@ -52,4 +51,17 @@
     <string name="obligations">Obligations</string>
     <string name="help">Aider</string>
     <string name="helply">aider</string>
+
+    <string name="clockhelp">L\'horloge\nLes horloges affichent l\'heure, AM et PM, avec vos tâches de la journée, leur emplacement et leur durée.</string>
+    <string name="switchhelp">Le commutateur\nLes commutateurs sont utilisés pour basculer manuellement entre AM et PM sur l\'horloge pour une meilleure compréhension.</string>
+    <string name="dateshelp">Les dates\nLes dates en haut de l\'écran permettent un aperçu complet des tâches du jour en cours et des deux jours suivants.</string>
+    <string name="calendarhelp">Le calendrier\nL\'icône du calendrier ouvre le calendrier dans lequel vous pouvez définir et afficher des tâches plusieurs jours à l\'avance.</string>
+    <string name="plushelp">Le plus\nLe vous permet d\'ajouter de nouvelles tâches, à la fois sous forme régulière et de routine.</string>
+    <string name="basichelp">Tâche de base\nIci, vous ajoutez des tâches et leur temps, qui peuvent être définis manuellement ou calculés par l\'IA.</string>
+    <string name="routinehelp">Routines\nIci, vous ajoutez vos routines, des tâches qui se répètent, tous les jours ou à un certain intervalle.</string>
+    <string name="edithelp">Modifier\nModifier la tâche vous permet de modifier la tâche imputée.</string>
+    <string name="colorhelp">Palette de couleurs\nL\'icône de la palette de couleurs vous permet de choisir une couleur de tâche personnalisée.</string>
+    <string name="binhelp">Corbeille\nL\'icône corbeille vous permet de supprimer une tâche existante.</string>
+    <string name="infohelp">Informations\nL\'icône d\'informations vous permet d\'entrer plus de détails sur la tâche.</string>
+
 </resources>

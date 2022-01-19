@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">BeeOrganised</string>
-    <string name="title_activity_worker">WorkerActivity</string>
     <string-array name="whenList">
         <item>Време</item>
         <item>Јутро</item>
@@ -62,4 +60,17 @@
     <string name="obligations">Обавезе</string>
     <string name="help">Помоћ</string>
     <string name="helply">помоћ</string>
+
+    <string name="clockhelp">Сат\nСатови показују време, преподне и посᴫе подне, са вашим задацима, њиховим распоредом времена и трајањем.</string>
+    <string name="switchhelp">Прекидач\nПрекидачи се користе за ручно пребацивање између преподнева и поподнева на сату ради бољег увида.</string>
+    <string name="dateshelp">Датуми\nДатуми на врху екрана омогућавају потпун увид у задатке за текући и два наредна дана.</string>
+    <string name="calendarhelp">Каᴫендар\nИконица каᴫендара отвара каᴫендар у којем можете поставити и прегᴫедати задатке много дана унапред.</string>
+    <string name="plushelp">Пᴫус\nОмогућава вам да додајете нове задатке, како у редовном тако и у рутинском облику.</string>
+    <string name="basichelp">Основни задатак\nОвде додајете задатке и њихово време, које можете подесити ручно или АИ израчунатo.</string>
+    <string name="routinehelp">Рутине\nОвде додајете рутине, задатке који се понављају, сваки дан иᴫи у одређеном интерваᴫу.</string>
+    <string name="edithelp">Измени\nИзмена задатка вам омогућава да, па, уредите унесени задатак.</string>
+    <string name="colorhelp">Паᴫета боја\nИконица паᴫете боја вам омогућава да изаберете боју задатка.</string>
+    <string name="binhelp">Корпа\nИконица корпе вам омогућава да избришете постојећи задатак.</string>
+    <string name="infohelp">Информације\nИконица информација вам омогућава да унесете више детаља о задатку.</string>
+
 </resources>

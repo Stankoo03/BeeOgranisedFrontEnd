@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">BeeOrganised</string>
-    <string name="title_activity_worker" translatable="false">WorkerActivity</string>
     <string-array name="whenList">
         <item>Time</item>
         <item>Morning</item>
@@ -63,5 +61,17 @@
     <string name="obligations">Obligations</string>
     <string name="help">Help</string>
     <string name="helply">help</string>
+
+    <string name="clockhelp">The clock\nThe clocks show time, both AM and PM, with your tasks for the day, their time palcement and duration.</string>
+    <string name="switchhelp">The switch\nThe switches are used to manually switch between AM and PM on the clock for better insight.</string>
+    <string name="dateshelp">The dates\nThe dates on the top of the screen enable full insight to tasks for the current, and two next days.</string>
+    <string name="calendarhelp">The calendar\nThe calendar icon opens up the calendar where you can set and view tasks many days in advance.</string>
+    <string name="plushelp">The plus\nThe enables you to add new tasks, both in regular and routine form.</string>
+    <string name="basichelp">Basic task\nHere you add tasks and their time, that can be set manually or AI calculated.</string>
+    <string name="routinehelp">Routines\nHere you add your routines, tasks that repeat, every day or at a certain interval.</string>
+    <string name="edithelp">Edit\nEdit task enables you to, well, edit imputed task.</string>
+    <string name="colorhelp">Color palette\nColor palette icon lets you choose a custom task color.</string>
+    <string name="binhelp">Bin\nThe bin icon enables you to delete an existing task.</string>
+    <string name="infohelp">Info\nThe info icon enables you to imput more task details.</string>
 
 </resources>

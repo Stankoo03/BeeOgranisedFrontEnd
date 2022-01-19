@@ -30,7 +30,6 @@
         <item>Elegir manualmente</item>
     </string-array>
 
-    <string name="app_name">BeeOrganised</string>
     <string name="langs">idiomas</string>
     <string name="lan">Idiomas</string>
     <string name="settings">ajustes</string>
@@ -54,4 +53,17 @@
     <string name="obligations">Obligaciones</string>
     <string name="help">Ayudar</string>
     <string name="helply">ayudar</string>
+
+    <string name="clockhelp">El reloj\nLos relojes muestran la hora, tanto a.m. como p.m., con sus tareas para el día, su ubicación horaria y duración.</string>
+    <string name="switchhelp">El interruptor\nLos interruptores se utilizan para cambiar manualmente entre AM y PM en el reloj para una mejor comprensión.</string>
+    <string name="dateshelp">Las fechas\nLas fechas en la parte superior de la pantalla permiten una visión completa de las tareas para el día actual y los próximos dos días.</string>
+    <string name="calendarhelp">El calendario\nEl ícono de calendario abre el calendario donde puede configurar y ver tareas con muchos días de anticipación.</string>
+    <string name="plushelp">El plus\nEl le permite agregar nuevas tareas, tanto en forma regular como rutinaria.</string>
+    <string name="basichelp">Tarea básica\nAquí agrega tareas y su tiempo, que se pueden configurar manualmente o calcular con IA.</string>
+    <string name="routinehelp">Rutinas\nAquí agregas tus rutinas, tareas que se repiten, todos los días o en un intervalo determinado.</string>
+    <string name="edithelp">Editar\nEditar tarea le permite editar la tarea imputada.</string>
+    <string name="colorhelp">Paleta de colores\nEl icono de la paleta de colores le permite elegir un color de tarea personalizado.</string>
+    <string name="binhelp">Papelera\nEl icono de la papelera le permite eliminar una tarea existente.</string>
+    <string name="infohelp">Información\nEl icono de información le permite ingresar más detalles de la tarea.</string>
+
 </resources>
