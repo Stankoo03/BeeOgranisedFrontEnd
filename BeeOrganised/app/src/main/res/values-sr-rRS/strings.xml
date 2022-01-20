@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="whenList">
+        <item>Време</item>
+        <item>Јутро</item>
+        <item>Поподне</item>
+        <item>Вече</item>
+        <item>Ноћни рад</item>
+        <item>Биᴫо када</item>
+    </string-array>
+
+
+    <string-array name="priorityList">
+        <item>Приоритет</item>
+        <item>Обавезно</item>
+        <item>Мора</item>
+        <item>Требаᴫо би</item>
+        <item>Биᴫо шта</item>
+    </string-array>
+
+    <string-array name="durationList">
+        <item> Трајање </item>
+        <item>5 min</item>
+        <item>15 min</item>
+        <item>30 min</item>
+        <item>1 h</item>
+        <item>1.5 h</item>
+        <item>2 h</item>
+        <item>Бирајте ручно</item>
+    </string-array>
+
+    <string-array name="RoutinesList">
+        <item>Понедељак-Петак</item>
+        <item>Викендом</item>
+        <item>Сваки дан</item>
+        <item>Приᴫагоди</item>
+    </string-array>
+
+    <string name="sipleTask">Направи задатак</string>
+    <string name="routine">Рутинa</string>
+
+    <string name="FinalTextForSimple">  Ово је време каᴫкуᴫисано од стране АИ, укоᴫико вам не одговара, рекаᴫкуᴫишите! </string>
+    <string name="langs">језици</string>
+    <string name="settings">подешавања</string>
+    <string name="user">Тип корисника</string>
+    <string name="lan">Језици</string>
+    <string name="themes">Позадине</string>
+    <string name="sound">Звук</string>
+    <string name="sun">НЕД</string>
+    <string name="mon">ПОН</string>
+    <string name="tue">УТО</string>
+    <string name="wed">СРЕ</string>
+    <string name="thu">ЧЕТ</string>
+    <string name="fri">ПЕТ</string>
+    <string name="sat">СУБ</string>
+    <string name="basictask">ОСНОВНИ ЗАДАТАК</string>
+    <string name="edittext">Упишите име вашег задатка!</string>
+    <string name="orchoose">Иᴫи изаберите неко од упамћених имена:</string>
+    <string name="custom">Бирај време</string>
+    <string name="aitime">Аи бира време</string>
+    <string name="starting">Почетно време:</string>
+    <string name="ending">Завршно време:</string>
+    <string name="set">ПОСТАВИ</string>
+    <string name="calc">КАЛКУЛИШИ</string>
+    <string name="until">траје до</string>
+    <string name="schedule">Сатница</string>
+    <string name="obligations">Обавезе</string>
+    <string name="help">Помоћ</string>
+    <string name="helply">помоћ</string>
+
+    <string name="clockhelp">Сат\nСатови показују време, преподне и посᴫе подне, са вашим задацима, њиховим распоредом времена и трајањем.</string>
+    <string name="switchhelp">Прекидач\nПрекидачи се користе за ручно пребацивање између преподнева и поподнева на сату ради бољег увида.</string>
+    <string name="dateshelp">Датуми\nДатуми на врху екрана омогућавају потпун увид у задатке за текући и два наредна дана.</string>
+    <string name="calendarhelp">Каᴫендар\nИконица каᴫендара отвара каᴫендар у којем можете поставити и прегᴫедати задатке много дана унапред.</string>
+    <string name="plushelp">Пᴫус\nОмогућава вам да додајете нове задатке, како у редовном тако и у рутинском облику.</string>
+    <string name="basichelp">Основни задатак\nОвде додајете задатке и њихово време, које можете подесити ручно или АИ израчунатo.</string>
+    <string name="routinehelp">Рутине\nОвде додајете рутине, задатке који се понављају, сваки дан иᴫи у одређеном интерваᴫу.</string>
+    <string name="edithelp">Измени\nИзмена задатка вам омогућава да, па, уредите унесени задатак.</string>
+    <string name="colorhelp">Паᴫета боја\nИконица паᴫете боја вам омогућава да изаберете боју задатка.</string>
+    <string name="binhelp">Корпа\nИконица корпе вам омогућава да избришете постојећи задатак.</string>
+    <string name="infohelp">Информације\nИконица информација вам омогућава да унесете више детаља о задатку.</string>
+    <string name="repeat">Понављање:</string>
+    <string name="apply">ПРИМЕНИ</string>
+
+</resources>

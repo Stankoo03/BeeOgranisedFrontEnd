@@ -1,6 +1,7 @@
+
 <resources>
-    <string name="app_name">BeeOrganised</string>
-    <string name="title_activity_worker">WorkerActivity</string>
+    <string name="app_name" translatable="false">BeeOrganised</string>
+    <string name="title_activity_worker" translatable="false">WorkerActivity</string>
     <string-array name="whenList">
         <item>Time</item>
         <item>Morning</item>
@@ -30,8 +31,61 @@
         <item>Choose manually</item>
     </string-array>
 
+    <string-array name="RoutinesList">
+        <item>Monday-Friday</item>
+        <item>Weekend</item>
+        <item>Every day</item>
+        <item>Custom</item>
+    </string-array>
+
+    <string name="langs"> languages </string>
+    <string name="settings"> settings </string>
+    <string name="user"> User type </string>
+    <string name="lan"> Languages </string>
+    <string name="themes"> Themes </string>
+    <string name="sound"> Sound </string>
+    <string name="help"> Help </string>
+    <string name="helply"> help </string>
+
     <string name="sipleTask">Create tasks</string>
     <string name="routine">Routines</string>
 
     <string name="FinalTextForSimple">  This is AI calculated time, if it doesnt suit you, feel free to recalculate! </string>
+
+    <string name="basictask">BASIC TASK </string>
+    <string name="edittext">Enter the name of your task!</string>
+    <string name="orchoose">Or choose from remembered names:</string>
+    <string name="custom">Custom time</string>
+    <string name="aitime">AI time choosing</string>
+    <string name="starting">Starting time:</string>
+    <string name="ending">Ending time:</string>
+    <string name="set">SET</string>
+    <string name="calc">CALCULATE</string>
+    <string name="until">until</string>
+
+    <string name="clockhelp">The clock\nThe clocks show time, both AM and PM, with your tasks for the day, their time palcement and duration.</string>
+    <string name="switchhelp">The switch\nThe switches are used to manually switch between AM and PM on the clock for better insight.</string>
+    <string name="dateshelp">The dates\nThe dates on the top of the screen enable full insight to tasks for the current, and two next days.</string>
+    <string name="calendarhelp">The calendar\nThe calendar icon opens up the calendar where you can set and view tasks many days in advance.</string>
+    <string name="plushelp">The plus\nThe enables you to add new tasks, both in regular and routine form.</string>
+    <string name="basichelp">Basic task\nHere you add tasks and their time, that can be set manually or AI calculated.</string>
+    <string name="routinehelp">Routines\nHere you add your routines, tasks that repeat, every day or at a certain interval.</string>
+    <string name="edithelp">Edit\nEdit task enables you to, well, edit imputed task.</string>
+    <string name="colorhelp">Color palette\nColor palette icon lets you choose a custom task color.</string>
+    <string name="binhelp">Bin\nThe bin icon enables you to delete an existing task.</string>
+    <string name="infohelp">Info\nThe info icon enables you to imput more task details.</string>
+
+    <string name="schedule">Schedule</string>
+    <string name="obligations">Obligations</string>
+    <string name="sun" translatable="false">SUN</string>
+    <string name="mon" translatable="false">MON</string>
+    <string name="tue" translatable="false">TUE</string>
+    <string name="wed" translatable="false">WED</string>
+    <string name="thu" translatable="false">THU</string>
+    <string name="fri" translatable="false">FRI</string>
+    <string name="sat" translatable="false">SAT</string>
+
+    <string name="repeat">Repeat: </string>
+    <string name="apply">Apply </string>
+
 </resources>

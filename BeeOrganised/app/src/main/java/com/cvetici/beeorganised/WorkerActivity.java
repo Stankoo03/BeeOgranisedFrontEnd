@@ -2,6 +2,7 @@ package com.cvetici.beeorganised;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -9,18 +10,28 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.animation.IntArrayEvaluator;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ActivityOptions;
+import android.app.AlertDialog;
+import android.app.Application;
 import android.app.TimePickerDialog;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.icu.text.DateFormat;
 import android.icu.text.SimpleDateFormat;
+import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
@@ -34,6 +45,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.RemoteViews;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -64,7 +76,7 @@ import java.util.List;
 import java.util.Locale;
 
 
-public class WorkerActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
+public class WorkerActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener,ListaTaskovaAdapter.OnTaskListener{
 
     private Calendar calendar;
     private TextView d1,d2,d3;
@@ -78,16 +90,17 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
 
     private Animation rotateOpen,rotateClose,fromButton,toButton ;
 
-    private LinearLayout ManualTimeLayout,AiLayout,AfterCalculateBtn;
+    private LinearLayout ManualTimeLayout,AiLayout,AfterCalculateBtn,weekChecboxHolder;
 
     private RadioGroup RG;
-    private View bottomSheetView,ListView;
+    private View bottomSheetView,ListView,RoutinesView;
     private BottomSheetDialog bottomSheetDialog;
-    private BottomSheetDialog ListaItema;
+    private BottomSheetDialog ListaItema,Routines;
 
-    private Button FromTime,ToTime,CaluculateBtn,SetBtn,TaskButton;;
-    private int Danas=0,Sutra,PSutra,Month,Month1,Month2,Year,Year1,Year2;
+    private Button FromTime,ToTime,CaluculateBtn,SetBtn,TaskButton,ApplyBtn;
+    private int Danas=0,Sutra,PSutra,Month,Month1,Month2,Year,Year1,Year2,globalTaskPosition;
 
+    private NotificationHelper mHelper;
 
     private Switch daynightSwitch;
     private ImageView sat;
@@ -95,18 +108,23 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     private EditText enterTask;
     private SmartToDo std;
     private int h1=-1,m1=-1,h2=-1,m2=-1;
-    private RecyclerView ListaTaskova;
-    private ListaTaskovaAdapter adapter = new ListaTaskovaAdapter();
-    private Spinner prioritySp,timeSp,durationSp;
-    private ImageButton datumPrvi,datumDrugi,datumTreci, podeshavanje;
+    private RecyclerView ListaTaskova,ListaRutina;
+    private ListaTaskovaAdapter adapter = new ListaTaskovaAdapter(this::onTaskClick);
+    private Spinner prioritySp,timeSp,durationSp,routineSp;
+    private ImageButton datumPrvi,datumDrugi,datumTreci, podeshavanje, lang, srb, eng, ger, spa, fran, help;
+    private ImageButton changeUserBtn;
     private List<Task> currentList;
+    public boolean dan;
     Dialog dialog;
+    private RelativeLayout routineHolder;
 
+    private CrtajObaveze crtaj;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        loadLocale();
         setContentView(R.layout.activity_worker);
         calendar = Calendar.getInstance();
         bottomSheetDialog = new BottomSheetDialog(
@@ -123,6 +141,12 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         );
         ListaItema.setContentView(ListView);
 
+        Routines = new BottomSheetDialog(WorkerActivity.this,R.style.BottomSheetDialogTheme);
+        RoutinesView = LayoutInflater.from(getApplicationContext()).inflate(
+                R.layout.layout_rutine,(RelativeLayout)findViewById(R.id.ListRelative)
+        );
+        Routines.setContentView(RoutinesView);
+
         dialog = new Dialog(WorkerActivity.this);
 
         FindViews();
@@ -133,98 +157,17 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         AiTaskCalculation();
         CalendarButtonClick();
         openSettings();
-
-    }
-    private void openSettings(){
-
-        podeshavanje = findViewById(R.id.podeshavanja);
-        podeshavanje.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.setContentView(R.layout.settings);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.show();
-            }
-        });
-    }
-    private void SwitchListener(){
-
-        daynightSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b){
-                    sat.setImageResource(R.drawable.ic_amclock);
-                }else{
-                    sat.setImageResource(R.drawable.ic_pmclock);
-                }
-            }
-        });
-
+        applyRoutines();
 
 
     }
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    private void CalendarButtonClick(){
 
-        MainDay = Danas;
-        MainMonth = Month;
-        MainYear = Year;
-
-
-        datumPrvi.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                save(MainDay,MainMonth,MainYear);
-                MainDay = Danas;
-                MainMonth = Month;
-                MainYear = Year;
-                datumPrvi.setBackground(getResources().getDrawable(R.drawable.ic_datum_selected));
-                datumDrugi.setBackground(getResources().getDrawable(R.drawable.ic_datum_fixed_fixed));
-                datumTreci.setBackground(getResources().getDrawable(R.drawable.ic_datum_fixed_fixed));
-                load(Danas,Month,Year);
-                adapter.setTaskovi(currentList);
-                Toast.makeText(WorkerActivity.this, MainDay+"+"+MainMonth+"+"+MainYear, Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-        datumDrugi.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                save(MainDay,MainMonth,MainYear);
-                MainDay = Sutra;
-                MainMonth = Month1;
-                MainYear = Year1;
-                datumDrugi.setBackground(getResources().getDrawable(R.drawable.ic_datum_selected));
-                datumPrvi.setBackground(getResources().getDrawable(R.drawable.ic_datum_fixed_fixed));
-                datumTreci.setBackground(getResources().getDrawable(R.drawable.ic_datum_fixed_fixed));
-                 load(Sutra,Month1,Year1);
-                adapter.setTaskovi(currentList);
-                Toast.makeText(WorkerActivity.this, MainDay+"+"+MainMonth+"+"+MainYear, Toast.LENGTH_SHORT).show();
-            }
-        });
-        datumTreci.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                save(MainDay,MainMonth,MainYear);
-                MainDay = PSutra;
-                MainMonth = Month2;
-                MainYear = Year2;
-                datumTreci.setBackground(getResources().getDrawable(R.drawable.ic_datum_selected));
-                datumDrugi.setBackground(getResources().getDrawable(R.drawable.ic_datum_fixed_fixed));
-                datumPrvi.setBackground(getResources().getDrawable(R.drawable.ic_datum_fixed_fixed));
-                load(PSutra,Month2,Year2);
-                adapter.setTaskovi(currentList);
-                Toast.makeText(WorkerActivity.this, MainDay+"+"+MainMonth+"+"+MainYear, Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
+    public boolean getDay(){
+        return dan;
     }
     private void FindViews(){
 
         std = new SmartToDo(5);
-
 
         daynightSwitch = (Switch) findViewById(R.id.daynightSwitch);
         d1 = (TextView) findViewById(R.id.firstDate);
@@ -240,11 +183,17 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
 
 
         ListaTaskova = ListView.findViewById(R.id.ListaRV);
+
+        ListaRutina =  RoutinesView.findViewById(R.id.ListaRV);
+        routineSp = RoutinesView.findViewById(R.id.routineSp);
+        weekChecboxHolder = RoutinesView.findViewById(R.id.weekDayHolder);
+        routineHolder = RoutinesView.findViewById(R.id.repeatholder);
+        ApplyBtn = Routines.findViewById(R.id.applyRoutine);
+
         rotateOpen = AnimationUtils.loadAnimation(this,R.anim.rotate_open_anim);
         rotateClose = AnimationUtils.loadAnimation(this,R.anim.rotate_close_anim);
         fromButton = AnimationUtils.loadAnimation(this,R.anim.from_bottom_anim);
         toButton = AnimationUtils.loadAnimation(this,R.anim.to_bottom_anim);
-
 
 
         main = (FloatingActionButton) findViewById(R.id.MainButton);
@@ -268,10 +217,245 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         timeSp = bottomSheetView.findViewById(R.id.whenSpinner);
         durationSp = bottomSheetView.findViewById(R.id.durationSpinner);
 
+        globalTaskPosition=-1;
+
+        mHelper = new NotificationHelper(this);
+
+        crtaj = new CrtajObaveze(getApplicationContext());
+        crtaj = findViewById(R.id.crtajObaveze);
+
         routine.shrink();
         task.shrink();
 
+    }
 
+    private void openSettings(){
+
+        podeshavanje = findViewById(R.id.podeshavanja);
+        podeshavanje.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.setContentView(R.layout.settings);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                lang = (ImageButton) dialog.findViewById(R.id.language);
+                changeUserBtn =(ImageButton) dialog.findViewById(R.id.changeUser);
+                help =(ImageButton) dialog.findViewById(R.id.help);
+                changeUser();
+                openLanguages();
+                openHelp();
+                dialog.show();
+
+            }
+        });
+
+    }
+    private void openLanguages(){
+        lang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                dialog.setContentView(R.layout.languages);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                srb = (ImageButton) dialog.findViewById(R.id.srb);
+                eng = (ImageButton) dialog.findViewById(R.id.eng);
+                ger = (ImageButton) dialog.findViewById(R.id.ger);
+                spa = (ImageButton) dialog.findViewById(R.id.spa);
+                fran = (ImageButton) dialog.findViewById(R.id.fran);
+                srpski();
+                engleski();
+                nemacki();
+                francuski();
+                spanski();
+                dialog.show();
+            }
+        });
+    }
+    private void openHelp(){
+        help.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                dialog.setContentView(R.layout.help);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+            }
+        });
+    }
+    private void changeUser(){
+        changeUserBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                Intent intent = new Intent(WorkerActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+
+    }
+
+    private void srpski(){
+        srb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setLocale("sr");
+                recreate();
+                dialog.dismiss();
+            }
+        });
+    }
+    private void engleski(){
+        eng.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setLocale("en");
+                recreate();
+                dialog.dismiss();
+            }
+        });
+    }
+    private void nemacki(){
+        ger.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setLocale("de");
+                recreate();
+                dialog.dismiss();
+            }
+        });
+    }
+    private void spanski(){
+        spa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setLocale("es");
+                recreate();
+                dialog.dismiss();
+            }
+        });
+    }
+    private void francuski(){
+        fran.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setLocale("fr");
+                recreate();
+                dialog.dismiss();
+            }
+        });
+    }
+    private void setLocale( String lng){
+        Locale locale = new Locale (lng);
+        Locale.setDefault(locale);
+        Configuration con = new Configuration();
+        con.locale = locale;
+
+        getBaseContext().getResources().updateConfiguration(con, getBaseContext().getResources().getDisplayMetrics());
+
+        getApplicationContext().getResources().updateConfiguration(con, getApplicationContext().getResources().getDisplayMetrics());
+
+        SharedPreferences.Editor editor = getSharedPreferences("Settings", MODE_PRIVATE).edit();
+        editor.putString("my lan", lng);
+        editor.apply();
+    }
+    public void loadLocale(){
+        SharedPreferences prefs = getSharedPreferences("Settings", Application.MODE_PRIVATE);
+        String lang = prefs.getString("my lan","");
+        setLocale( lang);
+    }
+
+    private void SwitchListener(){
+        if(calendar.get(Calendar.HOUR_OF_DAY)>=12){
+            daynightSwitch.setChecked(false);
+            sat.setImageResource(R.drawable.ic_amclock_ontop);
+            crtaj.CrtajDan(true);
+            crtaj.Refreshuj();
+        }else{
+            daynightSwitch.setChecked(true);
+            sat.setImageResource(R.drawable.ic_pmclock_ontop);
+            crtaj.CrtajDan(false);
+            crtaj.Refreshuj();
+        }
+
+        daynightSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    sat.setImageResource(R.drawable.ic_amclock_ontop);
+                    crtaj.CrtajDan(false);
+                }else{
+
+                    sat.setImageResource(R.drawable.ic_pmclock_ontop);
+                    crtaj.CrtajDan(true);
+                }
+            }
+        });
+
+
+
+    }
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void CalendarButtonClick(){
+
+        MainDay = Danas;
+        MainMonth = Month;
+        MainYear = Year;
+
+        datumPrvi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                save(MainDay,MainMonth,MainYear);
+                MainDay = Danas;
+                MainMonth = Month;
+                MainYear = Year;
+                datumPrvi.setBackground(getResources().getDrawable(R.drawable.ic_datum_selected));
+                datumDrugi.setBackground(getResources().getDrawable(R.drawable.ic_datum_fixed_fixed));
+                datumTreci.setBackground(getResources().getDrawable(R.drawable.ic_datum_fixed_fixed));
+                load(Danas,Month,Year);
+                adapter.setTaskovi(currentList);
+                sendOnChannel1("BeeOrganised","Poruka");
+                std.SetTaskList((ArrayList)currentList);
+                crtaj.drawLists(currentList);
+                crtaj.Refreshuj();
+            }
+        });
+
+        datumDrugi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                save(MainDay,MainMonth,MainYear);
+                MainDay = Sutra;
+                MainMonth = Month1;
+                MainYear = Year1;
+                datumDrugi.setBackground(getResources().getDrawable(R.drawable.ic_datum_selected));
+                datumPrvi.setBackground(getResources().getDrawable(R.drawable.ic_datum_fixed_fixed));
+                datumTreci.setBackground(getResources().getDrawable(R.drawable.ic_datum_fixed_fixed));
+                 load(Sutra,Month1,Year1);
+                adapter.setTaskovi(currentList);
+                sendOnChannel2("BeeOrganised","Poruka");
+                std.SetTaskList((ArrayList)currentList);
+                crtaj.drawLists(currentList);
+                crtaj.Refreshuj();
+            }
+        });
+        datumTreci.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                save(MainDay,MainMonth,MainYear);
+                MainDay = PSutra;
+                MainMonth = Month2;
+                MainYear = Year2;
+                datumTreci.setBackground(getResources().getDrawable(R.drawable.ic_datum_selected));
+                datumDrugi.setBackground(getResources().getDrawable(R.drawable.ic_datum_fixed_fixed));
+                datumPrvi.setBackground(getResources().getDrawable(R.drawable.ic_datum_fixed_fixed));
+                load(PSutra,Month2,Year2);
+                std.SetTaskList((ArrayList)currentList);
+                adapter.setTaskovi(currentList);
+                crtaj.drawLists(currentList);
+                crtaj.Refreshuj();
+            }
+        });
 
 
     }
@@ -287,7 +471,6 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                         AfterCalculateBtn.setVisibility(View.GONE);
                         CaluculateBtn.setVisibility(View.GONE);
                         durationSp.setVisibility(View.GONE);
-
                         break;
                     case R.id.AiTime:
                         if(ManualTimeLayout.getVisibility()==View.VISIBLE){
@@ -296,8 +479,6 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                         AiLayout.setVisibility(View.VISIBLE);
                         durationSp.setVisibility(View.VISIBLE);
                         CaluculateBtn.setVisibility(View.VISIBLE);
-
-
                 }
             }
         });
@@ -309,8 +490,6 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
             public void onClick(View view) {
                 DialogFragment timePicker  = new TimePickerFragment();
                 timePicker.show(getSupportFragmentManager(),"tp1");
-
-
             }
         });
         ToTime.setOnClickListener(new View.OnClickListener() {
@@ -350,10 +529,14 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         }
         Year = Integer.parseInt(Godina);
         load(Danas,Month,Year);
+        std.SetTaskList((ArrayList<Task>) currentList);
         adapter.setTaskovi(currentList);
         ListaTaskova.setAdapter(adapter);
+        ListaRutina.setAdapter(adapter);
+        ListaRutina.setLayoutManager(new LinearLayoutManager(WorkerActivity.this));
         ListaTaskova.setLayoutManager(new LinearLayoutManager(WorkerActivity.this));
-
+        crtaj.drawLists(currentList);
+        crtaj.Refreshuj();
 
         w1.setText(DanasNedelja.substring(0,3).toUpperCase(Locale.ROOT));
 
@@ -411,8 +594,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     public void otvoriKalendar(View view) {
         Intent intent = new Intent(WorkerActivity.this , Kalendar.class);
         ImageButton button = (ImageButton) findViewById(R.id.datumCetvrti);
-        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this,button,"transition_calendar");
-        startActivity(intent,options.toBundle());
+        startActivity(intent);
 
     }
     public void expandButtons(View view) {
@@ -426,6 +608,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
 
     }
     private void setVisibility(boolean clicked) {
+        globalTaskPosition=-1;
         if(!clicked){
             task.setVisibility(View.VISIBLE) ;
             routine.setVisibility(View.VISIBLE);
@@ -458,8 +641,6 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
             routine.setClickable(false);
 
         }
-
-
     }
     public void simpleTaskCard(View view) {
         if(task.isExtended()){
@@ -477,9 +658,6 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
             task.extend();
 
         }
-
-
-
 
     }
     @Override
@@ -506,15 +684,17 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                 @Override
                 public void onClick(View view) {
                     Task temp = new Task(enterTask.getText().toString(),new Interval(new DateTime(MainYear,MainMonth,MainDay,h1,m1),new DateTime(MainYear,MainMonth,MainDay,h2,m2)));
-                    std.AddTask(temp);
-                    //currentList = std.GetTasksInInterval(new Interval(new DateTime(Year,Month,Danas,0,1),new DateTime(Year,Month,Danas,23,59)));
-                    currentList.add(temp);
-                    //TODO Pogledaj ovo andrijo
-
-
-                    adapter.notifyDataSetChanged();
+                    if(std.AddTask(temp)){
+                        Toast.makeText(WorkerActivity.this, "Task uspesno postavljen", Toast.LENGTH_LONG).show();
+                    }else{
+                        Toast.makeText(WorkerActivity.this, "Postoji problem sa dodavanjem vaseg taska", Toast.LENGTH_LONG).show();
+                    }
+                    currentList = std.GetTasksInInterval(new Interval(new DateTime(MainYear,MainMonth,MainDay,0,0),new DateTime(MainYear,MainMonth,MainDay,23,59)));
+                    crtaj.drawLists(currentList);
+                    crtaj.Refreshuj();
+                    adapter.setTaskovi(currentList);
                     save(MainDay,MainMonth,MainYear);
-                    Toast.makeText(WorkerActivity.this, "Task uspesno postavljen", Toast.LENGTH_LONG).show();
+
 
                 }
             });
@@ -526,17 +706,60 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
             //TODO routine list and routine objects
             routine.shrink();
         }{
+            if(globalTaskPosition==-1){
+                routineHolder.setVisibility(View.GONE);
+                weekChecboxHolder.setVisibility(View.GONE);
+            }
+            Routines.show();
 
             routine.extend();
         }
+    }
+
+    public void applyRoutines(){
+        routineSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ApplyBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(globalTaskPosition!=-1){
+                            Task current = currentList.get(globalTaskPosition);
+                            if(position==3){
+                                weekChecboxHolder.setVisibility(View.VISIBLE);
+                            }else{
+                                weekChecboxHolder.setVisibility(View.GONE);
+                            }
+
+
+                        }
+
+
+
+
+                    }
+                });
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                ApplyBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
+            }
+        });
+
+
 
 
     }
 
     public void expandTaskList(View view) {
         ListaItema.show();
-
-
     }
 
     int priority,time,duration;
@@ -583,6 +806,33 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
             currentList = new ArrayList<>();
         }
         adapter.notifyDataSetChanged();
+
+    }
+    private void sendOnChannel1(String title,String message){
+        NotificationCompat.Builder nb = mHelper.getChannel1Notification(title,message);
+        mHelper.getManager().notify(1,nb.build());
+
+    }
+    private void sendOnChannel2(String title, String message) {
+        NotificationCompat.Builder nb = mHelper.getChannel1Notification(title,message);
+        mHelper.getManager().notify(2,nb.build());
+    }
+
+
+
+
+    View prosli;
+    @Override
+    public void onTaskClick(int position,View itemView) {
+        Toast.makeText(WorkerActivity.this, position+"", Toast.LENGTH_SHORT).show();
+        itemView.setBackground(getResources().getDrawable(R.drawable.background_froclicked));
+        routineHolder.setVisibility(View.VISIBLE);
+        if(prosli!=null){
+            prosli.setBackground(getResources().getDrawable(R.drawable.background_forunclicked));
+        }
+        prosli=itemView;
+        globalTaskPosition = position;
+
 
     }
 

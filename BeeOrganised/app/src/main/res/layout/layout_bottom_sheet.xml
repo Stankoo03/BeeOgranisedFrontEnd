@@ -14,7 +14,7 @@
         android:id="@+id/SimpleTask"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="BASIC TASK"
+        android:text="@string/basictask"
         android:textSize="23sp"
         android:layout_marginTop="13dp"
         android:fontFamily="@font/font"
@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/font"
             android:alpha="0.8"
-            android:hint="Enter the name of your task!"
+            android:hint="@string/edittext"
             android:backgroundTint="@color/DateColor"/>
 
 
@@ -44,8 +44,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/font"
+        android:layout_marginLeft="8dp"
         android:textSize="17sp"
-        android:text="   Or choose from remembered names:"/>
+        android:text="@string/orchoose"/>
 
     <RadioGroup
         android:id="@+id/RadioGroup"
@@ -63,7 +64,7 @@
             android:layout_height="wrap_content"
             android:buttonTint="@color/BehindCalendar"
             android:textColor="@color/DateColor"
-            android:text="Custom time"
+            android:text="@string/custom"
             android:fontFamily="@font/font"
             android:layout_marginRight="25dp"/>
 
@@ -72,7 +73,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:buttonTint="@color/BehindCalendar"
-            android:text="AI time choosing"
+            android:text="@string/aitime"
             android:textColor="@color/DateColor"
             android:fontFamily="@font/font"/>
 
@@ -91,7 +92,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/DateColor"
-            android:text="Starting time"
+            android:text="@string/starting"
             android:textSize="15sp"
             android:fontFamily="@font/brojke"
             android:layout_marginRight="30dp"
@@ -102,7 +103,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/DateColor"
-            android:text="Ending time"
+            android:text="@string/ending"
             android:textSize="15sp"
             android:fontFamily="@font/brojke"
             style="@style/Widget.MaterialComponents.Button.TextButton"
@@ -117,7 +118,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/background_for_btn"
         android:backgroundTint="@color/BehindCalendar"
-        android:text="SET"
+        android:text="@string/set"
         android:textSize="15sp"
         android:fontFamily="@font/font"
         android:visibility="gone"
@@ -134,7 +135,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:visibility="visible">
+        android:visibility="gone">
         <LinearLayout
         android:id="@+id/AiTimeLayout1"
         android:layout_width="wrap_content"
@@ -187,7 +188,7 @@
     </LinearLayout>
     </LinearLayout>
     <Spinner
-        android:visibility="visible"
+        android:visibility="gone"
         android:id="@+id/durationSpinner"
         android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
@@ -217,14 +218,14 @@
         android:layout_height="wrap_content"
         android:background="@drawable/background_for_btn"
         android:backgroundTint="@color/BehindCalendar"
-        android:text="Calculate"
+        android:text="@string/calc"
         android:fontFamily="@font/font"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="30dp"
         android:layout_marginStart="30dp"
         android:layout_marginBottom="10dp"
         android:textColor="@color/DateColor"
-        android:visibility="visible"
+        android:visibility="gone"
         />
 
     <LinearLayout
@@ -262,7 +263,7 @@
             <TextView
                 android:layout_width="500px"
                 android:layout_height="wrap_content"
-                android:text="until"
+                android:text="@string/until"
                 android:textSize="13sp"
                 android:fontFamily="@font/font"
                 android:gravity="center"

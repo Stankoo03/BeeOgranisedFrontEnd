@@ -11,23 +11,41 @@
         android:theme="@style/Theme.BeeOrganised">
         <activity
             android:name=".LoadingScreen"
-            android:exported="false" />
-        <activity
-            android:name=".Kalendar"
-            android:exported="false" />
-        <activity
-            android:name=".WorkerActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
             android:exported="true"
-            android:screenOrientation="portrait">
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
+        <activity
+            android:name=".Kalendar"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".WorkerActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".MainActivity"
+            android:exported="false"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <receiver android:name=".Widget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/appwidget_info"/>
+        </receiver>
+
     </application>
 
 </manifest>

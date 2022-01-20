@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/widget_holder"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="3dp"
+
+    android:background="@drawable/background_for_widget"
+    >
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+
+        <LinearLayout
+            android:id="@+id/task1layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_for_btn"
+            android:gravity="center"
+            android:padding="3dp">
+
+            <TextView
+                android:id="@+id/vremeTaska1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/brojke"
+                android:gravity="center"
+                android:text="Vreme taska"
+                android:textColor="@color/BeeText"
+
+
+                />
+
+            <TextView
+                android:id="@+id/imeTaska1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/font"
+                android:gravity="center"
+                android:text="Ime taska"
+                android:textColor="@color/BeeText"
+
+                />
+
+            <ImageButton
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="12dp"
+                android:background="@drawable/ic_bin" />
+
+            <ImageButton
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="12dp"
+                android:background="@drawable/ic_check" />
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/task2layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/task1layout"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="7dp"
+            android:background="@drawable/background_for_btn"
+            android:gravity="center"
+            android:padding="3dp">
+
+            <TextView
+                android:id="@+id/vremeTaska2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/brojke"
+                android:gravity="center"
+                android:text="Vreme taska"
+                android:textColor="@color/BeeText"
+
+
+                />
+
+            <TextView
+                android:id="@+id/imeTaska2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/font"
+                android:gravity="center"
+                android:text="Ime taska"
+                android:textColor="@color/BeeText"
+
+                />
+
+            <ImageButton
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="12dp"
+                android:background="@drawable/ic_bin" />
+
+            <ImageButton
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="12dp"
+                android:background="@drawable/ic_check" />
+
+
+        </LinearLayout>
+        <ImageButton
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="1dp"
+            android:id="@+id/refresh"
+            android:layout_below="@id/task2layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_refresh_24"
+            android:background="@drawable/background_for_widget"
+            android:clickable="true"
+            android:visibility="gone"
+
+
+            />
+
+    </RelativeLayout>
+
+
+
+
+</RelativeLayout>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="whenList">
+        <item>Hora</item>
+        <item>Mañana</item>
+        <item>Tarde</item>
+        <item>Noche</item>
+        <item>Trabajo nocturno</item>
+        <item>Lo que</item>
+    </string-array>
+
+
+    <string-array name="priorityList">
+        <item>Prioridad</item>
+        <item>Deber</item>
+        <item>Definitivamente</item>
+        <item>Deberían</item>
+        <item>Lo que</item>
+    </string-array>
+
+    <string-array name="durationList">
+        <item> Duración </item>
+        <item>5 min</item>
+        <item>15 min</item>
+        <item>30 min</item>
+        <item>1 h</item>
+        <item>1.5 h</item>
+        <item>2 h</item>
+        <item>Elegir manualmente</item>
+    </string-array>
+
+    <string-array name="RoutinesList">
+        <item>Lunes-Viernes</item>
+        <item>Fin de semana</item>
+        <item>Cada día</item>
+        <item>Personalizada</item>
+    </string-array>
+
+    <string name="langs">idiomas</string>
+    <string name="lan">Idiomas</string>
+    <string name="settings">ajustes</string>
+    <string name="user">Tipo de usuario</string>
+    <string name="themes">Temas</string>
+    <string name="sound">Sonar</string>
+    <string name="sipleTask">Crear tareas</string>
+    <string name="routine">Rutinas</string>
+    <string name="FinalTextForSimple">"   Este es el tiempo calculado por IA, si no te conviene, ¡no dudes en volver a calcularlo!"</string>
+    <string name="basictask">TAREA BÁSICA</string>
+    <string name="edittext">Introduzca el nombre de su tarea!</string>
+    <string name="orchoose">O elija entre los nombres recordados:</string>
+    <string name="custom">Hora personalizada</string>
+    <string name="aitime">Elección del tiempo de IA</string>
+    <string name="starting">Tiempo de empezar:</string>
+    <string name="ending">Hora de finalización:</string>
+    <string name="set">ESTABLECER</string>
+    <string name="calc">CALCULAR</string>
+    <string name="until">"hasta "</string>
+    <string name="schedule">Calendario</string>
+    <string name="obligations">Obligaciones</string>
+    <string name="help">Ayudar</string>
+    <string name="helply">ayudar</string>
+
+    <string name="clockhelp">El reloj\nLos relojes muestran la hora, tanto a.m. como p.m., con sus tareas para el día, su ubicación horaria y duración.</string>
+    <string name="switchhelp">El interruptor\nLos interruptores se utilizan para cambiar manualmente entre AM y PM en el reloj para una mejor comprensión.</string>
+    <string name="dateshelp">Las fechas\nLas fechas en la parte superior de la pantalla permiten una visión completa de las tareas para el día actual y los próximos dos días.</string>
+    <string name="calendarhelp">El calendario\nEl ícono de calendario abre el calendario donde puede configurar y ver tareas con muchos días de anticipación.</string>
+    <string name="plushelp">El plus\nEl le permite agregar nuevas tareas, tanto en forma regular como rutinaria.</string>
+    <string name="basichelp">Tarea básica\nAquí agrega tareas y su tiempo, que se pueden configurar manualmente o calcular con IA.</string>
+    <string name="routinehelp">Rutinas\nAquí agregas tus rutinas, tareas que se repiten, todos los días o en un intervalo determinado.</string>
+    <string name="edithelp">Editar\nEditar tarea le permite editar la tarea imputada.</string>
+    <string name="colorhelp">Paleta de colores\nEl icono de la paleta de colores le permite elegir un color de tarea personalizado.</string>
+    <string name="binhelp">Papelera\nEl icono de la papelera le permite eliminar una tarea existente.</string>
+    <string name="infohelp">Información\nEl icono de información le permite ingresar más detalles de la tarea.</string>
+    <string name="repeat">Repetir:</string>
+    <string name="apply">SOLICITAR</string>
+
+</resources>

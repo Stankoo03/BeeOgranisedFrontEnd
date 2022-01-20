@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="350dp"
-    android:layout_height="470dp"
+    android:layout_width="344dp"
+    android:layout_height="515dp"
     android:orientation="vertical"
     tools:context=".WorkerActivity"
     android:layout_gravity="center"
@@ -13,174 +13,174 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:layout_marginTop="55dp">
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
+                android:layout_marginTop="52dp">
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/ic_settingsheaderleft">
                     </ImageView>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=" settings "
+                        android:text="@string/settings"
                         android:fontFamily="@font/font"
                         android:textColor="@color/BeeText"
                         android:textSize="38dp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
                         android:textFontWeight="900"
                         >
                     </TextView>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/ic_settingsheaderright">
                     </ImageView>
-                </LinearLayout>
 
             </LinearLayout>
-
+    <LinearLayout
+        android:layout_width="210dp"
+        android:layout_height="11dp"
+        android:layout_gravity="center"
+        android:background="@drawable/ic_line"
+        >
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_marginTop="30dp">
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-            <ImageButton
-                android:layout_width="95dp"
-                android:layout_height="95dp"
-                android:background="@drawable/ic_switch_user">
-            </ImageButton>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="30dp"
-            android:layout_height="wrap_content" >
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-            <ImageButton
-                android:layout_width="95dp"
-                android:layout_height="95dp"
-                android:background="@drawable/ic_languages">
-            </ImageButton>
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center" >
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-            <TextView
+        android:layout_marginTop="15dp">
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/font"
-                android:textSize="14dp"
-                android:textColor="@color/BeeText"
-                android:textFontWeight="900"
-                android:text="User type"
-                >
-            </TextView>
-        </LinearLayout>
+                android:orientation="vertical">
+                <ImageButton
+                    android:id="@+id/changeUser"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:background="@drawable/ic_switch_user">
+                </ImageButton>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font"
+                    android:textSize="14dp"
+                    android:textColor="@color/BeeText"
+                    android:textFontWeight="900"
+                    android:text="@string/user"
+                    android:layout_gravity="center"
+                    />
 
-        <LinearLayout
-            android:layout_width="65dp"
-            android:layout_height="wrap_content"></LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-            <TextView
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/font"
-                android:textSize="14dp"
-                android:textColor="@color/BeeText"
-                android:text=" Languages"
-                android:textFontWeight="900"
-                >
-            </TextView>
-        </LinearLayout>
+                android:orientation="vertical"
+                android:layout_marginLeft="30dp">
+                <ImageButton
+                    android:id="@+id/language"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:background="@drawable/ic_languages"
+                    tools:ignore="SpeakableTextPresentCheck"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font"
+                    android:textSize="14dp"
+                    android:textColor="@color/BeeText"
+                    android:text="@string/lan"
+                    android:textFontWeight="900"
+                    android:layout_gravity="center"
+                    />
+            </LinearLayout>
+
+
+
     </LinearLayout>
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_marginTop="20dp">
+
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
             <ImageButton
-                android:layout_width="95dp"
-                android:layout_height="95dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
                 android:background="@drawable/ic_themes">
             </ImageButton>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="30dp"
-            android:layout_height="wrap_content" >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font"
+                android:textSize="14dp"
+                android:textColor="@color/BeeText"
+                android:text="@string/themes"
+                android:textFontWeight="900"
+                android:layout_gravity="center"
+                />
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-            <ImageButton
-                android:layout_width="95dp"
-                android:layout_height="95dp"
-                android:background="@drawable/ic_sound">
-            </ImageButton>
-        </LinearLayout>
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:orientation="vertical">
 
+            <ImageButton
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:background="@drawable/ic_sound"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font"
+                android:textSize="14dp"
+                android:textColor="@color/BeeText"
+                android:text="@string/sound"
+                android:textFontWeight="900"
+                android:layout_gravity="center"/>
+
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center" >
-        <LinearLayout
+        android:layout_gravity="center"
+        android:layout_marginTop="22dp"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/help"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_questionmark"/>
+
+        <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/font"
-                android:textSize="14dp"
-                android:textColor="@color/BeeText"
-                android:text="Themes "
-                android:textFontWeight="900"
-                >
-            </TextView>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="87dp"
-            android:layout_height="wrap_content" >
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/font"
-                android:textSize="14dp"
-                android:textColor="@color/BeeText"
-                android:text="Sound"
-                android:textFontWeight="900"
-                >
-            </TextView>
-        </LinearLayout>
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/font"
+            android:textSize="14dp"
+            android:layout_marginTop="2dp"
+            android:textColor="@color/BeeText"
+            android:text="@string/help"
+            android:textFontWeight="900"
+            android:layout_gravity="center"/>
+
 
     </LinearLayout>
+
+</LinearLayout>

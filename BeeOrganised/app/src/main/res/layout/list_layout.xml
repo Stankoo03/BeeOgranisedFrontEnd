@@ -38,7 +38,7 @@
             android:layout_marginStart="4dp"
             android:layout_marginTop="2dp"
             android:fontFamily="@font/font"
-            android:text="Schedule"
+            android:text="@string/schedule"
             android:textColor="@color/DateColor"
             android:textSize="18sp" />
 
@@ -67,7 +67,7 @@
                 android:layout_marginStart="7dp"
                 android:layout_marginTop="3dp"
                 android:fontFamily="@font/font"
-                android:text="Obligations"
+                android:text="@string/obligations"
                 android:textColor="@color/DateColor"
                 android:textSize="18sp" />
 
@@ -85,6 +85,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/ListaRV"
+        android:layout_marginTop="6dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/linija" />

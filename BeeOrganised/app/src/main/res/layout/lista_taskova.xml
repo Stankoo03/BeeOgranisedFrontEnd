@@ -3,9 +3,15 @@
     android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp">
+    android:background="@drawable/background_forunclicked"
+
+    android:padding="8dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginBottom="4dp"
+    >
 
     <RelativeLayout
+        android:layout_centerInParent="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -27,31 +33,29 @@
         android:layout_width="1dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:background="@color/black" />
+        android:background="@color/DateColor" />
 
     <RelativeLayout
         android:id="@+id/referenti"
-        android:layout_toEndOf="@+id/linija2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    <TextView
-        android:id="@+id/imeTaska"
-        android:layout_centerInParent="true"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="vreme"
-        android:textSize="15sp"
-        android:fontFamily="@font/brojke"
-        android:padding="3dp"/>
+        android:layout_centerInParent="true"
+        android:layout_toEndOf="@+id/linija2">
+
+        <TextView
+            android:id="@+id/imeTaska"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/brojke"
+            android:padding="3dp"
+            android:text="vreme"
+            android:textSize="15sp" />
+
 
     </RelativeLayout>
 
-    <View
-        android:layout_marginTop="2dp"
-        android:layout_below="@id/referenti"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/black" />
+
 
 
 </RelativeLayout>

@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ScrollView01"
+    android:layout_width="344dp"
+    android:layout_height="470dp"
+    android:layout_gravity="center"
+    android:background="@drawable/ic_settingsbg"
+    android:orientation="vertical"
+    android:paddingTop="20dp"
+    android:paddingBottom="20dp"
+    tools:context=".WorkerActivity">
+
+    <LinearLayout
+        android:id="@+id/instructions_view"
+        android:layout_width="344dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="15dp"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        android:scrollbars="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:layout_marginTop="12dp"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:background="@drawable/ic_questionmark"></ImageView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-12dp"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font"
+                android:text="@string/helply"
+                android:textColor="@color/BeeText"
+                android:textFontWeight="750"
+                android:textSize="30dp"></TextView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="180dp"
+            android:layout_height="10dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/ic_line"></LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:layout_width="95dp"
+                android:layout_height="95dp"
+                android:layout_marginLeft="25dp"
+                android:background="@drawable/ic_help_clocks" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="25dp"
+                android:fontFamily="@font/font"
+                android:text="@string/clockhelp"
+                android:textColor="@color/BeeText" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="290dp"
+            android:layout_height="5dp"
+            android:layout_marginTop="3dp"
+            android:alpha="0.7"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_line"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font"
+                android:layout_marginRight="125dp"
+                android:layout_marginLeft="35dp"
+                android:layout_marginTop="3dp"
+                android:text="@string/switchhelp"
+                android:textColor="@color/BeeText" />
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:padding="-5dp"
+                android:layout_marginLeft="-125dp"
+                android:background="@drawable/ic_help_switch" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="290dp"
+            android:layout_height="5dp"
+            android:alpha="0.7"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_line"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:layout_width="85dp"
+                android:layout_height="85dp"
+                android:layout_marginLeft="30dp"
+                android:padding="10dp"
+                android:background="@drawable/ic_datum" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="-3dp"
+                android:layout_marginRight="25dp"
+                android:fontFamily="@font/font"
+                android:text="@string/dateshelp"
+                android:textColor="@color/BeeText" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="290dp"
+            android:layout_height="5dp"
+            android:layout_marginTop="3dp"
+            android:alpha="0.7"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_line"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font"
+                android:layout_marginRight="125dp"
+                android:layout_marginLeft="35dp"
+                android:layout_marginTop="3dp"
+                android:text="@string/calendarhelp"
+                android:textColor="@color/BeeText" />
+            <ImageView
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="-110dp"
+                android:background="@drawable/ic_kalendar" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="290dp"
+            android:layout_height="5dp"
+            android:alpha="0.7"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_line"
+            />
+        />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp">
+
+            <ImageView
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginLeft="30dp"
+                android:padding="20dp"
+                android:background="@drawable/ic_help_plusic" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="25dp"
+                android:fontFamily="@font/font"
+                android:text="@string/plushelp"
+                android:textColor="@color/BeeText" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="290dp"
+            android:layout_height="5dp"
+            android:layout_marginTop="3dp"
+            android:alpha="0.7"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_line"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font"
+                android:layout_marginRight="125dp"
+                android:layout_marginLeft="35dp"
+                android:layout_marginTop="3dp"
+                android:text="@string/basichelp"
+                android:textColor="@color/BeeText" />
+            <ImageView
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_marginLeft="-115dp"
+                android:background="@drawable/ic_help_basictask" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="290dp"
+            android:layout_height="5dp"
+            android:alpha="0.7"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_line"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="3dp">
+
+            <ImageView
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_marginLeft="25dp"
+                android:background="@drawable/ic_help_repeatingtask" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginRight="25dp"
+                android:fontFamily="@font/font"
+                android:text="@string/routinehelp"
+                android:textColor="@color/BeeText" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="290dp"
+            android:layout_height="5dp"
+            android:layout_marginTop="3dp"
+            android:alpha="0.7"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_line"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font"
+                android:layout_marginRight="125dp"
+                android:layout_marginLeft="35dp"
+                android:text="@string/edithelp"
+                android:textColor="@color/BeeText" />
+            <ImageView
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_marginLeft="-100dp"
+                android:background="@drawable/ic_edit_icon" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="290dp"
+            android:layout_height="5dp"
+            android:alpha="0.7"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_line"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="3dp">
+
+            <ImageView
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_marginLeft="30dp"
+                android:padding="10dp"
+                android:background="@drawable/ic_colors_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="25dp"
+                android:fontFamily="@font/font"
+                android:text="@string/colorhelp"
+                android:textColor="@color/BeeText" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="290dp"
+            android:layout_height="5dp"
+            android:layout_marginTop="3dp"
+            android:alpha="0.7"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_line"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font"
+                android:layout_marginRight="125dp"
+                android:layout_marginLeft="35dp"
+                android:text="@string/binhelp"
+                android:textColor="@color/BeeText" />
+            <ImageView
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_marginLeft="-100dp"
+                android:background="@drawable/ic_bin" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="290dp"
+            android:layout_height="5dp"
+            android:alpha="0.7"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_line"
+            />
+        />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="3dp">
+
+            <ImageView
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_marginLeft="30dp"
+                android:padding="10dp"
+                android:background="@drawable/ic_info_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="25dp"
+                android:fontFamily="@font/font"
+                android:text="@string/infohelp"
+                android:textColor="@color/BeeText" />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

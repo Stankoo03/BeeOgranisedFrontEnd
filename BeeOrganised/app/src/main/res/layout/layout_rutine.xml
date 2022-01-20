@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ListRelative"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background_for_tasks"
+    android:padding="5dp"
+    android:minHeight="400px"
+    android:maxHeight="1200px">
+
+    <View
+        android:id="@+id/razdvojnaLinija"
+        android:layout_width="1dp"
+        android:layout_above="@id/linija"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:alpha="0.7"
+        android:background="@color/DateColor" />
+
+    <LinearLayout
+        android:id="@+id/satnice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@id/razdvojnaLinija"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/ic_clock" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="2dp"
+            android:fontFamily="@font/font"
+            android:text="@string/schedule"
+            android:textColor="@color/DateColor"
+            android:textSize="18sp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/obaveze"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/razdvojnaLinija"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/ic_checkbox_checked" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="7dp"
+            android:layout_marginTop="3dp"
+            android:fontFamily="@font/font"
+            android:text="@string/obligations"
+            android:textColor="@color/DateColor"
+            android:textSize="18sp" />
+
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/linija"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/satnice"
+        android:layout_marginTop="3dp"
+        android:alpha="0.7"
+        android:background="@color/DateColor" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/ListaRV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linija"
+        android:layout_marginTop="6dp" />
+
+    <RelativeLayout
+        android:id="@+id/repeatholder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ListaRV"
+        android:layout_marginTop="10dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/repeat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:fontFamily="@font/font"
+            android:text="@string/repeat"
+            android:textColor="@color/DateColor"
+            android:textSize="20sp" />
+
+
+        <Spinner
+            android:id="@+id/routineSp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/repeat"
+            android:entries="@array/RoutinesList"
+            android:popupBackground="@drawable/spinner"
+            android:theme="@style/Spinner2" />
+
+        <Button
+            android:id="@+id/applyRoutine"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/background_for_btn"
+            android:backgroundTint="@color/BehindCalendar"
+            android:fontFamily="@font/font"
+            android:text="@string/apply"
+            android:textColor="@color/DateColor"
+            android:textSize="16sp" />
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/weekDayHolder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/repeatholder"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp">
+
+        <CheckBox
+            android:id="@+id/mon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/mon"
+            android:layout_weight="1"
+            android:textSize="10sp"
+            android:fontFamily="@font/font"
+            android:buttonTint="@color/BehindCalendar"
+            />
+        <CheckBox
+            android:id="@+id/tue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tue"
+            android:layout_weight="1"
+            android:textSize="10sp"
+            android:fontFamily="@font/font"
+            android:buttonTint="@color/BehindCalendar"
+            />
+        <CheckBox
+            android:id="@+id/wed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/wed"
+            android:layout_weight="1"
+            android:textSize="10sp"
+            android:fontFamily="@font/font"
+            android:buttonTint="@color/BehindCalendar"
+            />
+        <CheckBox
+            android:id="@+id/thu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/thu"
+            android:layout_weight="1"
+            android:buttonTint="@color/BehindCalendar"
+            android:fontFamily="@font/font"
+            android:textSize="10sp"
+            />
+        <CheckBox
+            android:id="@+id/fri"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fri"
+            android:layout_weight="1"
+            android:textSize="10sp"
+            android:fontFamily="@font/font"
+            android:buttonTint="@color/BehindCalendar"
+            />
+        <CheckBox
+            android:id="@+id/sat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sat"
+            android:layout_weight="1"
+            android:textSize="10sp"
+            android:fontFamily="@font/font"
+            android:buttonTint="@color/BehindCalendar"
+            />
+        <CheckBox
+            android:id="@+id/sun"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sun"
+            android:layout_weight="1"
+            android:textSize="10sp"
+            android:fontFamily="@font/font"
+            android:buttonTint="@color/BehindCalendar"
+            />
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>
+

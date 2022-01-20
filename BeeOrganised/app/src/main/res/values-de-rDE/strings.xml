@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="whenList">
+        <item>Zeit</item>
+        <item>Morgen</item>
+        <item>Nachmittag</item>
+        <item>Abend</item>
+        <item>Nachtarbeit</item>
+        <item>Wann immer</item>
+    </string-array>
+
+
+    <string-array name="priorityList">
+        <item>Priorität</item>
+        <item>Muss</item>
+        <item>Erforderlich</item>
+        <item>Sollen</item>
+        <item>Was auch immer</item>
+    </string-array>
+
+    <string-array name="durationList">
+        <item> Dauer </item>
+        <item>5 min</item>
+        <item>15 min</item>
+        <item>30 min</item>
+        <item>1 h</item>
+        <item>1.5 h</item>
+        <item>2 h</item>
+        <item>Manuell auswählen</item>
+    </string-array>
+
+    <string-array name="RoutinesList">
+        <item>Montag-Freitag</item>
+        <item>Wochenende</item>
+        <item>Jeden Tag</item>
+        <item>Angepasst</item>
+    </string-array>
+
+    <string name="langs">sprachen</string>
+    <string name="settings">einstellungen</string>
+    <string name="lan">Sprachen</string>
+    <string name="user">Benutzertyp</string>
+    <string name="themes">Themen</string>
+    <string name="sound">Klang</string>
+    <string name="sipleTask">"Aufgaben erstellen "</string>
+    <string name="routine">Routinen</string>
+    <string name="FinalTextForSimple">"   Dies ist die von KI berechnete Zeit, wenn es Ihnen nicht passt, können Sie sie gerne neu berechnen!"</string>
+    <string name="basictask">GRUNDAUFGABE</string>
+    <string name="edittext">Geben Sie den Namen Ihrer Aufgabe ein!</string>
+    <string name="orchoose">Oder wählen Sie aus den bekannten Namen:</string>
+    <string name="custom">Benutzerdefinierte Zeit</string>
+    <string name="aitime">KI-Zeitauswahl</string>
+    <string name="starting">Anfangszeit:</string>
+    <string name="ending">Endzeit:</string>
+    <string name="set">EINSTELLEN</string>
+    <string name="calc">BERECHNUNG</string>
+    <string name="until">noch bis</string>
+    <string name="schedule">Zeitplan</string>
+    <string name="obligations">Verpflichtungen</string>
+    <string name="sun">SON</string>
+    <string name="mon">MO</string>
+    <string name="tue">DI</string>
+    <string name="wed">MIT</string>
+    <string name="thu">DO</string>
+    <string name="fri">FRI</string>
+    <string name="sat">SAM</string>
+    <string name="help">Hilfe</string>
+    <string name="helply">hilfe</string>
+
+    <string name="clockhelp">Die Uhr\nDie Uhren zeigen die Zeit, sowohl morgens als auch abends, mit Ihren Aufgaben für den Tag, ihrer zeitlichen Platzierung und Dauer.</string>
+    <string name="switchhelp">Der Schalter\nDie Schalter werden zum manuellen Umschalten zwischen AM und PM auf der Uhr verwendet, um einen besseren Einblick zu erhalten.</string>
+    <string name="dateshelp">Die Daten\nDie Daten oben auf dem Bildschirm ermöglichen einen vollständigen Einblick in die Aufgaben des aktuellen und der zwei nächsten Tage.</string>
+    <string name="calendarhelp">Das Kalender\nDas Kalendersymbol öffnet den Kalender, in dem Sie Aufgaben viele Tage im Voraus festlegen und anzeigen können.</string>
+    <string name="plushelp">Das Plus\nDas ermöglicht Ihnen das Hinzufügen neuer Aufgaben, sowohl in regelmäßiger als auch in routinemäßiger Form.</string>
+    <string name="basichelp">Grundaufgabe\nHier fügen Sie Aufgaben und ihre Zeit hinzu, die manuell eingestellt oder von der KI berechnet werden können.</string>
+    <string name="routinehelp">Routinen\nHier fügen Sie Ihre Routinen hinzu, Aufgaben, die sich täglich oder in einem bestimmten Intervall wiederholen.</string>
+    <string name="edithelp">Bearbeiten\nAufgabe bearbeiten ermöglicht es Ihnen, eine imputierte Aufgabe zu bearbeiten.</string>
+    <string name="colorhelp">Farbpalette\nDas Farbpalettensymbol lässt Sie eine benutzerdefinierte Aufgabenfarbe auswählen.</string>
+    <string name="binhelp">Papierkorb\nMit dem Papierkorb-Symbol können Sie eine vorhandene Aufgabe löschen.</string>
+    <string name="infohelp">Info\nDas Info-Symbol ermöglicht Ihnen die Eingabe weiterer Aufgabendetails.</string>
+    <string name="repeat">Wiederholen:</string>
+    <string name="apply">BEWERBEN</string>
+
+</resources>
