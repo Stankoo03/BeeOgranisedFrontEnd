@@ -41,10 +41,12 @@ public class Widget extends AppWidgetProvider {
             RemoteViews views = new RemoteViews(context.getPackageName(),R.layout.layout_widget);
 
             //views.setOnClickPendingIntent(R.id.widget_holder,pendingIntent);
+            if(currentList!=null)
             while (currentList.get(k).GetTime().GetEndTime().GetHour() < calendar.get(Calendar.HOUR_OF_DAY)) {
 
                 k++;
             }
+            Toast.makeText(context,  calendar.get(Calendar.HOUR_OF_DAY)+" ", Toast.LENGTH_SHORT).show();
             if(currentList.get(k)!=null){
                 views.setCharSequence(R.id.vremeTaska1,"setText",currentList.get(k).ToStringTime());
                 views.setCharSequence(R.id.imeTaska1,"setText",currentList.get(k).title.toString());
@@ -52,13 +54,16 @@ public class Widget extends AppWidgetProvider {
             if(currentList.get(k++)!=null){
                 views.setCharSequence(R.id.vremeTaska2,"setText",currentList.get(k).ToStringTime());
                 views.setCharSequence(R.id.imeTaska2,"setText",currentList.get(k).title.toString());
+            }else{
+                views.setViewVisibility(R.id.task2layout,View.INVISIBLE);
             }
 
+/*
             Intent intentSync = new Intent(context, Widget.class);
             intentSync.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
             PendingIntent pendingSync = PendingIntent.getBroadcast(context,0, intentSync, PendingIntent.FLAG_UPDATE_CURRENT); //You need to specify a proper flag for the intent. Or else the intent will become deleted.
             views.setOnClickPendingIntent(R.id.refresh,pendingSync);
-
+*/
 
 
             appWidgetManager.updateAppWidget(appWidgetId,views);

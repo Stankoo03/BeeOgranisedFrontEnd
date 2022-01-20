@@ -176,9 +176,16 @@ public class CrtajObaveze extends View {
         return super.onTouchEvent(event);
     }
     public void clickListener(float angle1, float angle2,Canvas canvas){
+        if(angle1<0){
+            angle1+=360;
+        }
+        if(angle2<0){
+            angle2+=360;
+        }
         if(IsTouched&&angle1<=touchAngle&&touchAngle<=angle2+angle1 ){
             IsTouched = false;
             canvas.drawArc(osnovaKruga,(float) angle1, (float) angle2,true,paint1);
+
             changeTaskColor();
         }
 

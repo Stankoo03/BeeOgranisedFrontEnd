@@ -90,15 +90,15 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
 
     private Animation rotateOpen,rotateClose,fromButton,toButton ;
 
-    private LinearLayout ManualTimeLayout,AiLayout,AfterCalculateBtn;
+    private LinearLayout ManualTimeLayout,AiLayout,AfterCalculateBtn,weekChecboxHolder;
 
     private RadioGroup RG;
-    private View bottomSheetView,ListView;
+    private View bottomSheetView,ListView,RoutinesView;
     private BottomSheetDialog bottomSheetDialog;
-    private BottomSheetDialog ListaItema;
+    private BottomSheetDialog ListaItema,Routines;
 
-    private Button FromTime,ToTime,CaluculateBtn,SetBtn,TaskButton;;
-    private int Danas=0,Sutra,PSutra,Month,Month1,Month2,Year,Year1,Year2;
+    private Button FromTime,ToTime,CaluculateBtn,SetBtn,TaskButton,ApplyBtn;
+    private int Danas=0,Sutra,PSutra,Month,Month1,Month2,Year,Year1,Year2,globalTaskPosition;
 
     private NotificationHelper mHelper;
 
@@ -108,14 +108,15 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     private EditText enterTask;
     private SmartToDo std;
     private int h1=-1,m1=-1,h2=-1,m2=-1;
-    private RecyclerView ListaTaskova;
+    private RecyclerView ListaTaskova,ListaRutina;
     private ListaTaskovaAdapter adapter = new ListaTaskovaAdapter(this::onTaskClick);
-    private Spinner prioritySp,timeSp,durationSp;
+    private Spinner prioritySp,timeSp,durationSp,routineSp;
     private ImageButton datumPrvi,datumDrugi,datumTreci, podeshavanje, lang, srb, eng, ger, spa, fran, help;
     private ImageButton changeUserBtn;
     private List<Task> currentList;
     public boolean dan;
     Dialog dialog;
+    private RelativeLayout routineHolder;
 
     private CrtajObaveze crtaj;
 
@@ -140,6 +141,12 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         );
         ListaItema.setContentView(ListView);
 
+        Routines = new BottomSheetDialog(WorkerActivity.this,R.style.BottomSheetDialogTheme);
+        RoutinesView = LayoutInflater.from(getApplicationContext()).inflate(
+                R.layout.layout_rutine,(RelativeLayout)findViewById(R.id.ListRelative)
+        );
+        Routines.setContentView(RoutinesView);
+
         dialog = new Dialog(WorkerActivity.this);
 
         FindViews();
@@ -149,7 +156,8 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         PostaviDatume();
         AiTaskCalculation();
         CalendarButtonClick();
-        openSettings(); 
+        openSettings();
+        applyRoutines();
 
 
     }
@@ -175,6 +183,13 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
 
 
         ListaTaskova = ListView.findViewById(R.id.ListaRV);
+
+        ListaRutina =  RoutinesView.findViewById(R.id.ListaRV);
+        routineSp = RoutinesView.findViewById(R.id.routineSp);
+        weekChecboxHolder = RoutinesView.findViewById(R.id.weekDayHolder);
+        routineHolder = RoutinesView.findViewById(R.id.repeatholder);
+        ApplyBtn = Routines.findViewById(R.id.applyRoutine);
+
         rotateOpen = AnimationUtils.loadAnimation(this,R.anim.rotate_open_anim);
         rotateClose = AnimationUtils.loadAnimation(this,R.anim.rotate_close_anim);
         fromButton = AnimationUtils.loadAnimation(this,R.anim.from_bottom_anim);
@@ -202,6 +217,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         timeSp = bottomSheetView.findViewById(R.id.whenSpinner);
         durationSp = bottomSheetView.findViewById(R.id.durationSpinner);
 
+        globalTaskPosition=-1;
 
         mHelper = new NotificationHelper(this);
 
@@ -516,6 +532,8 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         std.SetTaskList((ArrayList<Task>) currentList);
         adapter.setTaskovi(currentList);
         ListaTaskova.setAdapter(adapter);
+        ListaRutina.setAdapter(adapter);
+        ListaRutina.setLayoutManager(new LinearLayoutManager(WorkerActivity.this));
         ListaTaskova.setLayoutManager(new LinearLayoutManager(WorkerActivity.this));
         crtaj.drawLists(currentList);
         crtaj.Refreshuj();
@@ -590,6 +608,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
 
     }
     private void setVisibility(boolean clicked) {
+        globalTaskPosition=-1;
         if(!clicked){
             task.setVisibility(View.VISIBLE) ;
             routine.setVisibility(View.VISIBLE);
@@ -674,7 +693,6 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                     crtaj.drawLists(currentList);
                     crtaj.Refreshuj();
                     adapter.setTaskovi(currentList);
-                    //TODO Pogledaj ovo andrijo
                     save(MainDay,MainMonth,MainYear);
 
 
@@ -688,8 +706,56 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
             //TODO routine list and routine objects
             routine.shrink();
         }{
+            if(globalTaskPosition==-1){
+                routineHolder.setVisibility(View.GONE);
+                weekChecboxHolder.setVisibility(View.GONE);
+            }
+            Routines.show();
+
             routine.extend();
         }
+    }
+
+    public void applyRoutines(){
+        routineSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ApplyBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(globalTaskPosition!=-1){
+                            Task current = currentList.get(globalTaskPosition);
+                            if(position==3){
+                                weekChecboxHolder.setVisibility(View.VISIBLE);
+                            }else{
+                                weekChecboxHolder.setVisibility(View.GONE);
+                            }
+
+
+                        }
+
+
+
+
+                    }
+                });
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                ApplyBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
+            }
+        });
+
+
+
+
     }
 
     public void expandTaskList(View view) {
@@ -753,10 +819,19 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     }
 
 
+
+
+    View prosli;
     @Override
     public void onTaskClick(int position,View itemView) {
-
-
+        Toast.makeText(WorkerActivity.this, position+"", Toast.LENGTH_SHORT).show();
+        itemView.setBackground(getResources().getDrawable(R.drawable.background_froclicked));
+        routineHolder.setVisibility(View.VISIBLE);
+        if(prosli!=null){
+            prosli.setBackground(getResources().getDrawable(R.drawable.background_forunclicked));
+        }
+        prosli=itemView;
+        globalTaskPosition = position;
 
 
     }
