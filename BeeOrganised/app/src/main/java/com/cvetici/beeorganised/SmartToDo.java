@@ -140,6 +140,11 @@ public class SmartToDo{
     }
 
     private Interval LowestPriorityI(ArrayList<Interval> l){
+        if(l.isEmpty()){
+            Interval seks = new Interval();
+            seks.SetRefferedTask(new AiTask("",1,2,new Interval()));
+            return seks;
+        }
         Interval t = l.get(0);
 
         for (int i = 1; i < l.size(); i++) {

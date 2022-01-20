@@ -12,8 +12,10 @@ import android.animation.IntArrayEvaluator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityOptions;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Application;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
@@ -78,9 +80,10 @@ import java.util.Locale;
 
 public class WorkerActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener,ListaTaskovaAdapter.OnTaskListener{
 
-    private Calendar calendar;
+    private Calendar calendar,notifyCalendar;
     private TextView d1,d2,d3;
     private TextView w1,w2,w3;
+    private TextView AiStartTime,AiEndTime;
 
     int MainDay,MainMonth,MainYear;
 
@@ -105,7 +108,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     private Switch daynightSwitch;
     private ImageView sat;
 
-    private EditText enterTask;
+    private EditText enterTask,enterTaskDuration;
     private SmartToDo std;
     private int h1=-1,m1=-1,h2=-1,m2=-1;
     private RecyclerView ListaTaskova,ListaRutina;
@@ -158,13 +161,13 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         CalendarButtonClick();
         openSettings();
         applyRoutines();
+        postaviNotifikacije(MainDay,MainMonth,MainYear);
+
 
 
     }
 
-    public boolean getDay(){
-        return dan;
-    }
+
     private void FindViews(){
 
         std = new SmartToDo(5);
@@ -189,6 +192,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         weekChecboxHolder = RoutinesView.findViewById(R.id.weekDayHolder);
         routineHolder = RoutinesView.findViewById(R.id.repeatholder);
         ApplyBtn = Routines.findViewById(R.id.applyRoutine);
+
 
         rotateOpen = AnimationUtils.loadAnimation(this,R.anim.rotate_open_anim);
         rotateClose = AnimationUtils.loadAnimation(this,R.anim.rotate_close_anim);
@@ -216,6 +220,9 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         prioritySp = bottomSheetView.findViewById(R.id.prioritySpinner);
         timeSp = bottomSheetView.findViewById(R.id.whenSpinner);
         durationSp = bottomSheetView.findViewById(R.id.durationSpinner);
+        enterTaskDuration = bottomSheetView.findViewById(R.id.durationEditText);
+        AiStartTime = bottomSheetView.findViewById(R.id.AiStarTime);
+        AiEndTime = bottomSheetView.findViewById(R.id.AiEndTime);
 
         globalTaskPosition=-1;
 
@@ -415,7 +422,6 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                 load(Danas,Month,Year);
                 adapter.setTaskovi(currentList);
                 sendOnChannel1("BeeOrganised","Poruka");
-                std.SetTaskList((ArrayList)currentList);
                 crtaj.drawLists(currentList);
                 crtaj.Refreshuj();
             }
@@ -434,7 +440,6 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                  load(Sutra,Month1,Year1);
                 adapter.setTaskovi(currentList);
                 sendOnChannel2("BeeOrganised","Poruka");
-                std.SetTaskList((ArrayList)currentList);
                 crtaj.drawLists(currentList);
                 crtaj.Refreshuj();
             }
@@ -450,7 +455,6 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                 datumDrugi.setBackground(getResources().getDrawable(R.drawable.ic_datum_fixed_fixed));
                 datumPrvi.setBackground(getResources().getDrawable(R.drawable.ic_datum_fixed_fixed));
                 load(PSutra,Month2,Year2);
-                std.SetTaskList((ArrayList)currentList);
                 adapter.setTaskovi(currentList);
                 crtaj.drawLists(currentList);
                 crtaj.Refreshuj();
@@ -529,7 +533,8 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         }
         Year = Integer.parseInt(Godina);
         load(Danas,Month,Year);
-        std.SetTaskList((ArrayList<Task>) currentList);
+
+
         adapter.setTaskovi(currentList);
         ListaTaskova.setAdapter(adapter);
         ListaRutina.setAdapter(adapter);
@@ -537,6 +542,8 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         ListaTaskova.setLayoutManager(new LinearLayoutManager(WorkerActivity.this));
         crtaj.drawLists(currentList);
         crtaj.Refreshuj();
+
+
 
         w1.setText(DanasNedelja.substring(0,3).toUpperCase(Locale.ROOT));
 
@@ -590,6 +597,48 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         w3.setText(PSutraNedelja.substring(0,3).toUpperCase(Locale.ROOT));
 
     }
+    private void postaviNotifikacije(int dan,int mesec,int godina){
+        notifyCalendar = Calendar.getInstance();
+        List<Task> temp = currentList;
+        int i=1;
+        if(dan==notifyCalendar.get(Calendar.DAY_OF_MONTH)&&temp.size()!=0){
+            float k=temp.get(0).GetTime().GetStartTime().GetHour()+(float)(temp.get(0).GetTime().GetStartTime().GetMinute())/60f;
+            float danasnji=notifyCalendar.get(Calendar.HOUR_OF_DAY)+(float)(notifyCalendar.get(Calendar.MINUTE))/60f;
+            while (k<danasnji&&temp.size()>i){
+                k=temp.get(i).GetTime().GetStartTime().GetHour()+(float)(temp.get(i).GetTime().GetStartTime().GetMinute())/60f;
+                Toast.makeText(WorkerActivity.this, k+""+danasnji, Toast.LENGTH_SHORT).show();
+                i++;
+            }
+            Toast.makeText(WorkerActivity.this, i+""+temp.size(), Toast.LENGTH_SHORT).show();
+            for(int j=i; j<temp.size(); j++){
+                int pocetniSat = temp.get(j).GetTime().GetStartTime().GetHour();
+                int pocetniMinut = temp.get(j).GetTime().GetStartTime().GetMinute();
+                notifyCalendar.set(Calendar.HOUR_OF_DAY,pocetniSat);
+                notifyCalendar.set(Calendar.MINUTE,pocetniMinut);
+                notifyCalendar.set(Calendar.SECOND,0);
+                posaljiNotifikaciju(notifyCalendar);
+                Toast.makeText(WorkerActivity.this, "pozvana", Toast.LENGTH_SHORT).show();
+
+            }
+
+        }
+
+    }
+    private void posaljiNotifikaciju(Calendar c){
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+      //  Intent intent = new Intent(this,AlertReciver.class);
+        int h = c.get(Calendar.HOUR_OF_DAY);
+        int m = c.get(Calendar.MINUTE);
+        int d=c.get(Calendar.DAY_OF_MONTH);
+        int mnth = c.get(Calendar.MONTH);
+        int y = c.get(Calendar.YEAR);
+        String code = y%100+""+mnth+""+d+""+m+""+h;
+      //  PendingIntent pendingIntent = PendingIntent.getBroadcast(this,Integer.parseInt(code),intent,0);
+        //alarmManager.setExact(AlarmManager.RTC_WAKEUP,c.getTimeInMillis(),pendingIntent);
+
+    }
+
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void otvoriKalendar(View view) {
         Intent intent = new Intent(WorkerActivity.this , Kalendar.class);
@@ -652,6 +701,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
             CaluculateBtn.setVisibility(View.GONE);
             durationSp.setVisibility(View.GONE);
             enterTask.setText("");
+            enterTaskDuration.setVisibility(View.GONE);
             bottomSheetDialog.show();
             task.shrink();
         }else{
@@ -703,15 +753,13 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     }
     public void openRoutines(View view) {
         if(routine.isExtended()){
-            //TODO routine list and routine objects
-            routine.shrink();
-        }{
             if(globalTaskPosition==-1){
                 routineHolder.setVisibility(View.GONE);
                 weekChecboxHolder.setVisibility(View.GONE);
             }
             Routines.show();
-
+            routine.shrink();
+        }{
             routine.extend();
         }
     }
@@ -720,21 +768,19 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         routineSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(globalTaskPosition!=-1){
+                    if(position==3){
+                        weekChecboxHolder.setVisibility(View.VISIBLE);
+                    }else{
+                        weekChecboxHolder.setVisibility(View.GONE);
+                    }
+                }
+
+
                 ApplyBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(globalTaskPosition!=-1){
-                            Task current = currentList.get(globalTaskPosition);
-                            if(position==3){
-                                weekChecboxHolder.setVisibility(View.VISIBLE);
-                            }else{
-                                weekChecboxHolder.setVisibility(View.GONE);
-                            }
-
-
-                        }
-
-
+                        Task current = currentList.get(globalTaskPosition);
 
 
                     }
@@ -762,27 +808,83 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         ListaItema.show();
     }
 
-    int priority,time,duration;
+    int priority,time,durationN,duration;
+    String taskName;
     public void AiTaskCalculation(){
 
+
+        durationSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position==7){
+                    enterTaskDuration.setVisibility(View.VISIBLE);
+                }else{
+                    enterTaskDuration.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         CaluculateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                taskName=enterTask.getText().toString();
                 priority=prioritySp.getSelectedItemPosition();
                 time = timeSp.getSelectedItemPosition();
-                duration = durationSp.getSelectedItemPosition();
-                Toast.makeText(WorkerActivity.this, priority+" "+time+" "+duration, Toast.LENGTH_LONG).show();
-                AfterCalculateBtn.setVisibility(View.VISIBLE);
+                durationN = durationSp.getSelectedItemPosition();
+                if(priority==0){
+                    Toast.makeText(WorkerActivity.this, "Niste izabrali prioritet", Toast.LENGTH_SHORT).show();
+                }else if(time==0){
+                    Toast.makeText(WorkerActivity.this, "Niste izabrali trajanje", Toast.LENGTH_SHORT).show();
+                }else if(durationN==0){
+                    Toast.makeText(WorkerActivity.this, "Niste izabrali prioritet", Toast.LENGTH_SHORT).show();
+                }else {
+                    if (durationN == 7) {
+                        duration = Integer.parseInt(enterTaskDuration.getText().toString());
+                    } else {
+                        switch (durationN) {
+                            case 0:
+                                duration = 5;
+                                break;
+                            case 1:
+                                duration = 15;
+                                break;
+                            case 2:
+                                duration = 30;
+                                break;
+                            case 3:
+                                duration = 60;
+                                break;
+                            case 4:
+                                duration = 90;
+                                break;
+                            case 5:
+                                duration = 120;
+                                break;
+                        }
+                    }
+
+                    Interval tempI = std.CalcAiTask(new AiTask(taskName,durationN,priority,std.GetInterval(time,new DateTime(MainYear,MainMonth,MainDay,0,0))));
+                    if(!std.isPossible()){
+                        Toast.makeText(WorkerActivity.this, "Greska", Toast.LENGTH_SHORT).show();
+                    }else{
+                        AfterCalculateBtn.setVisibility(View.VISIBLE);
+                        AiStartTime.setText(tempI.GetStartTime().ToStringTime());
+                        AiEndTime.setText(tempI.GetEndTime().ToStringTime());
+                        std.AcceptGuess();
+                    }
+
+
+
+                }
 
             }
         });
-        AfterCalculateBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               // std.CalcAiTask(new AiTask("title",new Interval(new DateTime(),new TimeSpan(90)),priority,time),time);
-            }
-        });
+
 
     }
 
@@ -817,9 +919,6 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         NotificationCompat.Builder nb = mHelper.getChannel1Notification(title,message);
         mHelper.getManager().notify(2,nb.build());
     }
-
-
-
 
     View prosli;
     @Override

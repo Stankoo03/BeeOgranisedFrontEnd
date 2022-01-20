@@ -187,22 +187,38 @@
             />
     </LinearLayout>
     </LinearLayout>
-    <Spinner
-        android:visibility="gone"
-        android:id="@+id/durationSpinner"
-        android:layout_marginTop="10dp"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:minWidth="200dp"
-        android:backgroundTint="@color/ClockBckg"
-        android:textColor="@color/DateColor"
-        android:popupBackground="@drawable/spinner"
-        android:entries="@array/durationList"
-        android:theme="@style/Spinner1"
+        android:layout_marginTop="10dp"
+        android:gravity="center">
 
-        />
+        <Spinner
+            android:visibility="gone"
+            android:id="@+id/durationSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:minWidth="200dp"
+            android:backgroundTint="@color/ClockBckg"
+            android:textColor="@color/DateColor"
+            android:popupBackground="@drawable/spinner"
+            android:entries="@array/durationList"
+            android:theme="@style/Spinner1"
+
+            />
+        <EditText
+            android:id="@+id/durationEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:textSize="15sp"
+            android:hint="Example:5 (in minutes)"
+
+            />
+    </LinearLayout>
+
 
 
     <View
@@ -252,6 +268,7 @@
             android:gravity="center">
 
             <TextView
+                android:id="@+id/AiStarTime"
                 android:layout_width="500px"
                 android:layout_height="wrap_content"
                 android:text="15:25"
@@ -270,6 +287,7 @@
                 />
 
             <TextView
+                android:id="@+id/AiEndTime"
                 android:layout_width="500px"
                 android:layout_height="wrap_content"
                 android:text="17:25"
