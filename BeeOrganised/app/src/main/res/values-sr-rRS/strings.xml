@@ -29,6 +29,13 @@
         <item>Бирајте ручно</item>
     </string-array>
 
+    <string-array name="RoutinesList">
+        <item>Понедељак-Петак</item>
+        <item>Викендом</item>
+        <item>Сваки дан</item>
+        <item>Приᴫагоди</item>
+    </string-array>
+
     <string name="sipleTask">Направи задатак</string>
     <string name="routine">Рутинa</string>
 
@@ -48,7 +55,7 @@
     <string name="sat">СУБ</string>
     <string name="basictask">ОСНОВНИ ЗАДАТАК</string>
     <string name="edittext">Упишите име вашег задатка!</string>
-    <string name="orchoose">"   Иᴫи изаберите неко од упамћених имена:"</string>
+    <string name="orchoose">Иᴫи изаберите неко од упамћених имена:</string>
     <string name="custom">Бирај време</string>
     <string name="aitime">Аи бира време</string>
     <string name="starting">Почетно време:</string>
@@ -72,5 +79,7 @@
     <string name="colorhelp">Паᴫета боја\nИконица паᴫете боја вам омогућава да изаберете боју задатка.</string>
     <string name="binhelp">Корпа\nИконица корпе вам омогућава да избришете постојећи задатак.</string>
     <string name="infohelp">Информације\nИконица информација вам омогућава да унесете више детаља о задатку.</string>
+    <string name="repeat">Понављање:</string>
+    <string name="apply">ПРИМЕНИ</string>
 
 </resources>

@@ -27,7 +27,18 @@
         <item>1.5 h</item>
         <item>2 h</item>
         <item>Choisir manuellement</item>
+
     </string-array>
+
+
+
+    <string-array name="RoutinesList">
+        <item>Lundi-Вendredi</item>
+        <item>Week-end</item>
+        <item>Tous les jours</item>
+        <item>Personnalisé</item>
+    </string-array>
+
     <string name="langs">langues</string>
     <string name="lan">Langues</string>
     <string name="settings">réglages</string>
@@ -39,7 +50,7 @@
     <string name="FinalTextForSimple">"  Il s'agit du temps calculé par l'IA, si cela ne vous convient pas, n'hésitez pas à recalculer !"</string>
     <string name="basictask">TÂCHE DE BASE</string>
     <string name="edittext">Saisissez le nom de votre tâche !</string>
-    <string name="orchoose">"   Ou choisissez parmi les noms mémorisés :"</string>
+    <string name="orchoose">Ou choisissez parmi les noms mémorisés :</string>
     <string name="custom">Heure personnalisée</string>
     <string name="aitime">Choix du temps de l\'IA</string>
     <string name="starting">Heure de départ:</string>
@@ -63,5 +74,7 @@
     <string name="colorhelp">Palette de couleurs\nL\'icône de la palette de couleurs vous permet de choisir une couleur de tâche personnalisée.</string>
     <string name="binhelp">Corbeille\nL\'icône corbeille vous permet de supprimer une tâche existante.</string>
     <string name="infohelp">Informations\nL\'icône d\'informations vous permet d\'entrer plus de détails sur la tâche.</string>
+    <string name="repeat">Répéter:</string>
+    <string name="apply">APPLIQUER</string>
 
 </resources>
