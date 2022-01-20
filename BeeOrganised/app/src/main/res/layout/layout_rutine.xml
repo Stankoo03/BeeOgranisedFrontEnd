@@ -91,13 +91,12 @@
         android:layout_marginTop="6dp" />
 
     <RelativeLayout
-        android:layout_marginTop="10dp"
         android:id="@+id/repeatholder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/ListaRV"
-        >
-      <!--  android:visibility="gone"-->
+        android:layout_marginTop="10dp"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/repeat"
@@ -133,7 +132,6 @@
             android:text="@string/apply"
             android:textColor="@color/DateColor"
             android:textSize="16sp" />
-
 
 
     </RelativeLayout>
