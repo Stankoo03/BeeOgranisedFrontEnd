@@ -98,6 +98,8 @@ public class DateTime {
 
         if(min<0) min = 0;
 
+        //System.out.println("minutsss" + min);
+
         this.minutes = min;
     }
 
@@ -141,8 +143,17 @@ public class DateTime {
     }
 
     public static DateTime Now(){
-        Date now = Calendar.getInstance().getTime();
-        return new DateTime(now.getYear(),now.getMonth(),now.getDay(),now.getHours(),now.getMinutes());
+        //Date now = Calendar.getInstance().getTime();
+        //return new DateTime(now.getYear(),now.getMonth(),now.getDay(),now.getHours(),now.getMinutes());
+
+        Calendar c = Calendar.getInstance();
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        int month = c.get(Calendar.MONTH);
+        int year = c.get(Calendar.YEAR);
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int minute = c.get(Calendar.MINUTE);
+
+        return new DateTime(year,month,day,hour,minute);
     }
 
     private String TwoNums(int i){

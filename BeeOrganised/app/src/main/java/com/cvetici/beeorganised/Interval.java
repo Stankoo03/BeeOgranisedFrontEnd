@@ -1,5 +1,6 @@
 package com.cvetici.beeorganised;
 
+import java.sql.Time;
 import java.util.ArrayList;
 
 public class Interval{
@@ -64,6 +65,15 @@ public class Interval{
     public Interval(DateTime date, int sHour, int sMin, int eHour, int eMin){
         startTime = new DateTime(date.GetYear(), date.GetMonth(), date.GetDay(), sHour, sMin);
         SetEndTime(new DateTime(date.GetYear(), date.GetMonth(), date.GetDay(), eHour, eMin));
+    }
+    public Interval(Interval interval, DateTime datefrom){
+        Interval i = new Interval(ConstructDT(datefrom, new DateTime(0)),
+                                  ConstructDT(datefrom, new DateTime(0)));
+        System.out.println("minuti" + interval.GetStartTime().ToString());
+        i = new Interval(i.GetStartTime().AddDur(new TimeSpan(interval.GetStartTime().GetLongMinutes())),
+                         i.GetEndTime()  .AddDur(new TimeSpan(interval.GetEndTime()  .GetLongMinutes())));
+        startTime = i.GetStartTime();
+        endTime = i.GetEndTime();
     }
 
     public String ToString()

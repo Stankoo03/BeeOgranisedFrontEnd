@@ -7,7 +7,7 @@ public class Task
     protected String title;
     //protected String desc;
     protected Interval time;
-    private boolean done = false;
+    protected boolean done = false;
 
     public String GetTitle() {
         return title;
@@ -59,6 +59,11 @@ public class Task
         this.time = time;
     }
 
+    /*public Task(Task copy){
+        this.title = copy.GetTitle();
+        this.time
+    }*/
+
     public String ToString()
     {
         return title + " " + time.ToString();
@@ -79,6 +84,7 @@ class AiTask extends Task
     public int GetPriority(){
         return priority;
     }
+    public Interval GetPrefferedInterval() { return prefferedTime; }
 
     public void SetPriority(int p){
         if(p<1) priority = 1;
@@ -90,6 +96,14 @@ class AiTask extends Task
         super(title,time);
         SetPriority(priority);
         this.prefferedTime = prefferedTime;
+    }
+
+    public AiTask(AiTask t){
+        this.title = t.GetTitle();
+        this.time = t.GetTime();
+        this.prefferedTime = t.prefferedTime;
+        this.priority = t.GetPriority();
+        this.done = t.GetDone();
     }
 
     private TimeSpan intToDur(int i){
