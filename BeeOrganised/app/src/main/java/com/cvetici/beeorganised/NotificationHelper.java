@@ -61,4 +61,8 @@ class NotificationHelper extends ContextWrapper {
 
     }
 
+    public NotificationCompat.Builder getChannelNotification() {
+        return new NotificationCompat.Builder(getApplicationContext(),channel1ID)
+                .setSmallIcon(R.drawable.ic_icon);
+    }
 }
