@@ -29,6 +29,13 @@
         <item>Manuell auswählen</item>
     </string-array>
 
+    <string-array name="RoutinesList">
+        <item>Montag-Freitag</item>
+        <item>Wochenende</item>
+        <item>Jeden Tag</item>
+        <item>Angepasst</item>
+    </string-array>
+
     <string name="langs">sprachen</string>
     <string name="settings">einstellungen</string>
     <string name="lan">Sprachen</string>
@@ -40,7 +47,7 @@
     <string name="FinalTextForSimple">"   Dies ist die von KI berechnete Zeit, wenn es Ihnen nicht passt, können Sie sie gerne neu berechnen!"</string>
     <string name="basictask">GRUNDAUFGABE</string>
     <string name="edittext">Geben Sie den Namen Ihrer Aufgabe ein!</string>
-    <string name="orchoose">"   Oder wählen Sie aus den bekannten Namen:"</string>
+    <string name="orchoose">Oder wählen Sie aus den bekannten Namen:</string>
     <string name="custom">Benutzerdefinierte Zeit</string>
     <string name="aitime">KI-Zeitauswahl</string>
     <string name="starting">Anfangszeit:</string>
@@ -71,5 +78,7 @@
     <string name="colorhelp">Farbpalette\nDas Farbpalettensymbol lässt Sie eine benutzerdefinierte Aufgabenfarbe auswählen.</string>
     <string name="binhelp">Papierkorb\nMit dem Papierkorb-Symbol können Sie eine vorhandene Aufgabe löschen.</string>
     <string name="infohelp">Info\nDas Info-Symbol ermöglicht Ihnen die Eingabe weiterer Aufgabendetails.</string>
+    <string name="repeat">Wiederholen:</string>
+    <string name="apply">BEWERBEN</string>
 
 </resources>

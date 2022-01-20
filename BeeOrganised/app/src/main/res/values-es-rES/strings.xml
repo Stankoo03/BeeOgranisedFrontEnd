@@ -30,6 +30,13 @@
         <item>Elegir manualmente</item>
     </string-array>
 
+    <string-array name="RoutinesList">
+        <item>Lunes-Viernes</item>
+        <item>Fin de semana</item>
+        <item>Cada día</item>
+        <item>Personalizada</item>
+    </string-array>
+
     <string name="langs">idiomas</string>
     <string name="lan">Idiomas</string>
     <string name="settings">ajustes</string>
@@ -41,7 +48,7 @@
     <string name="FinalTextForSimple">"   Este es el tiempo calculado por IA, si no te conviene, ¡no dudes en volver a calcularlo!"</string>
     <string name="basictask">TAREA BÁSICA</string>
     <string name="edittext">Introduzca el nombre de su tarea!</string>
-    <string name="orchoose">"   O elija entre los nombres recordados:"</string>
+    <string name="orchoose">O elija entre los nombres recordados:</string>
     <string name="custom">Hora personalizada</string>
     <string name="aitime">Elección del tiempo de IA</string>
     <string name="starting">Tiempo de empezar:</string>
@@ -65,5 +72,7 @@
     <string name="colorhelp">Paleta de colores\nEl icono de la paleta de colores le permite elegir un color de tarea personalizado.</string>
     <string name="binhelp">Papelera\nEl icono de la papelera le permite eliminar una tarea existente.</string>
     <string name="infohelp">Información\nEl icono de información le permite ingresar más detalles de la tarea.</string>
+    <string name="repeat">Repetir:</string>
+    <string name="apply">SOLICITAR</string>
 
 </resources>

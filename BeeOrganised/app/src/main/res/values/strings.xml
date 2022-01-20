@@ -54,7 +54,7 @@
 
     <string name="basictask">BASIC TASK </string>
     <string name="edittext">Enter the name of your task!</string>
-    <string name="orchoose">   Or choose from remembered names:</string>
+    <string name="orchoose">Or choose from remembered names:</string>
     <string name="custom">Custom time</string>
     <string name="aitime">AI time choosing</string>
     <string name="starting">Starting time:</string>
@@ -85,6 +85,7 @@
     <string name="fri" translatable="false">FRI</string>
     <string name="sat" translatable="false">SAT</string>
 
-
+    <string name="repeat">Repeat: </string>
+    <string name="apply">Apply </string>
 
 </resources>

@@ -85,28 +85,30 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/ListaRV"
-        android:layout_marginTop="6dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/linija" />
+        android:layout_below="@+id/linija"
+        android:layout_marginTop="6dp" />
 
     <RelativeLayout
+        android:layout_marginTop="10dp"
         android:id="@+id/repeatholder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/ListaRV"
-        android:visibility="gone"
-    >
+        >
+      <!--  android:visibility="gone"-->
 
         <TextView
             android:id="@+id/repeat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
             android:fontFamily="@font/font"
-            android:text="Repeat: "
+            android:text="@string/repeat"
             android:textColor="@color/DateColor"
-            android:textSize="22sp" />
+            android:textSize="20sp" />
 
 
         <Spinner
@@ -116,18 +118,21 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/repeat"
             android:entries="@array/RoutinesList"
+            android:popupBackground="@drawable/spinner"
             android:theme="@style/Spinner2" />
+
         <Button
             android:id="@+id/applyRoutine"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:textSize="17sp"
-            android:fontFamily="@font/font"
-            android:background="@drawable/background_for_btn"
-            android:textColor="@color/BeeText"
-            android:text="Apply"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginRight="10dp"
+            android:background="@drawable/background_for_btn"
+            android:backgroundTint="@color/BehindCalendar"
+            android:fontFamily="@font/font"
+            android:text="@string/apply"
+            android:textColor="@color/DateColor"
+            android:textSize="16sp" />
 
 
 
@@ -139,7 +144,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/repeatholder"
         android:orientation="horizontal"
-        android:visibility="visible">
+        android:visibility="visible"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp">
 
         <CheckBox
             android:id="@+id/mon"
@@ -148,6 +155,8 @@
             android:text="@string/mon"
             android:layout_weight="1"
             android:textSize="10sp"
+            android:fontFamily="@font/font"
+            android:buttonTint="@color/BehindCalendar"
             />
         <CheckBox
             android:id="@+id/tue"
@@ -156,6 +165,8 @@
             android:text="@string/tue"
             android:layout_weight="1"
             android:textSize="10sp"
+            android:fontFamily="@font/font"
+            android:buttonTint="@color/BehindCalendar"
             />
         <CheckBox
             android:id="@+id/wed"
@@ -164,6 +175,8 @@
             android:text="@string/wed"
             android:layout_weight="1"
             android:textSize="10sp"
+            android:fontFamily="@font/font"
+            android:buttonTint="@color/BehindCalendar"
             />
         <CheckBox
             android:id="@+id/thu"
@@ -171,6 +184,8 @@
             android:layout_height="wrap_content"
             android:text="@string/thu"
             android:layout_weight="1"
+            android:buttonTint="@color/BehindCalendar"
+            android:fontFamily="@font/font"
             android:textSize="10sp"
             />
         <CheckBox
@@ -180,6 +195,8 @@
             android:text="@string/fri"
             android:layout_weight="1"
             android:textSize="10sp"
+            android:fontFamily="@font/font"
+            android:buttonTint="@color/BehindCalendar"
             />
         <CheckBox
             android:id="@+id/sat"
@@ -188,6 +205,8 @@
             android:text="@string/sat"
             android:layout_weight="1"
             android:textSize="10sp"
+            android:fontFamily="@font/font"
+            android:buttonTint="@color/BehindCalendar"
             />
         <CheckBox
             android:id="@+id/sun"
@@ -196,6 +215,8 @@
             android:text="@string/sun"
             android:layout_weight="1"
             android:textSize="10sp"
+            android:fontFamily="@font/font"
+            android:buttonTint="@color/BehindCalendar"
             />
 
     </LinearLayout>

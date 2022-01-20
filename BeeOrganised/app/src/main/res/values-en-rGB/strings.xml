@@ -29,6 +29,13 @@
         <item>Choose manually</item>
     </string-array>
 
+    <string-array name="RoutinesList">
+        <item>Monday-Friday</item>
+        <item>Weekend</item>
+        <item>Every day</item>
+        <item>Custom</item>
+    </string-array>
+
     <string name="langs"> languages </string>
     <string name="settings"> settings </string>
     <string name="user"> User type </string>
@@ -49,7 +56,7 @@
     <string name="sat">SAT</string>
     <string name="basictask">BASIC TASK</string>
     <string name="edittext">Enter the name of your task!</string>
-    <string name="orchoose">"   Or choose from remembered names:"</string>
+    <string name="orchoose">Or choose from remembered names:</string>
     <string name="custom">Custom time</string>
     <string name="aitime">AI time choosing</string>
     <string name="starting">Starting time:</string>
@@ -73,5 +80,7 @@
     <string name="colorhelp">Color palette\nColor palette icon lets you choose a custom task color.</string>
     <string name="binhelp">Bin\nThe bin icon enables you to delete an existing task.</string>
     <string name="infohelp">Info\nThe info icon enables you to imput more task details.</string>
+    <string name="repeat">Repeat:</string>
+    <string name="apply">Apply:</string>
 
 </resources>
