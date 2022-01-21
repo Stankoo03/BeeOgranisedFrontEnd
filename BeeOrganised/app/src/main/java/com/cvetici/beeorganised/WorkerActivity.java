@@ -845,27 +845,6 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                 }else {
                     if (durationN == 7) {
                         duration = Integer.parseInt(enterTaskDuration.getText().toString());
-                    } else {
-                        switch (durationN) {
-                            case 0:
-                                duration = 5;
-                                break;
-                            case 1:
-                                duration = 15;
-                                break;
-                            case 2:
-                                duration = 30;
-                                break;
-                            case 3:
-                                duration = 60;
-                                break;
-                            case 4:
-                                duration = 90;
-                                break;
-                            case 5:
-                                duration = 120;
-                                break;
-                        }
                     }
 
                     Interval tempI = std.CalcAiTask(new AiTask(taskName,durationN,priority,std.GetInterval(time,new DateTime(MainYear,MainMonth,MainDay,0,0))));
@@ -875,7 +854,12 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                         AfterCalculateBtn.setVisibility(View.VISIBLE);
                         AiStartTime.setText(tempI.GetStartTime().ToStringTime());
                         AiEndTime.setText(tempI.GetEndTime().ToStringTime());
-                        std.AcceptGuess();
+                        std.AcceptGuess();//TODO napravi toast sa buttonom
+
+                        currentList = std.GetTasksInInterval(new Interval(new DateTime(MainYear,MainMonth,MainDay,0,0),new DateTime(MainYear,MainMonth,MainDay,23,59)));
+                        crtaj.drawLists(currentList);
+                        crtaj.Refreshuj();
+                        adapter.setTaskovi(currentList);
                     }
 
 
