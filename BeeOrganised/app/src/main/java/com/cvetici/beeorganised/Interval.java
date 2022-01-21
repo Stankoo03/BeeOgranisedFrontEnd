@@ -248,7 +248,9 @@ public class Interval{
             return R;
         }
         else{
-            return new ArrayList<Interval>();
+            ArrayList<Interval> r = new ArrayList<Interval>();
+            r.add(inInterval);
+            return r;
         }
     }
 
