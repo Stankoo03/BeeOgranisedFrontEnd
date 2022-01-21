@@ -316,10 +316,10 @@ public class SmartToDo{
                 while ((guess.Intersect(prefferedInterval).GetIntersectType() != 6 || HaveOverlays(CalcUsedTime(newTasks, prefferedInterval), guess)) && localTries < maxTries) {
 
                     //
-                    //Debug.log("intersect t - " + guess.Intersect(prefferedInterval).GetIntersectType());
+                    Debug.log("intersect t - " + guess.Intersect(prefferedInterval).GetIntersectType());
 
-                    //PrintAllTimes("Try" + tries + " Local" + localTries + " ", CalcUsedTime(newTasks,prefferedInterval));
-                    //Debug.log("Guessssss: " + guess.ToString());
+                    PrintAllTimes("Try" + tries + " Local" + localTries + " ", CalcUsedTime(newTasks,prefferedInterval));
+                    Debug.log("Guessssss: " + guess.ToString());
 
 
                     localTries++;
@@ -328,7 +328,7 @@ public class SmartToDo{
                 }
             }
 
-            //Debug.log("local tris " + localTries);
+            Debug.log("local tris " + localTries);
 
             if(localTries < maxTries-1) {
                 tt.SetNewTime(guess);
@@ -398,11 +398,14 @@ public class SmartToDo{
         Debug.log("lppni" + lpiinpi);
 
         if(lpiinpi <= 1){
+
             return; //not possible
         }
         else if(lpiinpi <= 2){
 
             if(!SumOfDurations(CalcFreeTime(prefferedInterval)).GreaterThan(newTask.GetTime().GetDuration().Multiply(GetMulOffset(false)))){
+                Debug.log("Velika kurcina  " + SumOfDurations(CalcFreeTime(prefferedInterval)).ToString());
+                Debug.log("jos veca kurcina  " + prefferedInterval.ToString());
                 return; //not possible
             }
             else{
