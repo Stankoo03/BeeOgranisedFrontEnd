@@ -92,8 +92,13 @@
         <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/font/spinnerfont.xml" value="0.2796296296296296" />
         <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/layout-v21/activity_kalendar.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/layout-v21/activity_worker.xml" value="0.264" />
+        <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/layout/activity_child.xml" value="0.21041666666666667" />
+        <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/layout/activity_child_worker.xml" value="0.264" />
         <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/layout/activity_loading_screen.xml" value="0.2" />
         <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/layout/activity_main.xml" value="0.13020833333333334" />
+        <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/layout/activity_parent_builder.xml" value="0.21041666666666667" />
+        <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/layout/activity_parent_caller.xml" value="0.21041666666666667" />
+        <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/layout/activity_parent_worker.xml" value="0.21041666666666667" />
         <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/layout/activity_setting.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/layout/activity_worker.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/layout/calendar_cell.xml" value="0.25416666666666665" />

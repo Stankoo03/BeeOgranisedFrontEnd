@@ -81,5 +81,8 @@
     <string name="infohelp">Информације\nИконица информација вам омогућава да унесете више детаља о задатку.</string>
     <string name="repeat">Понављање:</string>
     <string name="apply">ПРИМЕНИ</string>
+    <string name="username">Унесите корисничко име</string>
+    <string name="next">Настави</string>
+    <string name="gen">Генериши</string>
 
 </resources>

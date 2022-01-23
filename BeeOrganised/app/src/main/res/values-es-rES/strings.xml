@@ -74,5 +74,8 @@
     <string name="infohelp">Información\nEl icono de información le permite ingresar más detalles de la tarea.</string>
     <string name="repeat">Repetir:</string>
     <string name="apply">SOLICITAR</string>
+    <string name="username">Ingrese su nombre de usuario</string>
+    <string name="next">Continuar</string>
+    <string name="gen">Generar</string>
 
 </resources>

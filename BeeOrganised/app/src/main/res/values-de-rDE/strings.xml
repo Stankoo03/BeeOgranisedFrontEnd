@@ -80,5 +80,8 @@
     <string name="infohelp">Info\nDas Info-Symbol ermöglicht Ihnen die Eingabe weiterer Aufgabendetails.</string>
     <string name="repeat">Wiederholen:</string>
     <string name="apply">BEWERBEN</string>
+    <string name="username">Geben Sie Benutzernamen ein</string>
+    <string name="next">Fortsetzen</string>
+    <string name="gen">Generieren</string>
 
 </resources>

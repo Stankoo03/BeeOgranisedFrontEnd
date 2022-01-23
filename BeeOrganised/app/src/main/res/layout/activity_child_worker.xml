@@ -11,24 +11,44 @@
     tools:context=".ChildWorkerActivity">
 
 
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:background="@drawable/ic_childw"
+        />
     <EditText
+        android:textCursorDrawable="@null"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:id="@+id/usernameInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter your username"/>
+        android:hint="@string/username"
+        android:fontFamily="@font/font"
+        android:textColor="@color/DateColor"
+        android:textColorHint="#e0b86a"
+        android:backgroundTint="@color/BeeText"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        >
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_generate"
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Generisi"
+            android:text="@string/gen"
             android:layout_weight="1"
             android:layout_margin="10dp"
+            android:textSize="18dp"
+            android:fontFamily="@font/font"
+            android:textColor="@color/BehindCalendar"
             android:background="@drawable/background_for_widget_button"
             />
         <androidx.appcompat.widget.AppCompatButton
@@ -37,9 +57,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/background_for_widget_button"
-            android:text="Nastavi"
+            android:text="@string/next"
             android:layout_margin="10dp"
+            android:textSize="18dp"
             android:layout_weight="1"
+            android:textColor="@color/BehindCalendar"
+            android:fontFamily="@font/font"
             android:onClick="nastavi"
             />
 
@@ -47,12 +70,11 @@
 
 
     <ImageView
+        android:id="@+id/qrcode"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:id="@+id/qrcode"
-        android:scaleType="fitCenter"
         android:adjustViewBounds="true"
-        />
+        android:scaleType="fitCenter" />
 
 
 </LinearLayout>
