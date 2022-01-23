@@ -26,6 +26,9 @@ public class TimeSpan {
         minutes = longMinutes;
     }
 
+    public TimeSpan Adding(TimeSpan other){
+        return new TimeSpan(minutes + other.GetLongMinutes());
+    }
     public void Add(TimeSpan other){
         minutes += other.GetLongMinutes();
     }

@@ -61,8 +61,13 @@ public class Interval{
     public Interval(DateTime sTime, DateTime eTime, Task refferedTask) { startTime = sTime; SetEndTime(eTime); this.refferedTask = refferedTask; }
     public Interval(DateTime sTime, TimeSpan dur) { startTime = sTime; SetDuration(dur); }
     public Interval(TimeSpan dur, DateTime endTime) { startTime = endTime.SubDur(dur); SetDuration(dur); }
-    public Interval(Interval toCopy) { startTime = toCopy.GetStartTime(); SetEndTime(toCopy.GetEndTime()); intesectType = toCopy.intesectType; refferedTask = toCopy.refferedTask; }
+    public Interval(Interval toCopy) { startTime = new DateTime(toCopy.GetStartTime()); SetEndTime(new DateTime(toCopy.GetEndTime())); intesectType = toCopy.intesectType; refferedTask = toCopy.refferedTask; }
     public Interval(DateTime date, int sHour, int sMin, int eHour, int eMin){
+        startTime = new DateTime(date.GetYear(), date.GetMonth(), date.GetDay(), sHour, sMin);
+        SetEndTime(new DateTime(date.GetYear(), date.GetMonth(), date.GetDay(), eHour, eMin));
+    }
+    public Interval(int sHour, int sMin, int eHour, int eMin){
+        DateTime date = DateTime.Now();
         startTime = new DateTime(date.GetYear(), date.GetMonth(), date.GetDay(), sHour, sMin);
         SetEndTime(new DateTime(date.GetYear(), date.GetMonth(), date.GetDay(), eHour, eMin));
     }
@@ -83,7 +88,7 @@ public class Interval{
 
     public String ToStringTime()
     {
-        return /*"("+refferedTask.GetTitle()+")"+*/ startTime.ToStringTime() + "->" + endTime.ToStringTime();
+        return /*"("+refferedTask.GetTitle()+")"+*/ startTime.ToStringTime() + " -> " + endTime.ToStringTime();
     }
 
     public boolean NoDuration() {return GetDuration().GetLongMinutes() == 0;}
@@ -169,7 +174,6 @@ public class Interval{
             for(int i = 0; i<times.Count()-1; i++){
                 for(int j = i+1; j<times.Count(); j++){
                     if(times[i].Intersect(times[j]) != null);
-                    //TODO implement...
                 }
             }
             return null; //delete this line
@@ -202,7 +206,6 @@ public class Interval{
         return R;
     }
     /*
-        //TODO check correctness
         private static bool isSorted(List<Interval> times){
             for(int i = 1; i<times.Count(); i++){
                 if(times[i-1].GetStartTime() > times[i].GetStartTime())

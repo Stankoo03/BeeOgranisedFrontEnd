@@ -5,6 +5,7 @@ import android.widget.Toast;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Random;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicReference;
@@ -105,6 +106,16 @@ public class SmartToDo{
         for (int i = 0; i < tasks.size(); i++) {
             if(tasks.get(i).GetTitle() == title){
                 RemoveTask(i);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean RemoveTaskFNT(String title){
+        for (int i = 0; i < newTasks.size(); i++) {
+            if(newTasks.get(i).GetTitle() == title){
+                newTasks.remove(i);
                 return true;
             }
         }
@@ -214,14 +225,36 @@ public class SmartToDo{
 
     private ArrayList<Interval> FindToEject(ArrayList<Interval> times, boolean threeIncluded, TimeSpan span){
         ArrayList<Interval> r = new ArrayList<>();
-        /*
-        for(Task t : tasks) {
-            ArrayList<Interval> R = t.UsedTime(i);
-            for (Interval in : r){
-                r.add(in.GetRefferedTask());
+
+        ArrayList<Interval> possibleIns = new ArrayList<>();
+        for (Interval i :
+                times) {
+            if(i.GetRefferedTask().GetPriority() >= (threeIncluded?3:4))
+                possibleIns.add(i);
+        }
+
+        possibleIns.sort(new Comparator<Interval>() {
+            @Override
+            public int compare(Interval interval, Interval t1) {
+                if(interval.GetDuration().GetLongMinutes() < t1.GetDuration().GetLongMinutes()) return 1;
+                else if(interval.GetDuration().GetLongMinutes() > t1.GetDuration().GetLongMinutes()) return -1;
+                else return 0;
             }
-            //...
-        }*/
+        });
+
+        TimeSpan br = new TimeSpan(0);
+
+        for (Interval i: possibleIns){
+            r.add(i);
+            br.Add(i.GetDuration());
+            if(br.GreaterThan(span))
+                return r;
+            //TODO implment better logic for chosing intervals to eject
+        }
+
+        //shouldn't print, if printed then error exists
+        PrintAllTimes("SORTED TO EJECT", possibleIns);
+
         return r;
     }
 
@@ -317,10 +350,10 @@ public class SmartToDo{
                 while ((guess.Intersect(prefferedInterval).GetIntersectType() != 6 || HaveOverlays(CalcUsedTime(newTasks, prefferedInterval), guess)) && localTries < maxTries) {
 
                     //
-                    Debug.log("intersect t - " + guess.Intersect(prefferedInterval).GetIntersectType());
+                    //Debug.log("intersect t - " + guess.Intersect(prefferedInterval).GetIntersectType());
 
-                    PrintAllTimes("Try" + tries + " Local" + localTries + " ", CalcUsedTime(newTasks,prefferedInterval));
-                    Debug.log("Guessssss: " + guess.ToString());
+                    //PrintAllTimes("Try" + tries + " Local" + localTries + " ", CalcUsedTime(newTasks,prefferedInterval));
+                    //Debug.log("Guessssss: " + guess.ToString());
 
 
                     localTries++;
@@ -329,12 +362,13 @@ public class SmartToDo{
                 }
             }
 
-            Debug.log("local tris " + localTries);
+            if(tries%10 == 0)
+                Debug.log("Try:" + tries + "  local tries" + localTries);
 
             if(localTries < maxTries-1) {
                 tt.SetNewTime(guess);
                 if(tries < 10)
-                    PrintAll("ASDDS",newTasks);
+                    PrintAll("ASDDS" + tries,newTasks);
                 Interval c = CanFitInterval(CalcFreeTime(newTasks, prefferedInterval), newTask.GetTime());
                 if(c!=null){
                     Debug.log("-*-*-KURCINAA-*-**-*-*-*-*-*-*-*-*-*-*-");
@@ -358,13 +392,20 @@ public class SmartToDo{
     private void Eject(ArrayList<Interval> inPI, AiTask newTask, Interval prefferedInterval, int maxTries, boolean threeIncluded){
         newTasks = CopyArray(tasks);
 
-        if(SumOfDurations(inPI, threeIncluded).GreaterThan(newTask.GetTime().GetDuration().Multiply(GetMulOffset(false)))){
+        TimeSpan ts = SumOfDurations(inPI, threeIncluded).Adding( SumOfDurations(CalcFreeTime(prefferedInterval)) );
+
+        Debug.log("sum of durations " + (threeIncluded?"with":"without") + " three: " +  ts.ToString());
+        Debug.log("new task dur: " +  newTask.GetTime().GetDuration().Multiply(GetMulOffset(false)).ToString());
+
+        if(ts.GreaterThan(newTask.GetTime().GetDuration().Multiply(GetMulOffset(false)))){
             ArrayList<Interval> toEject = FindToEject(inPI,threeIncluded, newTask.GetTime().GetDuration().Multiply(GetMulOffset(false)));
 
             ejected = ConvertIntervalToTaskArray(CopyArrayInterval(toEject));
+            //gonna be used
+
             for (Interval in :
                     toEject) {
-                newTasks.remove(in.GetRefferedTask());
+                RemoveTaskFNT(in.GetRefferedTask().GetTitle());
             }
 
             if(toEject.size() == 1){
@@ -376,6 +417,10 @@ public class SmartToDo{
                 pick = new AiTask(newTask.GetTitle(),in, newTask.GetPriority(), newTask.GetPrefferedInterval());
                 possible = true;
             }
+
+            //TODO add if intervals to eject are next to each other
+
+            PrintAll("WITH EJECT", newTasks);
 
             MakeChanges(newTask, prefferedInterval, maxTries, false);
         }
@@ -490,6 +535,7 @@ public class SmartToDo{
             MakeChanges(newTask, prefferedInterval, maxTries, true);
 
             if(!possible){
+                Debug.log("OGROMNAANA KURCIANAAA");
                 Eject(inPI,newTask,prefferedInterval,maxTries, true);
             }
 
@@ -506,8 +552,6 @@ public class SmartToDo{
             }
 
         }
-
-        //TODO implement
     }
 
     public Interval CalcAiTask(AiTask newTask){
@@ -530,7 +574,7 @@ public class SmartToDo{
             Interval localPick = times.get(r.nextInt(times.size()));
 
             if(localPick.GetDuration().GreaterThan(newTask.GetTime().GetDuration().Multiply(GetMulOffset(true)))){
-                if(r.nextBoolean() || true){ //TODO delete "|| true"
+                if(r.nextBoolean()){
                     localPick = new Interval(localPick.GetStartTime(), newTask.GetTime().GetDuration());
                 }
                 else {
@@ -599,7 +643,7 @@ public class SmartToDo{
     public Interval GetInterval(int i, DateTime dateFrom){
         switch (i){
             case 1:
-                System.out.println(Morning.ToString());
+                //System.out.println(Morning.ToString());
                 return new Interval(Morning, dateFrom);
             case 2:
                 return new Interval(Afternoon, dateFrom);
