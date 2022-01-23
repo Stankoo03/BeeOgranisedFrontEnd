@@ -153,6 +153,8 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
 
         dialog = new Dialog(WorkerActivity.this);
 
+
+
         FindViews();
         RadioGroupClicked();
         FromToTimeSetter();
@@ -605,7 +607,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                     @Override
                     public void onClick(View v) {
                         Task current = currentList.get(globalTaskPosition);
-
+                        current.SetRoutine(new Routine(new boolean[]{}));
 
                     }
                 });
