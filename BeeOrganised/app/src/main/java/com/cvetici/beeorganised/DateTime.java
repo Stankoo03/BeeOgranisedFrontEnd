@@ -3,6 +3,7 @@ package com.cvetici.beeorganised;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 
 public class DateTime {
 
@@ -117,8 +118,19 @@ public class DateTime {
         set(now.GetYear(),now.GetMonth(),now.GetDay(),hour,minute);
     }
 
+    public DateTime(DateTime timeFrom, int year, int month, int day){
+        set(year,month,day, timeFrom.GetHour(), timeFrom.GetMinute());
+    }
+
+    public DateTime(int year, int month, int day){
+        set(year,month,day, 0, 0);
+    }
+
     public DateTime(int longMinutes){
         this.minutes = longMinutes;
+    }
+    public DateTime(DateTime toCopy){
+        this.minutes = toCopy.GetLongMinutes();
     }
     public DateTime() {minutes = Now().GetLongMinutes();}
 
@@ -137,9 +149,16 @@ public class DateTime {
     public DateTime AddDur(TimeSpan dur){
         return new DateTime(minutes + dur.GetLongMinutes());
     }
+    public DateTime AddDur(int days, int hours, int mins){
+        return new DateTime(minutes + new TimeSpan(days,hours,mins).GetLongMinutes());
+    }
 
     public DateTime SubDur(TimeSpan dur){
         return new DateTime(minutes - dur.GetLongMinutes());
+    }
+
+    public boolean SameDate(DateTime other){
+        return  GetYear() == other.GetYear() && GetMonth() == other.GetMonth() && GetDay() == other.GetDay();
     }
 
     public static DateTime Now(){
@@ -169,6 +188,10 @@ public class DateTime {
     public String ToStringTime(){
         return TwoNums(GetHour())+":"+TwoNums(GetMinute());
     }
+
+    public String ToStringDate(){
+        return GetDay()+"."+GetMonth()+"."+GetYear()+".";
+    } //SHOULDN'T BE CHANGED, HASHMAP IN ROUTINE FOR AiTASK DEPENDS ON OUTPUT OF THIS METHOD
 
     public DateTime(DateTime dateFrom, DateTime timeFrom){
         set(dateFrom.GetYear(), dateFrom.GetMonth(), dateFrom.GetDay(),
