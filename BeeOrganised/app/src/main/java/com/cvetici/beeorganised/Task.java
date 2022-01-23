@@ -1,6 +1,7 @@
 package com.cvetici.beeorganised;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Task
 {
@@ -8,19 +9,24 @@ public class Task
     //protected String desc;
     protected Interval time;
     protected boolean done = false;
+    protected Routine routine = null;
 
     public String GetTitle() {
         return title;
-    };
+    }
     public Interval GetTime() {
         return time;
-    };
-    public boolean GetDone() {return done;}
+    }
+    public boolean GetDone() { return done; }
+    public Routine GetRoutine() {
+        return routine;
+    }
 
-    public void SetNewTime(Interval time) {
-        this.time = time;
-    };
-    //TODO other setters and getters...
+    public void SetNewTime(Interval time) { this.time = time; }
+    public void SetTitle(String title) { this.title = title; }
+    public void SetRoutine(Routine newRoutine){
+        this.routine = newRoutine;
+    }
 
     public void CheckDone(){done = !done;}
 
@@ -30,13 +36,18 @@ public class Task
     }
 
     public ArrayList<Interval> UsedTime(Interval period){
-        Interval i = time.Intersect(period);
-        ArrayList<Interval> R = new ArrayList<Interval>();
-        if(i!=null){
-            i.SetRefferedTask(this);
-            R.add(i);
+        if(routine != null){
+            return routine.UsedTime(period,this);
         }
-        return R;
+        else {
+            Interval i = time.Intersect(period);
+            ArrayList<Interval> R = new ArrayList<Interval>();
+            if (i != null) {
+                i.SetRefferedTask(this);
+                R.add(i);
+            }
+            return R;
+        }
     }
 
     public int GetPriority(){
@@ -66,7 +77,7 @@ public class Task
 
     public String ToString()
     {
-        return title + " " + time.ToString();
+        return title + " P" + GetPriority()  + " " + time.ToString();
     }
 
     public String ToStringTime()
@@ -86,6 +97,16 @@ class AiTask extends Task
     }
     public Interval GetPrefferedInterval() { return prefferedTime; }
 
+    @Override
+    public void SetNewTime(Interval time){
+        if(routine!=null){
+            routine.SetSpecificDate(time.GetStartTime(), time);
+        }
+        else{
+
+        }
+    }
+
     public void SetPriority(int p){
         if(p<1) priority = 1;
         else if(p>4) priority = 4;
@@ -101,7 +122,7 @@ class AiTask extends Task
     public AiTask(AiTask t){
         this.title = t.GetTitle();
         this.time = t.GetTime();
-        this.prefferedTime = t.prefferedTime;
+        this.prefferedTime = new Interval(t.prefferedTime);
         this.priority = t.GetPriority();
         this.done = t.GetDone();
     }
@@ -128,7 +149,7 @@ class AiTask extends Task
                 min = 120;
                 break;
             default:
-                min = 0;
+                min = i;
         }
         return new TimeSpan(min);
     }
@@ -143,23 +164,93 @@ class AiTask extends Task
     }
 }
 
+class Routine{
+    protected boolean[] repeatDays;
+
+    protected HashMap<String,Interval> changedDays = new HashMap<>();
+
+    public Routine(boolean[] repeatDays){
+        if(repeatDays.length == 7)
+            this.repeatDays = repeatDays;
+        else{
+            System.out.println("NEDELJA NEMA SEDAM DANA");
+        }
+    }
+
+    public Routine(int i){
+        switch (i){
+            case 1:
+                repeatDays = new boolean[]{true,true,true,true,true,false,false};
+                break;
+            case 2:
+                repeatDays = new boolean[]{false,false,false,false,false,true,true};
+                break;
+            case 3:
+                repeatDays = new boolean[]{true,true,true,true,true,true,true,};
+                break;
+            default:
+                repeatDays = new boolean[]{false,false,false,false,false,false,false};
+        }
+    }
+
+    public boolean SetRepeatDays(boolean[] repeatDays){
+        if(repeatDays.length == 7) {
+            this.repeatDays = repeatDays;
+            return true;
+        }
+        else{
+            System.out.println("NEDELJA NEMA SEDAM DANA");
+            return false;
+        }
+    }
+
+    public boolean SetSpecificDate(DateTime date, Interval interval){
+        if(date.SameDate(interval.GetStartTime())){
+            changedDays.put(date.ToStringDate(), interval);
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    protected boolean isDateUsed(DateTime date) { return repeatDays[date.GetDayInWeek()]; }
+
+    public ArrayList<Interval> UsedTime(Interval period, Task task){
+        Interval time = task.GetTime();
+        ArrayList<Interval> r = new ArrayList<>();
+        TimeSpan span = period.GetDuration();
+        int days = span.GetDay() + 2;
+        Interval potential = new Interval(new DateTime(period.GetStartTime(),time.GetStartTime()), time.GetDuration());
+
+        while(potential.GetEndTime().Before(period.GetEndTime().AddDur(new TimeSpan(1,0,0)))){
+
+            if( isDateUsed(potential.GetStartTime()) ) {
+                Interval i = period.Intersect(potential);
+                String key = potential.GetStartTime().ToStringDate();
+                if(changedDays.containsKey(key)){
+                    Interval specific = changedDays.get(key);
+                    i = period.Intersect(specific);
+                }
+                if (i != null) {
+                    i.SetRefferedTask(task);
+                    r.add(i);
+                }
+            }
+            potential.MoveByOffset(new TimeSpan(1,0,0));
+        }
+
+        return r;
+    }
+
+}
+
+
+
+/*
 class Routine extends Task
 {
     protected boolean[] repeatDays;
-
-    public Routine(){
-        this.title = "New Routine";
-        //this.desc = "Generic Routine Generated By An Empty Constructor";
-        this.time = new Interval();
-        repeatDays = new boolean[7];
-    }
-
-    public Routine(String title,  Interval time, boolean[] repeatDays){
-        this.title = title;
-        //this.desc = desc;
-        this.time = time;
-        this.repeatDays = repeatDays;
-    }
 
     protected boolean isDateUsed(DateTime date) { return repeatDays[date.GetDayInWeek()]; }
 
@@ -193,24 +284,6 @@ class AdvancedRoutine extends Routine{
     protected int repeatWeeks; //Every 2nd, every 3rd week etc.
     protected int weekOffset; // between 0 and (repeatWeeks-1)
 
-    public AdvancedRoutine(){
-        this.title = "New AdvancedRoutine";
-        //this.desc = "Generic AdvancedRoutine Generated By An Empty Constructor";
-        this.time = new Interval();
-        this.repeatDays = new boolean[7];
-        this.repeatWeeks = 2;
-        this.weekOffset = 0;
-    }
-
-    public AdvancedRoutine(String title, Interval time, boolean[] repeatDays, int repeatWeeks, int weekOffset){
-        this.title = title;
-        //this.desc = desc;
-        this.time = time;
-        this.repeatDays = repeatDays;
-        this.repeatWeeks = repeatWeeks;
-        this.weekOffset = weekOffset;
-    }
-
     @Override
     protected boolean isDateUsed(DateTime date) {
         if((date.GetWeekID()+weekOffset) % repeatWeeks == 0){
@@ -222,3 +295,4 @@ class AdvancedRoutine extends Routine{
     }
 
 }
+*/
