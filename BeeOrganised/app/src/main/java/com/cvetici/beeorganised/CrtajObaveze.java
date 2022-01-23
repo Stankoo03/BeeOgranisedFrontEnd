@@ -95,8 +95,8 @@ public class CrtajObaveze extends View {
                 loc1 = (hour1+minute1/60);
                 loc2 = (hour2+minute2/60);
                 if (dan == true && (hour1 >= 12 && hour2 >= 12)) {
-                    hour1 = hour1 > 12 ? hour1 - 12 : hour1;
-                    hour2 = hour2 > 12 ? hour2 - 12 : hour2;
+                    hour1 = hour1 -12;
+                    hour2 = hour2 -12;
                     loc1 = (hour1+minute1/60);
                     loc2 = (hour2+minute2/60);
                     float angle1 = (float) ((Math.PI / 6) * loc1 - Math.PI / 2);

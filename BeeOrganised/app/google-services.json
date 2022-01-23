@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "907135529248",
+    "project_id": "beeorganised-90429",
+    "storage_bucket": "beeorganised-90429.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:907135529248:android:a1cff55ee8336202f0e745",
+        "android_client_info": {
+          "package_name": "com.cvetici.beeorganised"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "907135529248-4fg35fq3f4lhtj89emh1f2g3tkutrmio.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfuiXj1Pe19s9gAPz0e02LnffQxThCxgA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "907135529248-4fg35fq3f4lhtj89emh1f2g3tkutrmio.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

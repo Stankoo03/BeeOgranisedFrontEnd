@@ -24,6 +24,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.icu.text.DateFormat;
@@ -79,7 +81,7 @@ import java.util.List;
 import java.util.Locale;
 
 
-public class WorkerActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener,ListaTaskovaAdapter.OnTaskListener{
+public class ChildActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener,ListaTaskovaAdapter.OnTaskListener{
 
     private Calendar calendar,notifyCalendar;
     private TextView d1,d2,d3;
@@ -108,6 +110,9 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
 
     private Switch daynightSwitch;
     private ImageView sat;
+    private Bitmap qrCode;
+    private Intent qrCodeIntent;
+    private String username;
 
     private EditText enterTask,enterTaskDuration;
     private SmartToDo std;
@@ -129,29 +134,30 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         loadLocale();
-        setContentView(R.layout.activity_worker);
+        setContentView(R.layout.activity_child);
         calendar = Calendar.getInstance();
         bottomSheetDialog = new BottomSheetDialog(
-                WorkerActivity.this, R.style.BottomSheetDialogTheme
+                ChildActivity.this, R.style.BottomSheetDialogTheme
         );
         bottomSheetView = LayoutInflater.from(getApplicationContext()).inflate(
                 R.layout.layout_bottom_sheet,(LinearLayout)findViewById(R.id.bottomSheetContainer)
         );
         bottomSheetDialog.setContentView(bottomSheetView);
 
-        ListaItema = new BottomSheetDialog(WorkerActivity.this,R.style.BottomSheetDialogTheme);
+        ListaItema = new BottomSheetDialog(ChildActivity.this,R.style.BottomSheetDialogTheme);
         ListView = LayoutInflater.from(getApplicationContext()).inflate(
                 R.layout.list_layout,(RelativeLayout)findViewById(R.id.ListRelative)
         );
         ListaItema.setContentView(ListView);
 
-        Routines = new BottomSheetDialog(WorkerActivity.this,R.style.BottomSheetDialogTheme);
+        Routines = new BottomSheetDialog(ChildActivity.this,R.style.BottomSheetDialogTheme);
         RoutinesView = LayoutInflater.from(getApplicationContext()).inflate(
                 R.layout.layout_rutine,(RelativeLayout)findViewById(R.id.ListRelative)
         );
         Routines.setContentView(RoutinesView);
 
-        dialog = new Dialog(WorkerActivity.this);
+        dialog = new Dialog(ChildActivity.this);
+
 
         FindViews();
         RadioGroupClicked();
@@ -230,6 +236,16 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         crtaj = new CrtajObaveze(getApplicationContext());
         crtaj = findViewById(R.id.crtajObaveze);
 
+        if(loadUserName()=="") {
+            qrCodeIntent = getIntent();
+            qrCode = BitmapFactory.decodeByteArray(qrCodeIntent.getByteArrayExtra("qrcode"), 0, qrCodeIntent.getByteArrayExtra("qrcode").length);
+            username = qrCodeIntent.getStringExtra("name");
+            saveUserName(username);
+        }else{
+            username = loadUserName();
+        }
+        Toast.makeText(ChildActivity.this, username, Toast.LENGTH_SHORT).show();
+
         routine.shrink();
         task.shrink();
 
@@ -300,7 +316,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                 datumDrugi.setBackground(getResources().getDrawable(R.drawable.ic_datum_selected));
                 datumPrvi.setBackground(getResources().getDrawable(R.drawable.ic_datum_fixed_fixed));
                 datumTreci.setBackground(getResources().getDrawable(R.drawable.ic_datum_fixed_fixed));
-                 load(Sutra,Month1,Year1);
+                load(Sutra,Month1,Year1);
                 adapter.setTaskovi(currentList);
                 crtaj.drawLists(currentList);
                 crtaj.Refreshuj();
@@ -401,8 +417,8 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         adapter.setTaskovi(currentList);
         ListaTaskova.setAdapter(adapter);
         ListaRutina.setAdapter(adapter);
-        ListaRutina.setLayoutManager(new LinearLayoutManager(WorkerActivity.this));
-        ListaTaskova.setLayoutManager(new LinearLayoutManager(WorkerActivity.this));
+        ListaRutina.setLayoutManager(new LinearLayoutManager(ChildActivity.this));
+        ListaTaskova.setLayoutManager(new LinearLayoutManager(ChildActivity.this));
         crtaj.drawLists(currentList);
         crtaj.Refreshuj();
 
@@ -461,11 +477,9 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
 
     }
 
-
-
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void otvoriKalendar(View view) {
-        Intent intent = new Intent(WorkerActivity.this , Kalendar.class);
+        Intent intent = new Intent(ChildActivity.this , Kalendar.class);
         ImageButton button = (ImageButton) findViewById(R.id.datumCetvrti);
         startActivity(intent);
 
@@ -536,7 +550,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     }
     @Override
     public void onTimeSet(TimePicker timePicker, int Hour, int Minute) {
-        Fragment dateTo =WorkerActivity.this.getSupportFragmentManager().findFragmentByTag("tp1");
+        Fragment dateTo =ChildActivity.this.getSupportFragmentManager().findFragmentByTag("tp1");
         if(dateTo!=null) {
             FromTime.setText("Starting time: " + Hour+ ":" + Minute);
             h1=Hour;
@@ -559,9 +573,9 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                 public void onClick(View view) {
                     Task temp = new Task(enterTask.getText().toString(),new Interval(new DateTime(MainYear,MainMonth,MainDay,h1,m1),new DateTime(MainYear,MainMonth,MainDay,h2,m2)));
                     if(std.AddTask(temp)){
-                        Toast.makeText(WorkerActivity.this, "Task uspesno postavljen", Toast.LENGTH_LONG).show();
+                        Toast.makeText(ChildActivity.this, "Task uspesno postavljen", Toast.LENGTH_LONG).show();
                     }else{
-                        Toast.makeText(WorkerActivity.this, "Postoji problem sa dodavanjem vaseg taska", Toast.LENGTH_LONG).show();
+                        Toast.makeText(ChildActivity.this, "Postoji problem sa dodavanjem vaseg taska", Toast.LENGTH_LONG).show();
                     }
                     currentList = std.GetTasksInInterval(new Interval(new DateTime(MainYear,MainMonth,MainDay,0,0),new DateTime(MainYear,MainMonth,MainDay,23,59)));
                     crtaj.drawLists(currentList);
@@ -661,11 +675,11 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                 time = timeSp.getSelectedItemPosition();
                 durationN = durationSp.getSelectedItemPosition();
                 if(priority==0){
-                    Toast.makeText(WorkerActivity.this, "Niste izabrali prioritet", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ChildActivity.this, "Niste izabrali prioritet", Toast.LENGTH_SHORT).show();
                 }else if(time==0){
-                    Toast.makeText(WorkerActivity.this, "Niste izabrali trajanje", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ChildActivity.this, "Niste izabrali trajanje", Toast.LENGTH_SHORT).show();
                 }else if(durationN==0){
-                    Toast.makeText(WorkerActivity.this, "Niste izabrali prioritet", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ChildActivity.this, "Niste izabrali prioritet", Toast.LENGTH_SHORT).show();
                 }else {
                     if (durationN == 7) {
                         duration = Integer.parseInt(enterTaskDuration.getText().toString());
@@ -673,7 +687,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
 
                     Interval tempI = std.CalcAiTask(new AiTask(taskName,durationN,priority,std.GetInterval(time,new DateTime(MainYear,MainMonth,MainDay,0,0))));
                     if(!std.isPossible()){
-                        Toast.makeText(WorkerActivity.this, "Greska", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ChildActivity.this, "Greska", Toast.LENGTH_SHORT).show();
                     }else{
                         AfterCalculateBtn.setVisibility(View.VISIBLE);
                         AiStartTime.setText(tempI.GetStartTime().ToStringTime());
@@ -697,7 +711,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     }
 
     public void save(int dan, int mesec, int godina){
-        String FILE_NAME=dan+"_"+mesec+"_"+godina;
+        String FILE_NAME=dan+"_"+mesec+"_"+godina+"_"+username;
         SharedPreferences sharedPreferences = getSharedPreferences(FILE_NAME,MODE_PRIVATE);
         SharedPreferences.Editor  editor = sharedPreferences.edit();
         Gson gson = new Gson();
@@ -706,7 +720,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         editor.apply();
     }
     public void load(int dan,int mesec,int godina){
-        String FILE_NAME=dan+"_"+mesec+"_"+godina;
+        String FILE_NAME=dan+"_"+mesec+"_"+godina+"_"+username;
         SharedPreferences sharedPreferences = getSharedPreferences(FILE_NAME,MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreferences.getString(FILE_NAME,null);
@@ -718,20 +732,32 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         adapter.notifyDataSetChanged();
 
     }
-    private void sendOnChannel1(String title,String message){
-        NotificationCompat.Builder nb = mHelper.getChannel1Notification(title,message);
-        mHelper.getManager().notify(1,nb.build());
+    public void saveUserName(String user){
+        String FILE_NAME="UserName";
+        SharedPreferences sharedPreferences = getSharedPreferences(FILE_NAME,MODE_PRIVATE);
+        SharedPreferences.Editor  editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(user);
+        editor.putString("username",json);
+        editor.apply();
+    }
+    public String loadUserName(){
+        String FILE_NAME="UserName";
+        SharedPreferences sharedPreferences = getSharedPreferences(FILE_NAME,MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("username",null);
+        if(json==null){
+            return "";
+        }else{
+            return json ;
+        }
 
     }
-    private void sendOnChannel2(String title, String message) {
-        NotificationCompat.Builder nb = mHelper.getChannel1Notification(title,message);
-        mHelper.getManager().notify(2,nb.build());
-    }
+
 
     View prosli;
     @Override
     public void onTaskClick(int position,View itemView) {
-        Toast.makeText(WorkerActivity.this, position+"", Toast.LENGTH_SHORT).show();
         itemView.setBackground(getResources().getDrawable(R.drawable.background_froclicked));
         routineHolder.setVisibility(View.VISIBLE);
         if(prosli!=null){
@@ -800,7 +826,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                Intent intent = new Intent(WorkerActivity.this, MainActivity.class);
+                Intent intent = new Intent(ChildActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
             }

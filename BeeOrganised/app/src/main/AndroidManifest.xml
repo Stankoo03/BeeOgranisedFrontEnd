@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.cvetici.beeorganised">
+
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -10,44 +13,53 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BeeOrganised">
         <activity
+            android:name=".ParentBuilderActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ParentCallerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ChildActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ParentWorkerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ChildWorkerActivity"
+            android:exported="false" />
+        <activity
             android:name=".LoadingScreen"
             android:exported="true"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            >
-
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".Kalendar"
             android:exported="false"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".WorkerActivity"
             android:exported="false"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"
             android:exported="false"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" />
 
-        </activity>
         <receiver android:name=".Widget">
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
+
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/appwidget_info"/>
+                android:resource="@xml/appwidget_info" />
         </receiver>
-        
-        <receiver android:name=".AlertReciver"/>
-
     </application>
 
 </manifest>

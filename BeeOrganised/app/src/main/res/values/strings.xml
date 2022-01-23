@@ -1,4 +1,3 @@
-
 <resources>
     <string name="app_name" translatable="false">BeeOrganised</string>
     <string name="title_activity_worker" translatable="false">WorkerActivity</string>

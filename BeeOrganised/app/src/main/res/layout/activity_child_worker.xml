@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:background="@color/UserChosing"
+    android:gravity="center_horizontal"
+    tools:context=".ChildWorkerActivity">
+
+
+    <EditText
+        android:id="@+id/usernameInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter your username"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_generate"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Generisi"
+            android:layout_weight="1"
+            android:layout_margin="10dp"
+            android:background="@drawable/background_for_widget_button"
+            />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_childWorker"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_for_widget_button"
+            android:text="Nastavi"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:onClick="nastavi"
+            />
+
+    </LinearLayout>
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/qrcode"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        />
+
+
+</LinearLayout>

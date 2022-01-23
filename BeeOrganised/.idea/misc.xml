@@ -23,7 +23,12 @@
         <entry key="..\:/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/drawable/ic_plus.xml" value="0.2547008547008547" />
         <entry key="..\:/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/layout-v21/activity_kalendar.xml" value="0.23461538461538461" />
         <entry key="..\:/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/layout-v21/activity_worker.xml" value="0.25" />
+        <entry key="..\:/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/layout/activity_child.xml" value="0.28931623931623934" />
+        <entry key="..\:/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/layout/activity_child_worker.xml" value="0.22419928825622776" />
         <entry key="..\:/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/layout/activity_main.xml" value="0.24572649572649571" />
+        <entry key="..\:/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/layout/activity_parent_builder.xml" value="0.22094017094017093" />
+        <entry key="..\:/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/layout/activity_parent_caller.xml" value="0.23034188034188033" />
+        <entry key="..\:/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/layout/activity_parent_worker.xml" value="0.30085470085470084" />
         <entry key="..\:/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/layout/activity_worker.xml" value="0.22" />
         <entry key="..\:/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/layout/calendar_cell.xml" value="0.24572649572649571" />
         <entry key="..\:/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/layout/languages.xml" value="0.30085470085470084" />
