@@ -31,9 +31,7 @@ public class SmartToDo{
         if (plusSign) return (1f+allowedOffset/100f);
         else return (1f-allowedOffset/100f);
     }
-    public void setTasks(ArrayList<Task> tasks){
-        this.tasks = tasks;
-    }
+
 
     public boolean isPossible(){ return possible; }
 
