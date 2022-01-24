@@ -92,7 +92,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
 
     int MainDay,MainMonth,MainYear;
 
-    private boolean clicked=false;
+    private boolean clicked;
     private FloatingActionButton main;
     private ExtendedFloatingActionButton task,routine;
 
@@ -176,6 +176,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     private void FindViews(){
 
         std = new SmartToDo(5);
+        clicked=false;
 
         daynightSwitch = (Switch) findViewById(R.id.daynightSwitch);
         d1 = (TextView) findViewById(R.id.firstDate);
@@ -487,9 +488,11 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         startActivity(intent);
 
     }
+
     public void expandButtons(View view) {
-        setVisibility(clicked);
+        setClickable(clicked);
         setAnimation(clicked);
+        setVisibility(clicked);
         if(!clicked){
             clicked = true;
         }else{
@@ -503,8 +506,8 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
             task.setVisibility(View.VISIBLE) ;
             routine.setVisibility(View.VISIBLE);
         }else{
-            task.setVisibility(View.INVISIBLE) ;
-            routine.setVisibility(View.INVISIBLE);
+            task.setVisibility(View.GONE) ;
+            routine.setVisibility(View.GONE);
             task.shrink();
             routine.shrink();
         }
@@ -532,19 +535,23 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
 
         }
     }
+    private void showBottomCard(){
+        RG.clearCheck();
+        SetBtn.setVisibility(View.GONE);
+        ManualTimeLayout.setVisibility(View.GONE);
+        AiLayout.setVisibility(View.GONE);
+        AfterCalculateBtn.setVisibility(View.GONE);
+        CaluculateBtn.setVisibility(View.GONE);
+        durationSp.setVisibility(View.GONE);
+        enterTask.setText("");
+        enterTaskDuration.setVisibility(View.GONE);
+        ConfirmBtn.setVisibility(View.GONE);
+        bottomSheetDialog.show();
+
+    }
     public void simpleTaskCard(View view) {
         if(task.isExtended()){
-            RG.clearCheck();
-            SetBtn.setVisibility(View.GONE);
-            ManualTimeLayout.setVisibility(View.GONE);
-            AiLayout.setVisibility(View.GONE);
-            AfterCalculateBtn.setVisibility(View.GONE);
-            CaluculateBtn.setVisibility(View.GONE);
-            durationSp.setVisibility(View.GONE);
-            enterTask.setText("");
-            enterTaskDuration.setVisibility(View.GONE);
-            ConfirmBtn.setVisibility(View.GONE);
-            bottomSheetDialog.show();
+            showBottomCard();
             task.shrink();
         }else{
             task.extend();
@@ -612,7 +619,6 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 tempPosition=position;
                 tempPosition++;
-                Toast.makeText(WorkerActivity.this, tempPosition+"", Toast.LENGTH_SHORT).show();
                 if(globalTaskPosition!=-1){
                     if(tempPosition==4){
                         weekChecboxHolder.setVisibility(View.VISIBLE);
@@ -731,8 +737,6 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
 
 
 
-
-
                 }
 
             }
@@ -763,15 +767,6 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         adapter.notifyDataSetChanged();
 
     }
-    private void sendOnChannel1(String title,String message){
-        NotificationCompat.Builder nb = mHelper.getChannel1Notification(title,message);
-        mHelper.getManager().notify(1,nb.build());
-
-    }
-    private void sendOnChannel2(String title, String message) {
-        NotificationCompat.Builder nb = mHelper.getChannel1Notification(title,message);
-        mHelper.getManager().notify(2,nb.build());
-    }
 
     View prosli;
     @Override
@@ -788,7 +783,6 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     }
 
     private void openSettings(){
-
         podeshavanje = findViewById(R.id.podeshavanja);
         podeshavanje.setOnClickListener(new View.OnClickListener() {
             @Override
