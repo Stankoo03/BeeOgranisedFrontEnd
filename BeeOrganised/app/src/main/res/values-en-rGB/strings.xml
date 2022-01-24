@@ -85,5 +85,6 @@
     <string name="username">Enter your username</string>
     <string name="next">Continue</string>
     <string name="gen">Generate</string>
+    <string name="scan">Scan QR CODE</string>
 
 </resources>
