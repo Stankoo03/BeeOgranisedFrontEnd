@@ -1,11 +1,13 @@
 package com.cvetici.beeorganised;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.shapes.ArcShape;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -15,6 +17,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -42,11 +45,12 @@ public class CrtajObaveze extends View {
     private RelativeLayout taskChangerLayout;
     private Animation animacijaOtvaranja,animacijaZatvaranja;
     Context context;
+    private ImageButton bin;
     private int[] boje = {
             getResources().getColor(R.color.UserChosing)
     };
     private View WorkerActivity;
-
+    Dialog dialogdel;
 
 
     public CrtajObaveze(Context context) {
@@ -61,6 +65,9 @@ public class CrtajObaveze extends View {
     public CrtajObaveze(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context=context;
+      //  dialogdel = new Dialog(context);
+        bin = (ImageButton) findViewById(R.id.delete);
+
     }
     private void initClock(){
         taskName = ((Activity)context).findViewById(R.id.imeTaska);
@@ -81,6 +88,18 @@ public class CrtajObaveze extends View {
         animacijaOtvaranja = AnimationUtils.loadAnimation(context,R.anim.polako_pojavi);
         animacijaZatvaranja = AnimationUtils.loadAnimation(context,R.anim.polako_zatvori);
 
+    }
+
+    private void opendelete(){
+        bin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogdel.setContentView(R.layout.deletetask);
+                dialogdel.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialogdel.show();
+
+            }
+        });
 
     }
 

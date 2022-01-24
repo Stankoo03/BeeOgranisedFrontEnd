@@ -142,8 +142,8 @@
         android:fontFamily="@font/font"
         android:visibility="gone"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginStart="30dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginStart="40dp"
         android:layout_marginBottom="10dp"
         android:textColor="@color/DateColor"
         />
@@ -153,8 +153,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center"
-        android:visibility="gone">
+        android:gravity="center" >
         <LinearLayout
         android:id="@+id/AiTimeLayout1"
         android:layout_width="wrap_content"
@@ -256,8 +255,8 @@
         android:text="@string/calc"
         android:fontFamily="@font/font"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginStart="30dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginStart="40dp"
         android:layout_marginBottom="10dp"
         android:textColor="@color/DateColor"
         android:visibility="gone"
@@ -328,8 +327,8 @@
         android:text="@string/set"
         android:fontFamily="@font/font"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginStart="30dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginStart="40dp"
         android:layout_marginBottom="10dp"
         android:textColor="@color/DateColor"
         android:visibility="gone"
