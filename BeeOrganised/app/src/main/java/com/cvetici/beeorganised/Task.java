@@ -186,7 +186,7 @@ class Routine{
                 repeatDays = new boolean[]{false,false,false,false,false,true,true};
                 break;
             case 3:
-                repeatDays = new boolean[]{true,true,true,true,true,true,true,};
+                repeatDays = new boolean[]{true,true,true,true,true,true,true};
                 break;
             default:
                 repeatDays = new boolean[]{false,false,false,false,false,false,false};

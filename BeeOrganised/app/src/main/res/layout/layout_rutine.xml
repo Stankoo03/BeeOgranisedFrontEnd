@@ -129,6 +129,8 @@
             android:background="@drawable/background_for_btn"
             android:backgroundTint="@color/BehindCalendar"
             android:fontFamily="@font/font"
+            android:clickable="true"
+            android:focusable="true"
             android:text="@string/apply"
             android:textColor="@color/DateColor"
             android:textSize="16sp" />
@@ -142,7 +144,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/repeatholder"
         android:orientation="horizontal"
-        android:visibility="visible"
+        android:visibility="invisible"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="5dp">
 
