@@ -44,14 +44,14 @@
 
         <ImageButton
             android:id="@+id/textApply"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
             android:src="@drawable/ic_baseline_input_24"
             android:background="@color/BeeText"
             android:layout_gravity="center"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:tint="@color/UserChosing" />
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="8dp"
+            android:tint="@color/BehindCalendar" />
 
     </LinearLayout>
 
@@ -209,7 +209,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:gravity="center">
 
         <Spinner
@@ -325,7 +325,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/background_for_btn"
         android:backgroundTint="@color/BehindCalendar"
-        android:text="Потврди"
+        android:text="@string/set"
         android:fontFamily="@font/font"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="30dp"

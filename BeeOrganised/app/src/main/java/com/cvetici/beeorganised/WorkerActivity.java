@@ -590,9 +590,9 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                 public void onClick(View view) {
                     Task temp = new Task(enterTask.getText().toString(),new Interval(new DateTime(MainYear,MainMonth,MainDay,h1,m1),new DateTime(MainYear,MainMonth,MainDay,h2,m2)));
                     if(std.AddTask(temp)){
-                        Toast.makeText(WorkerActivity.this, "Task uspesno postavljen", Toast.LENGTH_LONG).show();
+                        Toast.makeText(WorkerActivity.this, R.string.settask, Toast.LENGTH_LONG).show();
                     }else{
-                        Toast.makeText(WorkerActivity.this, "Postoji problem sa dodavanjem vaseg taska", Toast.LENGTH_LONG).show();
+                        Toast.makeText(WorkerActivity.this, R.string.setproblem, Toast.LENGTH_LONG).show();
                     }
                     currentList = std.GetTasksInInterval(new Interval(new DateTime(MainYear,MainMonth,MainDay,0,0),new DateTime(MainYear,MainMonth,MainDay,23,59)));
                     crtaj.drawLists(currentList);
@@ -706,11 +706,11 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                 time = timeSp.getSelectedItemPosition();
                 durationN = durationSp.getSelectedItemPosition();
                 if(priority==0){
-                    Toast.makeText(WorkerActivity.this, "Niste izabrali prioritet", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(WorkerActivity.this, R.string.priorityprob, Toast.LENGTH_SHORT).show();
                 }else if(time==0){
-                    Toast.makeText(WorkerActivity.this, "Niste izabrali trajanje", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(WorkerActivity.this, R.string.timeprob, Toast.LENGTH_SHORT).show();
                 }else if(durationN==0){
-                    Toast.makeText(WorkerActivity.this, "Niste izabrali prioritet", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(WorkerActivity.this, R.string.durationprob, Toast.LENGTH_SHORT).show();
                 }else {
                     if (durationN == 7) {
                         duration = Integer.parseInt(enterTaskDuration.getText().toString());
@@ -718,7 +718,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
 
                     Interval tempI = std.CalcAiTask(new AiTask(taskName,durationN,priority,std.GetInterval(time,new DateTime(MainYear,MainMonth,MainDay,0,0))));
                     if(!std.isPossible()){
-                        Toast.makeText(WorkerActivity.this, "Greska", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(WorkerActivity.this, R.string.error, Toast.LENGTH_SHORT).show();
                     }else{
                         AfterCalculateBtn.setVisibility(View.VISIBLE);
                         ConfirmBtn.setVisibility(View.VISIBLE);
@@ -728,7 +728,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                             @Override
                             public void onClick(View v) {
                                 std.AcceptGuess();
-                                Toast.makeText(WorkerActivity.this, "Task uspesno postavljen", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(WorkerActivity.this, R.string.settask, Toast.LENGTH_SHORT).show();
                                 currentList = std.GetTasksInInterval(new Interval(new DateTime(MainYear,MainMonth,MainDay,0,0),new DateTime(MainYear,MainMonth,MainDay,23,59)));
                                 crtaj.drawLists(currentList);
                                 crtaj.Refreshuj();

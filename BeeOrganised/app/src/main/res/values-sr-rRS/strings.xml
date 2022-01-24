@@ -85,5 +85,11 @@
     <string name="next">Настави</string>
     <string name="gen">Генериши</string>
     <string name="scan">Скенирај QR КОД</string>
+    <string name="settask">Задатак је успешно постављен</string>
+    <string name="setproblem">Дошᴫо је до проблема приликом додавања задатка</string>
+    <string name="priorityprob">Нисте изабрали приоритет</string>
+    <string name="timeprob">Нисте изабрали време</string>
+    <string name="durationprob">Нисте изабрали трајање</string>
+    <string name="error">Грешка</string>
 
 </resources>

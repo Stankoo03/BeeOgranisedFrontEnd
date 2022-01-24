@@ -64,7 +64,7 @@ public class Kalendar extends AppCompatActivity implements CalendarAdapter.OnIte
     private View ListView;
     private RecyclerView ListaTaskova;
 
-    private List<Task> currentList;
+    private List<Task> currentList, mainList;
     private Button TaskButton;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -312,40 +312,41 @@ public class Kalendar extends AppCompatActivity implements CalendarAdapter.OnIte
                 @Override
                 public void onClick(View view) {
                     Task temp = new Task(enterTask.getText().toString(),new Interval(new DateTime(currentYear,currentMonth,currentDay,h1,m1),new DateTime(currentYear,currentMonth,currentDay,h2,m2)));
+                    load();
+                    std.setTasks((ArrayList<Task>) mainList);
                     std.AddTask(temp);
-                    load(currentDay,currentMonth,currentYear);
-                    //currentList = std.GetTasksInInterval(new Interval(new DateTime(Year,Month,Danas,0,1),new DateTime(Year,Month,Danas,23,59)));
-                    currentList.add(temp);
                     Toast.makeText(Kalendar.this, "Task uspesno zadat za vreme "+currentDay+"."+currentMonth+"."+currentYear, Toast.LENGTH_SHORT).show();
                     //TODO Pogledaj ovo andrijo
-                    save(currentDay,currentMonth,currentYear);
+                    save();
                 }
             });
         }
     }
 
-    public void save(int dan, int mesec, int godina){
-        String FILE_NAME=dan+"_"+mesec+"_"+godina;
+    public void save(){
+        String FILE_NAME="taskLists";
         SharedPreferences sharedPreferences = getSharedPreferences(FILE_NAME,MODE_PRIVATE);
         SharedPreferences.Editor  editor = sharedPreferences.edit();
         Gson gson = new Gson();
-        String json = gson.toJson(currentList);
+        String json = gson.toJson(std.getTasks());
         editor.putString(FILE_NAME,json);
         editor.apply();
     }
-    public void load(int dan,int mesec,int godina){
-        String FILE_NAME=dan+"_"+mesec+"_"+godina;
+    public void load(){
+        String FILE_NAME="taskLists";
         SharedPreferences sharedPreferences = getSharedPreferences(FILE_NAME,MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreferences.getString(FILE_NAME,null);
         Type type = new TypeToken<List<Task>>() {}.getType();
-        currentList = gson.fromJson(json,type);
-        if(currentList==null){
-            currentList = new ArrayList<>();
-        } 
+        mainList = gson.fromJson(json,type);
+        if(mainList==null){
+            mainList = new ArrayList<>();
+        }
+
     }
 
     public void expandTaskList(View view) {
+        currentList = std.GetTasksInInterval(new Interval(new DateTime(currentYear,currentMonth,currentDay,0,0),new DateTime(currentYear,currentMonth,currentDay,23,59)));
         ListaItema.show();
     }
 
