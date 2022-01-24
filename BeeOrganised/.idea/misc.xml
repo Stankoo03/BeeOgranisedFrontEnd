@@ -81,6 +81,7 @@
         <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/drawable/ic_settingsheaderleft.xml" value="0.2703125" />
         <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/drawable/ic_settingsheaderright.xml" value="0.2703125" />
         <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/drawable/ic_sunce.xml" value="0.2703125" />
+        <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/drawable/ic_suncepoz_fixed.xml" value="0.22447916666666667" />
         <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/drawable/space.xml" value="0.14635416666666667" />
         <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/drawable/spinner.xml" value="0.2" />
         <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/drawable/spinnera.xml" value="0.2703125" />
@@ -91,7 +92,7 @@
         <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/drawable/trans.xml" value="0.14635416666666667" />
         <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/font/spinnerfont.xml" value="0.2796296296296296" />
         <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/layout-v21/activity_kalendar.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/layout-v21/activity_worker.xml" value="0.264" />
+        <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/layout-v21/activity_worker.xml" value="0.4" />
         <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/layout/activity_child.xml" value="0.21041666666666667" />
         <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/layout/activity_child_worker.xml" value="0.264" />
         <entry key="..\:/Users/Teodora/Desktop/BeeOgranisedFrontEnd/BeeOrganised/app/src/main/res/layout/activity_loading_screen.xml" value="0.2" />

@@ -171,6 +171,18 @@
 
             />
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/TaskButton"
+            android:layout_width="400px"
+            android:layout_height="50px"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/background_for_exbtn"
+            android:onClick="expandTaskList"
+            android:text="▲"
+            android:textColor="@color/DateColor"
+            android:textSize="12dp"
+            android:visibility="visible" />
     </RelativeLayout>
 
 
