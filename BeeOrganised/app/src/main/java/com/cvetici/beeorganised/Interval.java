@@ -2,6 +2,7 @@ package com.cvetici.beeorganised;
 
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Interval{
     private DateTime startTime, endTime;
@@ -56,7 +57,14 @@ public class Interval{
 
     public Interval() { DateTime now = new DateTime(); startTime = now; endTime = now; }
     public Interval(DateTime time) { startTime = time; SetEndTime(time); }
-    public Interval(DateTime sTime, DateTime eTime) { startTime = sTime; SetEndTime(eTime); }
+    public Interval(DateTime sTime, DateTime eTime) {
+        if(eTime.Before(sTime)){
+            DateTime temp = eTime;
+            eTime = sTime;
+            sTime = temp;
+        }
+        startTime = sTime; SetEndTime(eTime);
+    }
     public Interval(DateTime sTime, DateTime eTime, int intersectType) { startTime = sTime; SetEndTime(eTime); SetIntersectType(intersectType); }
     public Interval(DateTime sTime, DateTime eTime, Task refferedTask) { startTime = sTime; SetEndTime(eTime); this.refferedTask = refferedTask; }
     public Interval(DateTime sTime, TimeSpan dur) { startTime = sTime; SetDuration(dur); }
@@ -74,11 +82,16 @@ public class Interval{
     public Interval(Interval interval, DateTime datefrom){
         Interval i = new Interval(ConstructDT(datefrom, new DateTime(0)),
                                   ConstructDT(datefrom, new DateTime(0)));
-        System.out.println("minuti" + interval.GetStartTime().ToString());
+        //System.out.println("minuti" + interval.GetStartTime().ToString());
         i = new Interval(i.GetStartTime().AddDur(new TimeSpan(interval.GetStartTime().GetLongMinutes())),
                          i.GetEndTime()  .AddDur(new TimeSpan(interval.GetEndTime()  .GetLongMinutes())));
         startTime = i.GetStartTime();
         endTime = i.GetEndTime();
+    }
+
+    public boolean Equals(Interval other){
+        return startTime.GetLongMinutes() == other.GetStartTime().GetLongMinutes()
+               && endTime.GetLongMinutes() == other.GetEndTime().GetLongMinutes();
     }
 
     public String ToString()
@@ -228,7 +241,7 @@ public class Interval{
             times = SortByStartTime(times);
             //}
 
-            PrintList(times,"INVERT* ");
+            //PrintList(times,"INVERT* ");
 
             ArrayList<Interval> R = new ArrayList<Interval>();
 

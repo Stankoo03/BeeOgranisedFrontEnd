@@ -50,6 +50,16 @@ public class Task
         }
     }
 
+    public Interval UsedTimeF(Interval period){
+        ArrayList<Interval> r = UsedTime(period);
+        if(r.size()>0)
+            return r.get(0);
+        else{
+            System.out.println("ERROR, NO USED TIME IN INTERVAL: " + period.ToString() + ". \nTASK: " + ToString());
+            return null;
+        }
+    }
+
     public int GetPriority(){
         return 1;
     }
@@ -77,7 +87,7 @@ public class Task
 
     public String ToString()
     {
-        return title + " P" + GetPriority()  + " " + time.ToString();
+        return title + " P" + GetPriority()  + (routine!=null?" *R*":"") +  " " + time.ToString();
     }
 
     public String ToStringTime()
@@ -103,7 +113,7 @@ class AiTask extends Task
             routine.SetSpecificDate(time.GetStartTime(), time);
         }
         else{
-
+            this.time = time;
         }
     }
 
