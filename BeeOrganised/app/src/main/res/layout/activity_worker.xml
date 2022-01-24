@@ -4,13 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".WorkerActivity">
+    tools:context=".WorkerActivity"
+    android:clickable="true"
+    android:id="@+id/frameLayout">
     <ImageView
+        android:id="@+id/backgroundd"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_main_bg"
+        android:clickable="true"
         />
 
     <RelativeLayout
@@ -35,7 +39,7 @@
                     android:id="@+id/datumPrvi"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:background="@drawable/ic_datum_fixed_fixed"
+                    android:background="@drawable/ic_datum_selected"
                     tools:ignore="SpeakableTextPresentCheck" />
 
                 <TextView
@@ -158,7 +162,6 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/ic_kalendar"
                 android:onClick="otvoriKalendar"
-                android:transitionName="transition_calendar"
                 tools:ignore="SpeakableTextPresentCheck" />
 
 
@@ -172,8 +175,8 @@
 
             <ImageButton
                 android:id="@+id/podeshavanja"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="10dp"
@@ -187,7 +190,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:minHeight="60dp"
-                android:paddingTop="20dp"
+                android:paddingTop="15dp"
                 android:showText="false"
                 android:switchMinWidth="10dp"
                 android:thumb="@drawable/suncemesec"
@@ -195,23 +198,179 @@
 
 
         </RelativeLayout>
-
-        <ImageView
-            android:id="@+id/sat"
-            android:layout_width="match_parent"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/satHolder"
+            android:layout_width="wrap_content"
             android:layout_height="350dp"
             android:layout_below="@+id/optionsHolder"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="-20dp"
-            android:src="@drawable/ic_pmclock"/>
-
-        <com.cvetici.beeorganised.CrtajObaveze
-            android:layout_below="@+id/sat"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
-            android:layout_centerHorizontal="true"/>
+            android:orientation="vertical"
+            android:clipChildren="false">
 
 
+            <ImageView
+
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:src="@drawable/ic_clock_base"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+            <com.cvetici.beeorganised.CrtajObaveze
+                android:id="@+id/crtajObaveze"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:layout_gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/sat"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:src="@drawable/ic_pmclock_ontop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <RelativeLayout
+            android:id="@+id/changeTask"
+            android:layout_below="@id/satHolder"
+            android:layout_width="230dp"
+            android:layout_height="138dp"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/ic_task_bckg"
+            android:visibility="invisible">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageButton
+                    android:layout_marginTop="24dp"
+                    android:layout_marginLeft="32dp"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/ic_checkbox_unchecked"
+                    />
+                <TextView
+                    android:id="@+id/imeTaska"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginLeft="18dp"
+                    android:text="task name"
+                    android:fontFamily="@font/font"
+                    android:textColor="@color/BeeText"
+                    android:layout_weight="900"
+                    android:textSize="21dp"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="5dp"
+                    android:layout_marginLeft="82dp"
+                    android:layout_marginTop="40dp"
+                    android:background="@drawable/ic_line" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="82dp"
+                android:layout_marginTop="45dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="900"
+                    android:fontFamily="@font/brojke"
+                    android:text="10:00"
+                    android:textColor="@color/BeeText"
+                    android:textSize="19dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:text="➜"
+                    android:textColor="@color/BeeText"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="900"
+                    android:fontFamily="@font/brojke"
+                    android:text="10:00"
+                    android:textColor="@color/BeeText"
+                    android:textSize="19dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="5dp"
+                android:gravity="center_horizontal">
+
+                <ImageView
+                    android:layout_width="180dp"
+                    android:layout_height="8dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/ic_line" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="81dp"
+                android:gravity="center_horizontal">
+
+                <ImageView
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/ic_edit_icon" />
+
+                <ImageView
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/ic_colors_icon" />
+
+                <ImageView
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/ic_bin" />
+
+                <ImageView
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/ic_info_icon" />
+
+            </LinearLayout>
+        </RelativeLayout>
 
 
 
@@ -230,12 +389,13 @@
             android:onClick="expandButtons"
             android:src="@drawable/ic_plusic"
             android:tint="@color/DateColor"
+            android:transitionName="task"
             app:backgroundTint="@color/BeeText"
             app:rippleColor="@color/UserChosing"
             app:tint="@color/DateColor"
             tools:ignore="SpeakableTextPresentCheck" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/SimpleButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -246,17 +406,21 @@
             android:backgroundTint="@color/ClockBckg"
             android:clickable="true"
             android:focusable="true"
+            android:fontFamily="@font/font"
             android:onClick="simpleTaskCard"
-            android:src="@drawable/ic_basictask"
-            android:transitionName="task"
+            android:scaleX="0.9"
+            android:scaleY="0.9"
+            android:text="@string/sipleTask"
+            android:textColor="@color/DateColor"
+            android:tint="@color/DateColor"
             android:visibility="invisible"
             app:backgroundTint="@color/UserChosing"
+            app:icon="@drawable/ic_basictask"
+            app:iconTint="@color/DateColor"
             app:rippleColor="@color/UserChosing"
-            app:tint="@color/DateColor"
+            app:tint="@color/DateColor" />
 
-            />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/RoutineButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -267,17 +431,22 @@
             android:backgroundTint="@color/ClockBckg"
             android:clickable="true"
             android:focusable="true"
-            android:src="@drawable/ic_repeatingtask"
+            android:fontFamily="@font/font"
+            android:onClick="openRoutines"
+            android:scaleX="0.9"
+            android:scaleY="0.9"
+            android:text="@string/routine"
+            android:textColor="@color/DateColor"
+            android:tint="@color/DateColor"
             android:visibility="invisible"
-            app:tint="@color/DateColor"
             app:backgroundTint="@color/UserChosing"
+            app:icon="@drawable/ic_repeatingtask"
+            app:iconTint="@color/DateColor"
             app:rippleColor="@color/UserChosing"
-
-            />
-
+            app:tint="@color/DateColor" />
 
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/TaskButton"
             android:layout_width="400px"
             android:layout_height="50px"
@@ -285,7 +454,9 @@
             android:layout_centerHorizontal="true"
             android:background="@drawable/background_for_exbtn"
             android:onClick="expandTaskList"
-            android:text="^" />
+            android:text="▲"
+            android:textColor="@color/DateColor"
+            android:textSize="12dp" />
 
 
 

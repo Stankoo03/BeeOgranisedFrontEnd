@@ -83,6 +83,7 @@ import java.util.Locale;
 
 public class WorkerActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener,ListaTaskovaAdapter.OnTaskListener{
 
+    private ImageView background;
     private Calendar calendar,notifyCalendar;
     private TextView d1,d2,d3;
     private TextView w1,w2,w3;
@@ -96,7 +97,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     private FloatingActionButton main;
     private ExtendedFloatingActionButton task,routine;
 
-    private Animation rotateOpen,rotateClose,fromButton,toButton ;
+    private Animation rotateOpen,rotateClose,fromButton,toButton,slowlyCLose;
 
     private LinearLayout ManualTimeLayout,AiLayout,AfterCalculateBtn,weekChecboxHolder;
 
@@ -122,9 +123,9 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     private ImageButton datumPrvi,datumDrugi,datumTreci, podeshavanje, lang, srb, eng, ger, spa, fran, help;
     private ImageButton changeUserBtn,textApply;
     public  List<Task> currentList,mainList;
-    public boolean dan;
+    public boolean dan,backgroundClicked;
     Dialog dialog;
-    private RelativeLayout routineHolder;
+    private RelativeLayout routineHolder,changeTaskHolder;
 
     private CrtajObaveze crtaj;
 
@@ -177,6 +178,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
 
         std = new SmartToDo(5);
         clicked=false;
+        backgroundClicked =false;
 
         daynightSwitch = (Switch) findViewById(R.id.daynightSwitch);
         d1 = (TextView) findViewById(R.id.firstDate);
@@ -185,6 +187,8 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         w1 = (TextView) findViewById(R.id.firstWeek);
         w2 = (TextView) findViewById(R.id.secondWeek);
         w3 = (TextView) findViewById(R.id.thirdWeek);
+        changeTaskHolder = findViewById(R.id.changeTask);
+        background = findViewById(R.id.backgroundd);
 
         datumPrvi = (ImageButton)findViewById(R.id.datumPrvi);
         datumDrugi = (ImageButton)findViewById(R.id.datumDrugi);
@@ -192,7 +196,6 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
 
 
         ListaTaskova = ListView.findViewById(R.id.ListaRV);
-
         ListaRutina =  RoutinesView.findViewById(R.id.ListaRV);
         routineSp = RoutinesView.findViewById(R.id.routineSp);
         weekChecboxHolder = RoutinesView.findViewById(R.id.weekDayHolder);
@@ -210,15 +213,16 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         rotateClose = AnimationUtils.loadAnimation(this,R.anim.rotate_close_anim);
         fromButton = AnimationUtils.loadAnimation(this,R.anim.from_bottom_anim);
         toButton = AnimationUtils.loadAnimation(this,R.anim.to_bottom_anim);
+        slowlyCLose = AnimationUtils.loadAnimation(this,R.anim.polako_zatvori);
 
+        changeTaskHolder =findViewById(R.id.changeTask);
 
         main = (FloatingActionButton) findViewById(R.id.MainButton);
         routine = (ExtendedFloatingActionButton) findViewById(R.id.RoutineButton);
         task = (ExtendedFloatingActionButton) findViewById(R.id.SimpleButton);
 
+
         sat = (ImageView) findViewById(R.id.sat);
-
-
 
         RG = bottomSheetView.findViewById(R.id.RadioGroup);
         ManualTimeLayout = bottomSheetView.findViewById(R.id.ManualTimeLayout);
@@ -254,6 +258,8 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                 imm.hideSoftInputFromWindow(enterTask.getWindowToken(),0);
             }
         });
+
+
 
         routine.shrink();
         task.shrink();

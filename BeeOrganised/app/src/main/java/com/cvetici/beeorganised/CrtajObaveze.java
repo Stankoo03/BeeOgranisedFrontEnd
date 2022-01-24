@@ -17,6 +17,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -28,7 +29,7 @@ import java.util.Random;
 public class CrtajObaveze extends View {
     private int height,width=0;
     private int radius=0;
-    private Paint paint,paint1;
+    private Paint paint,paint1,bela;
     private boolean isInit=false;
     private RectF oval;
     private List<Task> listaTaskova;
@@ -37,6 +38,7 @@ public class CrtajObaveze extends View {
     private RectF osnovaKruga;
     private boolean IsTouched;
     private float touchAngle;
+    private TextView taskName,startingTime,endingTime;
     private RelativeLayout taskChangerLayout;
     private Animation animacijaOtvaranja,animacijaZatvaranja;
     Context context;
@@ -61,12 +63,17 @@ public class CrtajObaveze extends View {
         this.context=context;
     }
     private void initClock(){
+        taskName = ((Activity)context).findViewById(R.id.imeTaska);
+        startingTime=((Activity)context).findViewById(R.id.startingTime);
+        endingTime = ((Activity)context).findViewById(R.id.endingTime);
         height = getHeight();
         width = getWidth();
         int min = Math.min(height,width);
         radius = min/2;
         paint = new Paint();
         paint1 = new Paint();
+        bela = new Paint();
+        bela.setColor(getResources().getColor(R.color.ProzirnaDate));
         taskChangerLayout = ((Activity)context).findViewById(R.id.changeTask);
         isInit=true;
         osnovaKruga = new RectF(80, 80, width - 80, height - 80);
@@ -104,7 +111,9 @@ public class CrtajObaveze extends View {
                     angle2 = (float) (180 * angle2 / Math.PI);
                     angle1 = (float) (180 * angle1 / Math.PI);
                     canvas.drawArc(osnovaKruga, angle1, angle2 , true, paint);
-                    clickListener(angle1,angle2,canvas);
+                    canvas.drawArc(osnovaKruga,angle1,1,true,bela);
+                    canvas.drawArc(osnovaKruga,angle2+angle1-1,1,true,bela);
+                    clickListener(angle1,angle2,canvas,item);
 
 
                 }if(loc1 < 12 && loc2 >= 12){
@@ -117,7 +126,9 @@ public class CrtajObaveze extends View {
                     angle2 = (float) (180 * angle2 / Math.PI);
                     angle1 = (float) (180 * angle1 / Math.PI);
                     canvas.drawArc(osnovaKruga, angle1 , angle2 , true, paint);
-                    clickListener(angle1,angle2,canvas);
+                    canvas.drawArc(osnovaKruga,angle1,1,true,bela);
+                    canvas.drawArc(osnovaKruga,angle2+angle1-1,1,true,bela);
+                    clickListener(angle1,angle2,canvas,item);
 
                 }
                 if(IsTouched&&taskChangerLayout.getVisibility()==VISIBLE){
@@ -138,10 +149,14 @@ public class CrtajObaveze extends View {
             float loc3 = (hour3+minute3/60);
             float angle3 = (float) ((Math.PI / 6) * loc3 - Math.PI / 2)-angle1;
             canvas.drawArc(osnovaKruga, (float) (180 * angle1 / Math.PI), (float) (180 * angle3 / Math.PI), true, paint);
+            canvas.drawArc(osnovaKruga,angle1,1,true,bela);
+            canvas.drawArc(osnovaKruga,angle3+angle1-1,1,true,bela);
         }else {
             float angle1 = (float) ((Math.PI / 6) * loc1 - Math.PI / 2);
             float angle3 = (float) ((Math.PI / 6) * 11.99f - Math.PI / 2)-angle1;
             canvas.drawArc(osnovaKruga, (float) (180 * angle1 / Math.PI), (float) (180 * angle3 / Math.PI), true, paint);
+            canvas.drawArc(osnovaKruga,angle1,1,true,bela);
+            canvas.drawArc(osnovaKruga,angle3+angle1-1,1,true,bela);
         }
     }
 
@@ -175,7 +190,9 @@ public class CrtajObaveze extends View {
         }
         return super.onTouchEvent(event);
     }
-    public void clickListener(float angle1, float angle2,Canvas canvas){
+
+
+    public void clickListener(float angle1, float angle2,Canvas canvas,Task current){
         if(angle1<0){
             angle1+=360;
         }
@@ -185,6 +202,9 @@ public class CrtajObaveze extends View {
         if(IsTouched&&angle1<=touchAngle&&touchAngle<=angle2+angle1 ){
             IsTouched = false;
             canvas.drawArc(osnovaKruga,(float) angle1, (float) angle2,true,paint1);
+            taskName.setText(current.GetTitle());
+            startingTime.setText(current.GetTime().GetStartTime().ToStringTime());
+            endingTime.setText(current.GetTime().GetEndTime().ToStringTime());
 
             changeTaskColor();
         }
@@ -197,6 +217,5 @@ public class CrtajObaveze extends View {
             taskChangerLayout.setVisibility(VISIBLE);
             taskChangerLayout.startAnimation(animacijaOtvaranja);
         }
-
     }
 }

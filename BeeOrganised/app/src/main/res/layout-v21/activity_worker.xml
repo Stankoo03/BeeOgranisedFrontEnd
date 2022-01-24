@@ -5,13 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".WorkerActivity"
+    android:clickable="true"
     android:id="@+id/frameLayout">
     <ImageView
+        android:id="@+id/backgroundd"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_main_bg"
+        android:clickable="true"
         />
 
     <RelativeLayout
@@ -291,6 +294,7 @@
             android:layout_marginTop="45dp">
 
             <TextView
+                android:id="@+id/startingTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="900"
@@ -309,6 +313,7 @@
                 android:textSize="15dp" />
 
             <TextView
+                android:id="@+id/endingTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="900"
