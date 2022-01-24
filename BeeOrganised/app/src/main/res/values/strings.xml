@@ -92,4 +92,11 @@
     <string name="next">Continue</string>
     <string name="scan">Scan QR CODE</string>
 
+    <string name="settask">Task set successfully</string>
+    <string name="setproblem">There is a problem while adding your task</string>
+    <string name="priorityprob">"You haven't chosen a priority"</string>
+    <string name="timeprob">"You haven't chosen a time"</string>
+    <string name="durationprob">"You haven't chosen a duration"</string>
+    <string name="error">Error</string>
+
 </resources>

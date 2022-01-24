@@ -78,5 +78,11 @@
     <string name="next">Continuar</string>
     <string name="gen">Generar</string>
     <string name="scan">Escanear código QR</string>
+    <string name="settask">Tarea establecida con éxito</string>
+    <string name="setproblem">Hay un problema al agregar su tarea</string>
+    <string name="priorityprob">No has elegido una prioridad</string>
+    <string name="timeprob">No has elegido un tiempo</string>
+    <string name="durationprob">No has elegido una duración.</string>
+    <string name="error">Error</string>
 
 </resources>

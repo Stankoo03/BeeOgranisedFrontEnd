@@ -80,5 +80,11 @@
     <string name="next">Continuez</string>
     <string name="gen">Produire</string>
     <string name="scan">Scanner le QRCODE</string>
+    <string name="settask">Tâche définie avec succès</string>
+    <string name="setproblem">Il y a un problème lors de l\'ajout de votre tâche</string>
+    <string name="priorityprob">Vous n\'avez pas choisi de priorité</string>
+    <string name="timeprob">Vous n\'avez pas choisi d\'heure</string>
+    <string name="durationprob">Vous n\'avez pas choisi de durée</string>
+    <string name="error">Erreur</string>
 
 </resources>
