@@ -18,7 +18,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -58,9 +60,12 @@ public class Kalendar extends AppCompatActivity implements CalendarAdapter.OnIte
     private Button FromTime,ToTime;
     private int h1=-1,h2=-1,m1=-1,m2=-1;
     private SmartToDo std;
+    private BottomSheetDialog ListaItema;
+    private View ListView;
+    private RecyclerView ListaTaskova;
 
     private List<Task> currentList;
-
+    private Button TaskButton;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     //istrazi sta je ovo Requires API
@@ -90,6 +95,14 @@ public class Kalendar extends AppCompatActivity implements CalendarAdapter.OnIte
         );
         bottomSheetDialog.setContentView(bottomSheetView);
 
+        ListaItema = new BottomSheetDialog(Kalendar.this,R.style.BottomSheetDialogTheme);
+        ListView = LayoutInflater.from(getApplicationContext()).inflate(
+                R.layout.list_layout,(RelativeLayout)findViewById(R.id.ListRelative)
+        );
+        ListaItema.setContentView(ListView);
+
+        ListaTaskova = ListView.findViewById(R.id.ListaRV);
+        TaskButton = findViewById(R.id.TaskButton);
         RG = bottomSheetView.findViewById(R.id.RadioGroup);
         ManualTimeLayout = bottomSheetView.findViewById(R.id.ManualTimeLayout);
         AiLayout = bottomSheetView.findViewById(R.id.AiTimeLayout);
@@ -169,7 +182,9 @@ public class Kalendar extends AppCompatActivity implements CalendarAdapter.OnIte
         if(!dayText.equals(" ")){
             if(task.getVisibility()!=View.VISIBLE) {
                 task.setVisibility(View.VISIBLE);
+                TaskButton.setVisibility(View.VISIBLE);
                 TaskVisibilityAnimation();
+                TaskVisibilityAnimationBottom();
             }
             if(dayText.startsWith("0")){
                 currentDay= Integer.parseInt(dayText.substring(1,2));
@@ -187,8 +202,10 @@ public class Kalendar extends AppCompatActivity implements CalendarAdapter.OnIte
 
         }else{
             if(task.getVisibility()==View.VISIBLE) {
+                TaskButton.setVisibility(View.INVISIBLE);
                 task.setVisibility(View.INVISIBLE);
                 TaskVisibilityAnimation();
+                TaskVisibilityAnimationBottom();
             }
 
         }
@@ -203,7 +220,15 @@ public class Kalendar extends AppCompatActivity implements CalendarAdapter.OnIte
 
 
     }
+    private void TaskVisibilityAnimationBottom(){
+        if(TaskButton.getVisibility()==View.INVISIBLE){
+            TaskButton.startAnimation(toButton);
+        }else{
+            TaskButton.startAnimation(fromButton);
+        }
 
+
+    }
 
     public void dodajTaskNaKalendar(View view) {
         if(task.isExtended()){
@@ -317,9 +342,13 @@ public class Kalendar extends AppCompatActivity implements CalendarAdapter.OnIte
         currentList = gson.fromJson(json,type);
         if(currentList==null){
             currentList = new ArrayList<>();
-        }
-
+        } 
     }
+
+    public void expandTaskList(View view) {
+        ListaItema.show();
+    }
+
 
 
 }
