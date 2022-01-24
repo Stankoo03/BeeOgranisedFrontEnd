@@ -76,5 +76,9 @@
     <string name="infohelp">Informations\nL\'icône d\'informations vous permet d\'entrer plus de détails sur la tâche.</string>
     <string name="repeat">Répéter:</string>
     <string name="apply">APPLIQUER</string>
+    <string name="username">Entrez votre nom d\'utilisateur</string>
+    <string name="next">Continuez</string>
+    <string name="gen">Produire</string>
+    <string name="scan">Scanner le QRCODE</string>
 
 </resources>

@@ -82,5 +82,9 @@
     <string name="infohelp">Info\nThe info icon enables you to imput more task details.</string>
     <string name="repeat">Repeat:</string>
     <string name="apply">Apply:</string>
+    <string name="username">Enter your username</string>
+    <string name="next">Continue</string>
+    <string name="gen">Generate</string>
+    <string name="scan">Scan QR CODE</string>
 
 </resources>

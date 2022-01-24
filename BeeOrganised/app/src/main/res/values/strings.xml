@@ -87,4 +87,9 @@
     <string name="repeat">Repeat: </string>
     <string name="apply">Apply </string>
 
+    <string name="username">Enter your username</string>
+    <string name="gen">Generate</string>
+    <string name="next">Continue</string>
+    <string name="scan">Scan QR CODE</string>
+
 </resources>

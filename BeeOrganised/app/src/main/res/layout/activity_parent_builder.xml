@@ -7,12 +7,29 @@
     tools:context=".ParentBuilderActivity"
     android:background="@color/UserChosing"
     android:padding="16dp">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center">
+    <ImageView
+        android:layout_marginTop="5dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:background="@drawable/ic_parentw" />
+
+</LinearLayout>
 
     <androidx.appcompat.widget.AppCompatButton
+        android:layout_marginTop="165dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/BeeText"
-        android:text="Skeniraj QR KOD"
+        android:textSize="18dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:fontFamily="@font/font"
+        android:textColor="@color/BehindCalendar"
+        android:text="@string/scan"
         android:onClick="Scan"
         />
 
