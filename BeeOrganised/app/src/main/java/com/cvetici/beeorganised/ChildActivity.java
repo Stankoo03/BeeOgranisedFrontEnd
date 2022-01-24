@@ -26,7 +26,9 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.drawable.ColorDrawable;
 import android.icu.text.DateFormat;
 import android.icu.text.SimpleDateFormat;
@@ -64,6 +66,9 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 import android.app.Dialog;
 import com.google.gson.reflect.TypeToken;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.common.BitMatrix;
 
 
 import java.io.File;
@@ -79,6 +84,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 
 public class ChildActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener,ListaTaskovaAdapter.OnTaskListener{
@@ -250,7 +256,6 @@ public class ChildActivity extends AppCompatActivity implements TimePickerDialog
         task.shrink();
 
     }
-
     private void SwitchListener(){
         if(calendar.get(Calendar.HOUR_OF_DAY)>=12){
             daynightSwitch.setChecked(false);
