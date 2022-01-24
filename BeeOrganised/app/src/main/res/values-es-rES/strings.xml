@@ -77,5 +77,6 @@
     <string name="username">Ingrese su nombre de usuario</string>
     <string name="next">Continuar</string>
     <string name="gen">Generar</string>
+    <string name="scan">Escanear código QR</string>
 
 </resources>

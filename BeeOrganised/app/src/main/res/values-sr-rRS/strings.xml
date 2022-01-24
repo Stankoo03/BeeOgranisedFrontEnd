@@ -84,5 +84,6 @@
     <string name="username">Унесите корисничко име</string>
     <string name="next">Настави</string>
     <string name="gen">Генериши</string>
+    <string name="scan">Скенирај QR КОД</string>
 
 </resources>
