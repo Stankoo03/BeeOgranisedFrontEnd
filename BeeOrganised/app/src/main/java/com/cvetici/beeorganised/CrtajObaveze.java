@@ -139,7 +139,7 @@ public class CrtajObaveze extends View {
 
 
                 }if(loc1 < 12 && loc2 >= 12){
-                    proveriPrelom(loc1,hour2-12,minute2,canvas);
+                    proveriPrelom(loc1,hour2-12,minute2,canvas,item);
 
                 }
                 if (dan == false && loc1 < 12 && loc2 < 12) {
@@ -165,20 +165,20 @@ public class CrtajObaveze extends View {
 
     }
 
-    private void proveriPrelom(float loc1,float hour3,float minute3,Canvas canvas) {
+    private void proveriPrelom(float loc1,float hour3,float minute3,Canvas canvas,Task item) {
         if(dan==true){
             float angle1 = (float) (-Math.PI / 2);
             float loc3 = (hour3+minute3/60);
             float angle3 = (float) ((Math.PI / 6) * loc3 - Math.PI / 2)-angle1;
             canvas.drawArc(osnovaKruga, (float) (180 * angle1 / Math.PI), (float) (180 * angle3 / Math.PI), true, paint);
-            canvas.drawArc(osnovaKruga,angle1,1,true,bela);
-            canvas.drawArc(osnovaKruga,angle3+angle1-1,1,true,bela);
+            canvas.drawArc(osnovaKruga, (float) (180 * (angle3+angle1) / Math.PI)-1, 1f, true, bela);
+            clickListener((float)(180 * angle1 / Math.PI),(float)(180 * angle3 / Math.PI),canvas,item);
         }else {
             float angle1 = (float) ((Math.PI / 6) * loc1 - Math.PI / 2);
             float angle3 = (float) ((Math.PI / 6) * 11.99f - Math.PI / 2)-angle1;
             canvas.drawArc(osnovaKruga, (float) (180 * angle1 / Math.PI), (float) (180 * angle3 / Math.PI), true, paint);
-            canvas.drawArc(osnovaKruga,angle1,1,true,bela);
-            canvas.drawArc(osnovaKruga,angle3+angle1-1,1,true,bela);
+            canvas.drawArc(osnovaKruga, (float) (180 * angle1 / Math.PI), (float) 1, true, bela);
+            clickListener((float)(180 * angle1 / Math.PI),(float)(180 * angle3 / Math.PI),canvas,item);
         }
     }
 
