@@ -91,5 +91,9 @@
     <string name="timeprob">Нисте изабрали време</string>
     <string name="durationprob">Нисте изабрали трајање</string>
     <string name="error">Грешка</string>
+    <string name="rusure">Да ᴫи сте сигурни?</string>
+    <string name="rusure1">Да ᴫи сте сигурни да жеᴫите да избришете овај задатак? Не можете поништити.</string>
+    <string name="cancel">ОТКАЗАТИ</string>
+    <string name="delete">ИЗБРИШИ</string>
 
 </resources>

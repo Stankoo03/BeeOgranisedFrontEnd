@@ -44,14 +44,12 @@
 
         <ImageButton
             android:id="@+id/textApply"
-            android:layout_width="42dp"
-            android:layout_height="42dp"
-            android:src="@drawable/ic_baseline_input_24"
-            android:background="@color/BeeText"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="@drawable/ic_arrow_bottom"
             android:layout_gravity="center"
             android:layout_marginLeft="3dp"
-            android:layout_marginRight="8dp"
-            android:tint="@color/BehindCalendar" />
+            android:layout_marginRight="10dp" />
 
     </LinearLayout>
 
@@ -146,6 +144,7 @@
         android:layout_marginStart="40dp"
         android:layout_marginBottom="10dp"
         android:textColor="@color/DateColor"
+        android:clickable="true"
         />
 
     <LinearLayout
@@ -260,6 +259,7 @@
         android:layout_marginBottom="10dp"
         android:textColor="@color/DateColor"
         android:visibility="gone"
+        android:clickable="true"
         />
 
     <LinearLayout
@@ -332,6 +332,7 @@
         android:layout_marginBottom="10dp"
         android:textColor="@color/DateColor"
         android:visibility="gone"
+        android:clickable="true"
         />
 
 

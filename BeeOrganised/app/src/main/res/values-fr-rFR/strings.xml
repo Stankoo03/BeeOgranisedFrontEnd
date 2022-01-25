@@ -86,5 +86,9 @@
     <string name="timeprob">Vous n\'avez pas choisi d\'heure</string>
     <string name="durationprob">Vous n\'avez pas choisi de durée</string>
     <string name="error">Erreur</string>
+    <string name="rusure">Es-tu sûr?</string>
+    <string name="rusure1">Voulez-vous vraiment supprimer cette tâche ? Vous ne pouvez pas annuler.</string>
+    <string name="cancel">ANNULER</string>
+    <string name="delete">EFFACER</string>
 
 </resources>

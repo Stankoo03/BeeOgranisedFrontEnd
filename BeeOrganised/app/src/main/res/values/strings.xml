@@ -99,4 +99,9 @@
     <string name="durationprob">"You haven't chosen a duration"</string>
     <string name="error">Error</string>
 
+    <string name="rusure">Are you sure?</string>
+    <string name="rusure1">Are you sure you would like to delete this task? You can not undo.</string>
+    <string name="cancel">CANCEL</string>
+    <string name="delete">DELETE</string>
+
 </resources>
