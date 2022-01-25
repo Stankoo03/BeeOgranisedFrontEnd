@@ -97,7 +97,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     private FloatingActionButton main;
     private ExtendedFloatingActionButton task,routine;
 
-    private Animation rotateOpen,rotateClose,fromButton,toButton,slowlyCLose;
+    private Animation rotateOpen,rotateClose,fromButton,toButton,slowlyCLose,slowlyOpen;
 
     private LinearLayout ManualTimeLayout,AiLayout,AfterCalculateBtn,weekChecboxHolder;
 
@@ -214,6 +214,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         fromButton = AnimationUtils.loadAnimation(this,R.anim.from_bottom_anim);
         toButton = AnimationUtils.loadAnimation(this,R.anim.to_bottom_anim);
         slowlyCLose = AnimationUtils.loadAnimation(this,R.anim.polako_zatvori);
+        slowlyOpen = AnimationUtils.loadAnimation(this,R.anim.polako_pojavi);
 
         changeTaskHolder =findViewById(R.id.changeTask);
 
@@ -568,8 +569,20 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     @Override
     public void onTimeSet(TimePicker timePicker, int Hour, int Minute) {
         Fragment dateTo =WorkerActivity.this.getSupportFragmentManager().findFragmentByTag("tp1");
+        String hourString,minuteString;
+        if(Hour<10){
+            hourString="0"+Hour;
+        }else{
+            hourString=Hour+"";
+        }
+        if(Minute<10){
+            minuteString="0"+Minute;
+        }else{
+            minuteString=""+Minute;
+        }
         if(dateTo!=null) {
-            FromTime.setText("Starting time: " + Hour+ ":" + Minute);
+
+            FromTime.setText("Starting time: " +hourString+ ":" + minuteString);
             h1=Hour;
             m1=Minute;
             dateTo=null;
@@ -577,7 +590,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         }else{
             h2=Hour;
             m2=Minute;
-            ToTime.setText("Ending Time: "+ Hour+ ":" + Minute);
+            ToTime.setText("Starting time: " +hourString+ ":" + minuteString);
             ShowSetSimpleTaskBtn();
         }
 
