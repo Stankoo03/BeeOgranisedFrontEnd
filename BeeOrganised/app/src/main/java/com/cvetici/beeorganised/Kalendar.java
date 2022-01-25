@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.TimePickerDialog;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioGroup;
@@ -51,6 +53,7 @@ public class Kalendar extends AppCompatActivity implements CalendarAdapter.OnIte
     private BottomSheetDialog bottomSheetDialog;
     private View bottomSheetView;
     private RadioGroup RG;
+    private ImageView hexagonIV,prevHexagon;
 
     private EditText enterTask;
     private Button CalculateBtn,SetBtn;
@@ -159,6 +162,7 @@ public class Kalendar extends AppCompatActivity implements CalendarAdapter.OnIte
     }
 
     private void initWigets() {
+        hexagonIV= findViewById(R.id.hexagon);
         calendarRecyclerView = findViewById(R.id.calendarRecyclerView);
         monthYearText = findViewById(R.id.monthYearTV);
     }
@@ -178,8 +182,14 @@ public class Kalendar extends AppCompatActivity implements CalendarAdapter.OnIte
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public void onItemClick(int position, String dayText) {
+    public void onItemClick(int position, String dayText,ImageView hexagon) {
+
         if(!dayText.equals(" ")){
+            if(prevHexagon!=null){
+                prevHexagon.setImageDrawable(getResources().getDrawable(R.drawable.ic_datehexa));
+            }
+            hexagon.setImageDrawable(getResources().getDrawable(R.drawable.ic_datehexa_selected));
+            prevHexagon=hexagon;
             if(task.getVisibility()!=View.VISIBLE) {
                 task.setVisibility(View.VISIBLE);
                 TaskButton.setVisibility(View.VISIBLE);
@@ -202,6 +212,7 @@ public class Kalendar extends AppCompatActivity implements CalendarAdapter.OnIte
 
         }else{
             if(task.getVisibility()==View.VISIBLE) {
+
                 TaskButton.setVisibility(View.INVISIBLE);
                 task.setVisibility(View.INVISIBLE);
                 TaskVisibilityAnimation();

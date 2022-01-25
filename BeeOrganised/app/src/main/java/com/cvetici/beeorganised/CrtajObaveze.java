@@ -65,11 +65,12 @@ public class CrtajObaveze extends View {
     public CrtajObaveze(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context=context;
-      //  dialogdel = new Dialog(context);
-        bin = (ImageButton) findViewById(R.id.delete);
+
+
 
     }
     private void initClock(){
+        dialogdel = new Dialog(context);
         taskName = ((Activity)context).findViewById(R.id.imeTaska);
         startingTime=((Activity)context).findViewById(R.id.startingTime);
         endingTime = ((Activity)context).findViewById(R.id.endingTime);
@@ -87,6 +88,8 @@ public class CrtajObaveze extends View {
         IsTouched = false;
         animacijaOtvaranja = AnimationUtils.loadAnimation(context,R.anim.polako_pojavi);
         animacijaZatvaranja = AnimationUtils.loadAnimation(context,R.anim.polako_zatvori);
+        bin = (ImageButton) ((Activity)context).findViewById(R.id.delete);
+        opendelete();
 
     }
 

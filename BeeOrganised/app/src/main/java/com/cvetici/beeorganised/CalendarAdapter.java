@@ -2,10 +2,12 @@ package com.cvetici.beeorganised;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -43,9 +45,14 @@ class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull CalendarViewHolder holder, int position) {
         holder.dayOfMonth.setText(daysOfMonth.get(position));
+        if(daysOfMonth.get(position)==" "){
+            holder.hexagonImage.setVisibility(View.INVISIBLE);
+        }
         if(daysOfMonth.get(position).equals(calendar.get(Calendar.DAY_OF_MONTH)+"")){
             holder.dayOfMonth.setTextColor(R.color.DateColor);
-            holder.dayOfMonth.setTextSize(22);
+            holder.dayOfMonth.setTextSize(21);
+            holder.dayOfMonth.setPaintFlags(holder.dayOfMonth.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
+
         }
 
     }
@@ -55,7 +62,7 @@ class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
         return daysOfMonth.size();
     }
     public interface OnItemListener{
-        void onItemClick(int position,String dayText);
+        void onItemClick(int position, String dayText, ImageView hexagonImage);
 
 
     }
