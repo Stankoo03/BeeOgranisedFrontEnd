@@ -90,5 +90,9 @@
     <string name="timeprob">Sie haben keine Zeit ausgewählt</string>
     <string name="durationprob">Sie haben keine Dauer ausgewählt</string>
     <string name="error">Fehler</string>
+    <string name="rusure">Bist du sicher?</string>
+    <string name="rusure1">Möchten Sie diese Aufgabe wirklich löschen? Sie können nicht rückgängig gemacht werden.</string>
+    <string name="cancel">ABBRECHEN</string>
+    <string name="delete">LÖSCHEN</string>
 
 </resources>

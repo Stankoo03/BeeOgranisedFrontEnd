@@ -3,6 +3,7 @@ package com.cvetici.beeorganised;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -16,8 +17,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -25,6 +28,10 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -45,11 +52,17 @@ public class CrtajObaveze extends View {
     private RelativeLayout taskChangerLayout;
     private Animation animacijaOtvaranja,animacijaZatvaranja;
     Context context;
+    private SmartToDo std;
     private ImageButton bin;
+    private List<Task> mainList;
+    private Task tasknow;
     private int[] boje = {
             getResources().getColor(R.color.UserChosing)
     };
     private View WorkerActivity;
+    private ImageButton checkbx;
+    private ImageView check;
+    private Button cancel, del;
     Dialog dialogdel;
 
 
@@ -65,7 +78,6 @@ public class CrtajObaveze extends View {
     public CrtajObaveze(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context=context;
-
 
 
     }
@@ -88,8 +100,16 @@ public class CrtajObaveze extends View {
         IsTouched = false;
         animacijaOtvaranja = AnimationUtils.loadAnimation(context,R.anim.polako_pojavi);
         animacijaZatvaranja = AnimationUtils.loadAnimation(context,R.anim.polako_zatvori);
+
+        std = new SmartToDo(5);
+        load();
+        std.setTasks((ArrayList<Task>) mainList);
+
         bin = (ImageButton) ((Activity)context).findViewById(R.id.delete);
         opendelete();
+
+        check = ((Activity)context).findViewById(R.id.check);
+        checkbx = ((Activity)context).findViewById(R.id.checkbx);
 
     }
 
@@ -99,11 +119,47 @@ public class CrtajObaveze extends View {
             public void onClick(View view) {
                 dialogdel.setContentView(R.layout.deletetask);
                 dialogdel.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                cancel = (Button) dialogdel.findViewById(R.id.cancel);
+                del = (Button) dialogdel.findViewById(R.id.del);
+                cancelit();
+                deletetask();
                 dialogdel.show();
 
             }
         });
 
+    }
+    private void cancelit(){
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogdel.dismiss();
+            }
+        });
+
+    }
+    private void deletetask(){
+        del.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                std.RemoveTask(tasknow.title.toString());
+                dialogdel.dismiss();
+            }
+        });
+    }
+
+    private void cekiraj(){
+        checkbx.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(check.getVisibility()==View.VISIBLE) {
+                    check.setVisibility(View.INVISIBLE);
+                }
+                else  if(check.getVisibility()==View.INVISIBLE) {
+                    check.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 
     @Override
@@ -136,6 +192,7 @@ public class CrtajObaveze extends View {
                     canvas.drawArc(osnovaKruga,angle1,1,true,bela);
                     canvas.drawArc(osnovaKruga,angle2+angle1-1,1,true,bela);
                     clickListener(angle1,angle2,canvas,item);
+
 
 
                 }if(loc1 < 12 && loc2 >= 12){
@@ -227,13 +284,25 @@ public class CrtajObaveze extends View {
             taskName.setText(current.GetTitle());
             startingTime.setText(current.GetTime().GetStartTime().ToStringTime());
             endingTime.setText(current.GetTime().GetEndTime().ToStringTime());
-
             changeTaskColor();
+            tasknow = current;
+            cekiraj();
         }
 
 
     }
+    public void load(){
+        String FILE_NAME="taskLists";
+        SharedPreferences sharedPreferences = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString(FILE_NAME,null);
+        Type type = new TypeToken<List<Task>>() {}.getType();
+        mainList = gson.fromJson(json,type);
+        if(mainList==null){
+            mainList = new ArrayList<>();
+        }
 
+    }
     public void changeTaskColor(){
         if(taskChangerLayout.getVisibility()==INVISIBLE) {
             taskChangerLayout.setVisibility(VISIBLE);
