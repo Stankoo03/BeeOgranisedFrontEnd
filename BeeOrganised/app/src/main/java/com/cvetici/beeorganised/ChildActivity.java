@@ -1,5 +1,6 @@
 package com.cvetici.beeorganised;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
@@ -24,11 +25,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.drawable.ColorDrawable;
 import android.icu.text.DateFormat;
 import android.icu.text.SimpleDateFormat;
@@ -43,8 +40,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -63,12 +62,14 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.gson.Gson;
 import android.app.Dialog;
 import com.google.gson.reflect.TypeToken;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.common.BitMatrix;
 
 
 import java.io.File;
@@ -84,23 +85,28 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 
 public class ChildActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener,ListaTaskovaAdapter.OnTaskListener{
 
+
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private ImageView background;
     private Calendar calendar,notifyCalendar;
     private TextView d1,d2,d3;
     private TextView w1,w2,w3;
     private TextView AiStartTime,AiEndTime;
+    private String id;
+
+    private CheckBox Mon,Tue,Wed,Thu,Fri,Sat,Sun;
 
     int MainDay,MainMonth,MainYear;
 
-    private boolean clicked=false;
+    private boolean clicked;
     private FloatingActionButton main;
     private ExtendedFloatingActionButton task,routine;
 
-    private Animation rotateOpen,rotateClose,fromButton,toButton ;
+    private Animation rotateOpen,rotateClose,fromButton,toButton,slowlyCLose,slowlyOpen;
 
     private LinearLayout ManualTimeLayout,AiLayout,AfterCalculateBtn,weekChecboxHolder;
 
@@ -109,16 +115,13 @@ public class ChildActivity extends AppCompatActivity implements TimePickerDialog
     private BottomSheetDialog bottomSheetDialog;
     private BottomSheetDialog ListaItema,Routines;
 
-    private Button FromTime,ToTime,CaluculateBtn,SetBtn,TaskButton,ApplyBtn;
+    private Button FromTime,ToTime,CaluculateBtn,SetBtn,ConfirmBtn,ApplyBtn;
     private int Danas=0,Sutra,PSutra,Month,Month1,Month2,Year,Year1,Year2,globalTaskPosition;
 
     private NotificationHelper mHelper;
 
     private Switch daynightSwitch;
     private ImageView sat;
-    private Bitmap qrCode;
-    private Intent qrCodeIntent;
-    private String username;
 
     private EditText enterTask,enterTaskDuration;
     private SmartToDo std;
@@ -127,11 +130,11 @@ public class ChildActivity extends AppCompatActivity implements TimePickerDialog
     private ListaTaskovaAdapter adapter = new ListaTaskovaAdapter(this::onTaskClick);
     private Spinner prioritySp,timeSp,durationSp,routineSp;
     private ImageButton datumPrvi,datumDrugi,datumTreci, podeshavanje, lang, srb, eng, ger, spa, fran, help;
-    private ImageButton changeUserBtn;
-    public  List<Task> currentList;
-    public boolean dan;
+    private ImageButton changeUserBtn,textApply;
+    public  List<Task> currentList,mainList;
+    public boolean dan,backgroundClicked;
     Dialog dialog;
-    private RelativeLayout routineHolder;
+    private RelativeLayout routineHolder,changeTaskHolder;
 
     private CrtajObaveze crtaj;
 
@@ -143,26 +146,27 @@ public class ChildActivity extends AppCompatActivity implements TimePickerDialog
         setContentView(R.layout.activity_child);
         calendar = Calendar.getInstance();
         bottomSheetDialog = new BottomSheetDialog(
-                ChildActivity.this, R.style.BottomSheetDialogTheme
+                this, R.style.BottomSheetDialogTheme
         );
         bottomSheetView = LayoutInflater.from(getApplicationContext()).inflate(
                 R.layout.layout_bottom_sheet,(LinearLayout)findViewById(R.id.bottomSheetContainer)
         );
         bottomSheetDialog.setContentView(bottomSheetView);
 
-        ListaItema = new BottomSheetDialog(ChildActivity.this,R.style.BottomSheetDialogTheme);
+        ListaItema = new BottomSheetDialog(this,R.style.BottomSheetDialogTheme);
         ListView = LayoutInflater.from(getApplicationContext()).inflate(
                 R.layout.list_layout,(RelativeLayout)findViewById(R.id.ListRelative)
         );
         ListaItema.setContentView(ListView);
 
-        Routines = new BottomSheetDialog(ChildActivity.this,R.style.BottomSheetDialogTheme);
+        Routines = new BottomSheetDialog(this,R.style.BottomSheetDialogTheme);
         RoutinesView = LayoutInflater.from(getApplicationContext()).inflate(
                 R.layout.layout_rutine,(RelativeLayout)findViewById(R.id.ListRelative)
         );
         Routines.setContentView(RoutinesView);
 
-        dialog = new Dialog(ChildActivity.this);
+        dialog = new Dialog(this);
+
 
 
         FindViews();
@@ -175,13 +179,15 @@ public class ChildActivity extends AppCompatActivity implements TimePickerDialog
         openSettings();
         applyRoutines();
 
-
+        ChildAddition();
 
     }
 
     private void FindViews(){
 
         std = new SmartToDo(5);
+        clicked=false;
+        backgroundClicked =false;
 
         daynightSwitch = (Switch) findViewById(R.id.daynightSwitch);
         d1 = (TextView) findViewById(R.id.firstDate);
@@ -190,6 +196,8 @@ public class ChildActivity extends AppCompatActivity implements TimePickerDialog
         w1 = (TextView) findViewById(R.id.firstWeek);
         w2 = (TextView) findViewById(R.id.secondWeek);
         w3 = (TextView) findViewById(R.id.thirdWeek);
+        changeTaskHolder = findViewById(R.id.changeTask);
+        background = findViewById(R.id.backgroundd);
 
         datumPrvi = (ImageButton)findViewById(R.id.datumPrvi);
         datumDrugi = (ImageButton)findViewById(R.id.datumDrugi);
@@ -197,27 +205,34 @@ public class ChildActivity extends AppCompatActivity implements TimePickerDialog
 
 
         ListaTaskova = ListView.findViewById(R.id.ListaRV);
-
         ListaRutina =  RoutinesView.findViewById(R.id.ListaRV);
         routineSp = RoutinesView.findViewById(R.id.routineSp);
         weekChecboxHolder = RoutinesView.findViewById(R.id.weekDayHolder);
         routineHolder = RoutinesView.findViewById(R.id.repeatholder);
         ApplyBtn = Routines.findViewById(R.id.applyRoutine);
-
+        Mon = Routines.findViewById(R.id.mon);
+        Tue = Routines.findViewById(R.id.tue);
+        Wed = Routines.findViewById(R.id.wed);
+        Thu = Routines.findViewById(R.id.thu);
+        Fri = Routines.findViewById(R.id.fri);
+        Sat = Routines.findViewById(R.id.sat);
+        Sun = Routines.findViewById(R.id.sun);
 
         rotateOpen = AnimationUtils.loadAnimation(this,R.anim.rotate_open_anim);
         rotateClose = AnimationUtils.loadAnimation(this,R.anim.rotate_close_anim);
         fromButton = AnimationUtils.loadAnimation(this,R.anim.from_bottom_anim);
         toButton = AnimationUtils.loadAnimation(this,R.anim.to_bottom_anim);
+        slowlyCLose = AnimationUtils.loadAnimation(this,R.anim.polako_zatvori);
+        slowlyOpen = AnimationUtils.loadAnimation(this,R.anim.polako_pojavi);
 
+        changeTaskHolder =findViewById(R.id.changeTask);
 
         main = (FloatingActionButton) findViewById(R.id.MainButton);
         routine = (ExtendedFloatingActionButton) findViewById(R.id.RoutineButton);
         task = (ExtendedFloatingActionButton) findViewById(R.id.SimpleButton);
 
-        sat = (ImageView) findViewById(R.id.sat);
-        TaskButton = (Button) findViewById(R.id.TaskButton);
 
+        sat = (ImageView) findViewById(R.id.sat);
 
         RG = bottomSheetView.findViewById(R.id.RadioGroup);
         ManualTimeLayout = bottomSheetView.findViewById(R.id.ManualTimeLayout);
@@ -234,6 +249,10 @@ public class ChildActivity extends AppCompatActivity implements TimePickerDialog
         enterTaskDuration = bottomSheetView.findViewById(R.id.durationEditText);
         AiStartTime = bottomSheetView.findViewById(R.id.AiStarTime);
         AiEndTime = bottomSheetView.findViewById(R.id.AiEndTime);
+        ConfirmBtn = bottomSheetView.findViewById(R.id.ConfirmBtn);
+        textApply = bottomSheetView.findViewById(R.id.textApply);
+
+
 
         globalTaskPosition=-1;
 
@@ -242,20 +261,21 @@ public class ChildActivity extends AppCompatActivity implements TimePickerDialog
         crtaj = new CrtajObaveze(getApplicationContext());
         crtaj = findViewById(R.id.crtajObaveze);
 
-        if(loadUserName()=="") {
-            qrCodeIntent = getIntent();
-            qrCode = BitmapFactory.decodeByteArray(qrCodeIntent.getByteArrayExtra("qrcode"), 0, qrCodeIntent.getByteArrayExtra("qrcode").length);
-            username = qrCodeIntent.getStringExtra("name");
-            saveUserName(username);
-        }else{
-            username = loadUserName();
-        }
-        Toast.makeText(ChildActivity.this, username, Toast.LENGTH_SHORT).show();
+        textApply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(enterTask.getWindowToken(),0);
+            }
+        });
+
+
 
         routine.shrink();
         task.shrink();
 
     }
+
     private void SwitchListener(){
         if(calendar.get(Calendar.HOUR_OF_DAY)>=12){
             daynightSwitch.setChecked(false);
@@ -296,15 +316,13 @@ public class ChildActivity extends AppCompatActivity implements TimePickerDialog
         datumPrvi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                save(MainDay,MainMonth,MainYear);
                 MainDay = Danas;
                 MainMonth = Month;
                 MainYear = Year;
                 datumPrvi.setBackground(getResources().getDrawable(R.drawable.ic_datum_selected));
                 datumDrugi.setBackground(getResources().getDrawable(R.drawable.ic_datum_fixed_fixed));
                 datumTreci.setBackground(getResources().getDrawable(R.drawable.ic_datum_fixed_fixed));
-                load(Danas,Month,Year);
-                std.setTasks((ArrayList<Task>) currentList);
+                currentList = std.GetTasksInInterval(new Interval(new DateTime(MainYear,MainMonth,MainDay,0,0),new DateTime(MainYear,MainMonth,MainDay,23,59)));
                 adapter.setTaskovi(currentList);
                 crtaj.drawLists(currentList);
                 crtaj.Refreshuj();
@@ -314,32 +332,28 @@ public class ChildActivity extends AppCompatActivity implements TimePickerDialog
         datumDrugi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                save(MainDay,MainMonth,MainYear);
                 MainDay = Sutra;
                 MainMonth = Month1;
                 MainYear = Year1;
                 datumDrugi.setBackground(getResources().getDrawable(R.drawable.ic_datum_selected));
                 datumPrvi.setBackground(getResources().getDrawable(R.drawable.ic_datum_fixed_fixed));
                 datumTreci.setBackground(getResources().getDrawable(R.drawable.ic_datum_fixed_fixed));
-                load(Sutra,Month1,Year1);
+                currentList = std.GetTasksInInterval(new Interval(new DateTime(MainYear,MainMonth,MainDay,0,0),new DateTime(MainYear,MainMonth,MainDay,23,59)));
                 adapter.setTaskovi(currentList);
                 crtaj.drawLists(currentList);
                 crtaj.Refreshuj();
-                std.setTasks((ArrayList<Task>) currentList);
             }
         });
         datumTreci.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                save(MainDay,MainMonth,MainYear);
                 MainDay = PSutra;
                 MainMonth = Month2;
                 MainYear = Year2;
                 datumTreci.setBackground(getResources().getDrawable(R.drawable.ic_datum_selected));
                 datumDrugi.setBackground(getResources().getDrawable(R.drawable.ic_datum_fixed_fixed));
                 datumPrvi.setBackground(getResources().getDrawable(R.drawable.ic_datum_fixed_fixed));
-                load(PSutra,Month2,Year2);
-                std.setTasks((ArrayList<Task>) currentList);
+                currentList = std.GetTasksInInterval(new Interval(new DateTime(MainYear,MainMonth,MainDay,0,0),new DateTime(MainYear,MainMonth,MainDay,23,59)));
                 adapter.setTaskovi(currentList);
                 crtaj.drawLists(currentList);
                 crtaj.Refreshuj();
@@ -417,8 +431,9 @@ public class ChildActivity extends AppCompatActivity implements TimePickerDialog
             Month = Integer.parseInt(Mesec);
         }
         Year = Integer.parseInt(Godina);
-        load(Danas,Month,Year);
-        std.setTasks((ArrayList<Task>) currentList);
+        load();
+        std.setTasks((ArrayList<Task>) mainList);
+        currentList = std.GetTasksInInterval(new Interval(new DateTime(Year,Month,Danas,0,0),new DateTime(Year,Month,Danas,23,59)));
         adapter.setTaskovi(currentList);
         ListaTaskova.setAdapter(adapter);
         ListaRutina.setAdapter(adapter);
@@ -484,14 +499,16 @@ public class ChildActivity extends AppCompatActivity implements TimePickerDialog
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void otvoriKalendar(View view) {
-        Intent intent = new Intent(ChildActivity.this , Kalendar.class);
+        Intent intent = new Intent(this , Kalendar.class);
         ImageButton button = (ImageButton) findViewById(R.id.datumCetvrti);
         startActivity(intent);
 
     }
+
     public void expandButtons(View view) {
-        setVisibility(clicked);
+        setClickable(clicked);
         setAnimation(clicked);
+        setVisibility(clicked);
         if(!clicked){
             clicked = true;
         }else{
@@ -505,8 +522,8 @@ public class ChildActivity extends AppCompatActivity implements TimePickerDialog
             task.setVisibility(View.VISIBLE) ;
             routine.setVisibility(View.VISIBLE);
         }else{
-            task.setVisibility(View.INVISIBLE) ;
-            routine.setVisibility(View.INVISIBLE);
+            task.setVisibility(View.GONE) ;
+            routine.setVisibility(View.GONE);
             task.shrink();
             routine.shrink();
         }
@@ -534,18 +551,23 @@ public class ChildActivity extends AppCompatActivity implements TimePickerDialog
 
         }
     }
+    private void showBottomCard(){
+        RG.clearCheck();
+        SetBtn.setVisibility(View.GONE);
+        ManualTimeLayout.setVisibility(View.GONE);
+        AiLayout.setVisibility(View.GONE);
+        AfterCalculateBtn.setVisibility(View.GONE);
+        CaluculateBtn.setVisibility(View.GONE);
+        durationSp.setVisibility(View.GONE);
+        enterTask.setText("");
+        enterTaskDuration.setVisibility(View.GONE);
+        ConfirmBtn.setVisibility(View.GONE);
+        bottomSheetDialog.show();
+
+    }
     public void simpleTaskCard(View view) {
         if(task.isExtended()){
-            RG.clearCheck();
-            SetBtn.setVisibility(View.GONE);
-            ManualTimeLayout.setVisibility(View.GONE);
-            AiLayout.setVisibility(View.GONE);
-            AfterCalculateBtn.setVisibility(View.GONE);
-            CaluculateBtn.setVisibility(View.GONE);
-            durationSp.setVisibility(View.GONE);
-            enterTask.setText("");
-            enterTaskDuration.setVisibility(View.GONE);
-            bottomSheetDialog.show();
+            showBottomCard();
             task.shrink();
         }else{
             task.extend();
@@ -555,9 +577,21 @@ public class ChildActivity extends AppCompatActivity implements TimePickerDialog
     }
     @Override
     public void onTimeSet(TimePicker timePicker, int Hour, int Minute) {
-        Fragment dateTo =ChildActivity.this.getSupportFragmentManager().findFragmentByTag("tp1");
+        Fragment dateTo =this.getSupportFragmentManager().findFragmentByTag("tp1");
+        String hourString,minuteString;
+        if(Hour<10){
+            hourString="0"+Hour;
+        }else{
+            hourString=Hour+"";
+        }
+        if(Minute<10){
+            minuteString="0"+Minute;
+        }else{
+            minuteString=""+Minute;
+        }
         if(dateTo!=null) {
-            FromTime.setText("Starting time: " + Hour+ ":" + Minute);
+
+            FromTime.setText("Starting time: " +hourString+ ":" + minuteString);
             h1=Hour;
             m1=Minute;
             dateTo=null;
@@ -565,7 +599,7 @@ public class ChildActivity extends AppCompatActivity implements TimePickerDialog
         }else{
             h2=Hour;
             m2=Minute;
-            ToTime.setText("Ending Time: "+ Hour+ ":" + Minute);
+            ToTime.setText("Starting time: " +hourString+ ":" + minuteString);
             ShowSetSimpleTaskBtn();
         }
 
@@ -578,15 +612,15 @@ public class ChildActivity extends AppCompatActivity implements TimePickerDialog
                 public void onClick(View view) {
                     Task temp = new Task(enterTask.getText().toString(),new Interval(new DateTime(MainYear,MainMonth,MainDay,h1,m1),new DateTime(MainYear,MainMonth,MainDay,h2,m2)));
                     if(std.AddTask(temp)){
-                        Toast.makeText(ChildActivity.this, "Task uspesno postavljen", Toast.LENGTH_LONG).show();
+                        Toast.makeText(ChildActivity.this, R.string.settask, Toast.LENGTH_LONG).show();
                     }else{
-                        Toast.makeText(ChildActivity.this, "Postoji problem sa dodavanjem vaseg taska", Toast.LENGTH_LONG).show();
+                        Toast.makeText(ChildActivity.this, R.string.setproblem, Toast.LENGTH_LONG).show();
                     }
                     currentList = std.GetTasksInInterval(new Interval(new DateTime(MainYear,MainMonth,MainDay,0,0),new DateTime(MainYear,MainMonth,MainDay,23,59)));
                     crtaj.drawLists(currentList);
                     crtaj.Refreshuj();
                     adapter.setTaskovi(currentList);
-                    save(MainDay,MainMonth,MainYear);
+                    save();
 
 
                 }
@@ -606,17 +640,27 @@ public class ChildActivity extends AppCompatActivity implements TimePickerDialog
             routine.extend();
         }
     }
-
+    int tempPosition;
     public void applyRoutines(){
         routineSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                tempPosition=position;
+                tempPosition++;
                 if(globalTaskPosition!=-1){
-                    if(position==3){
+                    if(tempPosition==4){
                         weekChecboxHolder.setVisibility(View.VISIBLE);
                     }else{
                         weekChecboxHolder.setVisibility(View.GONE);
                     }
+                    ApplyBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Task current = currentList.get(globalTaskPosition);
+                            current.SetRoutine(new Routine(new boolean[]{Mon.isChecked(),Tue.isChecked(),Wed.isChecked(),Thu.isChecked(),Fri.isChecked(),Sat.isChecked(),Sun.isChecked()}));
+                            save();
+                        }
+                    });
                 }
 
 
@@ -624,7 +668,8 @@ public class ChildActivity extends AppCompatActivity implements TimePickerDialog
                     @Override
                     public void onClick(View v) {
                         Task current = currentList.get(globalTaskPosition);
-
+                        current.SetRoutine(new Routine(tempPosition));
+                        save();
 
                     }
                 });
@@ -636,7 +681,9 @@ public class ChildActivity extends AppCompatActivity implements TimePickerDialog
                 ApplyBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        Task current = currentList.get(globalTaskPosition);
+                        current.SetRoutine(new Routine(1));
+                        save();
                     }
                 });
             }
@@ -675,16 +722,17 @@ public class ChildActivity extends AppCompatActivity implements TimePickerDialog
         CaluculateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //TODO Teodora
                 taskName=enterTask.getText().toString();
                 priority=prioritySp.getSelectedItemPosition();
                 time = timeSp.getSelectedItemPosition();
                 durationN = durationSp.getSelectedItemPosition();
                 if(priority==0){
-                    Toast.makeText(ChildActivity.this, "Niste izabrali prioritet", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ChildActivity.this, R.string.priorityprob, Toast.LENGTH_SHORT).show();
                 }else if(time==0){
-                    Toast.makeText(ChildActivity.this, "Niste izabrali trajanje", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ChildActivity.this, R.string.timeprob, Toast.LENGTH_SHORT).show();
                 }else if(durationN==0){
-                    Toast.makeText(ChildActivity.this, "Niste izabrali prioritet", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ChildActivity.this, R.string.durationprob, Toast.LENGTH_SHORT).show();
                 }else {
                     if (durationN == 7) {
                         duration = Integer.parseInt(enterTaskDuration.getText().toString());
@@ -692,17 +740,27 @@ public class ChildActivity extends AppCompatActivity implements TimePickerDialog
 
                     Interval tempI = std.CalcAiTask(new AiTask(taskName,durationN,priority,std.GetInterval(time,new DateTime(MainYear,MainMonth,MainDay,0,0))));
                     if(!std.isPossible()){
-                        Toast.makeText(ChildActivity.this, "Greska", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ChildActivity.this, R.string.error, Toast.LENGTH_SHORT).show();
                     }else{
                         AfterCalculateBtn.setVisibility(View.VISIBLE);
+                        ConfirmBtn.setVisibility(View.VISIBLE);
                         AiStartTime.setText(tempI.GetStartTime().ToStringTime());
                         AiEndTime.setText(tempI.GetEndTime().ToStringTime());
-                        std.AcceptGuess();//TODO napravi toast sa buttonom
+                        ConfirmBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                std.AcceptGuess();
+                                Toast.makeText(ChildActivity.this, R.string.settask, Toast.LENGTH_SHORT).show();
+                                currentList = std.GetTasksInInterval(new Interval(new DateTime(MainYear,MainMonth,MainDay,0,0),new DateTime(MainYear,MainMonth,MainDay,23,59)));
+                                crtaj.drawLists(currentList);
+                                crtaj.Refreshuj();
+                                adapter.setTaskovi(currentList);
+                                save();
+                            }
+                        });
 
-                        currentList = std.GetTasksInInterval(new Interval(new DateTime(MainYear,MainMonth,MainDay,0,0),new DateTime(MainYear,MainMonth,MainDay,23,59)));
-                        crtaj.drawLists(currentList);
-                        crtaj.Refreshuj();
-                        adapter.setTaskovi(currentList);
+
+
                     }
 
 
@@ -715,50 +773,28 @@ public class ChildActivity extends AppCompatActivity implements TimePickerDialog
 
     }
 
-    public void save(int dan, int mesec, int godina){
-        String FILE_NAME=dan+"_"+mesec+"_"+godina+"_"+username;
+    public void save(){
+        String FILE_NAME="taskLists";
         SharedPreferences sharedPreferences = getSharedPreferences(FILE_NAME,MODE_PRIVATE);
         SharedPreferences.Editor  editor = sharedPreferences.edit();
         Gson gson = new Gson();
-        String json = gson.toJson(currentList);
+        String json = gson.toJson(std.getTasks());
         editor.putString(FILE_NAME,json);
         editor.apply();
     }
-    public void load(int dan,int mesec,int godina){
-        String FILE_NAME=dan+"_"+mesec+"_"+godina+"_"+username;
+    public void load(){
+        String FILE_NAME="taskLists";
         SharedPreferences sharedPreferences = getSharedPreferences(FILE_NAME,MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreferences.getString(FILE_NAME,null);
         Type type = new TypeToken<List<Task>>() {}.getType();
-        currentList = gson.fromJson(json,type);
-        if(currentList==null){
-            currentList = new ArrayList<>();
+        mainList = gson.fromJson(json,type);
+        if(mainList==null){
+            mainList = new ArrayList<>();
         }
         adapter.notifyDataSetChanged();
 
     }
-    public void saveUserName(String user){
-        String FILE_NAME="UserName";
-        SharedPreferences sharedPreferences = getSharedPreferences(FILE_NAME,MODE_PRIVATE);
-        SharedPreferences.Editor  editor = sharedPreferences.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(user);
-        editor.putString("username",json);
-        editor.apply();
-    }
-    public String loadUserName(){
-        String FILE_NAME="UserName";
-        SharedPreferences sharedPreferences = getSharedPreferences(FILE_NAME,MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = sharedPreferences.getString("username",null);
-        if(json==null){
-            return "";
-        }else{
-            return json ;
-        }
-
-    }
-
 
     View prosli;
     @Override
@@ -775,7 +811,6 @@ public class ChildActivity extends AppCompatActivity implements TimePickerDialog
     }
 
     private void openSettings(){
-
         podeshavanje = findViewById(R.id.podeshavanja);
         podeshavanje.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -909,6 +944,101 @@ public class ChildActivity extends AppCompatActivity implements TimePickerDialog
         String lang = prefs.getString("my lan","");
         setLocale( lang);
     }
+
+    private void ChildAddition(){
+        Intent intent = this.getIntent();
+        if(intent!=null){
+            id = intent.getStringExtra("id");
+        }
+        if(id==null){
+            id = loadId();
+        }else{
+            saveId(id);
+        }
+        id = id.substring(1,id.length()-1);
+    }
+    public void saveUsr(int user){
+        String FILE_NAME="UserData";
+        SharedPreferences sharedPreferences = getSharedPreferences(FILE_NAME,MODE_PRIVATE);
+        SharedPreferences.Editor  editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(user);
+        editor.putString("brUsera",json);
+        editor.apply();
+    }
+    public void saveId(String s){
+        String FILE_NAME="IdData";
+        SharedPreferences sharedPreferences = getSharedPreferences(FILE_NAME,MODE_PRIVATE);
+        SharedPreferences.Editor  editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(s);
+        editor.putString("idUsera",json);
+        editor.apply();
+    }
+    public String loadId(){
+        String FILE_NAME="IdData";
+        SharedPreferences sharedPreferences = getSharedPreferences(FILE_NAME,MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("idUsera",null);
+        if(json==null){
+            return "";
+        }else{
+            return json.toString();
+        }
+
+    }
+
+
+    private ListenerRegistration listener;
+    @Override
+    protected void onStart() {
+        super.onStart();
+        listener = db.collection("users").document(id).addSnapshotListener(this,new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                if(error!=null){
+                    return;
+                }
+                if(value.exists()){
+                    ListClass LC = value.toObject(ListClass.class);
+                    if(LC.getTasks()!=null) {
+                        std.setTasks(LC.getTasks());
+                        currentList = std.GetTasksInInterval(new Interval(new DateTime(Year,Month,Danas,0,0),new DateTime(Year,Month,Danas,23,59)));
+                        adapter.setTaskovi(currentList);
+                        ListaTaskova.setAdapter(adapter);
+                        ListaRutina.setAdapter(adapter);
+                        ListaRutina.setLayoutManager(new LinearLayoutManager(ChildActivity.this));
+                        ListaTaskova.setLayoutManager(new LinearLayoutManager(ChildActivity.this));
+                        crtaj.drawLists(currentList);
+                        crtaj.Refreshuj();
+                        save();
+                    }else{
+                        load();
+                        std.setTasks((ArrayList<Task>) mainList);
+                        currentList = std.GetTasksInInterval(new Interval(new DateTime(Year,Month,Danas,0,0),new DateTime(Year,Month,Danas,23,59)));
+                        adapter.setTaskovi(currentList);
+                        ListaTaskova.setAdapter(adapter);
+                        ListaRutina.setAdapter(adapter);
+                        ListaRutina.setLayoutManager(new LinearLayoutManager(ChildActivity.this));
+                        ListaTaskova.setLayoutManager(new LinearLayoutManager(ChildActivity.this));
+                        crtaj.drawLists(currentList);
+                        crtaj.Refreshuj();
+
+                    }
+                }else{
+
+                }
+
+            }
+        });
+
+
+    }
+
+
+
+
+
 
 
 }

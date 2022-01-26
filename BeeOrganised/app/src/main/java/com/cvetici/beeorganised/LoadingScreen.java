@@ -47,7 +47,7 @@ public class LoadingScreen extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 }else if(load()==2){
-                    Intent intent = new Intent(LoadingScreen.this, ChildWorkerActivity.class);
+                    Intent intent = new Intent(LoadingScreen.this, ChildActivity.class);
                     startActivity(intent);
                     finish();
                 }else if(load()==3){

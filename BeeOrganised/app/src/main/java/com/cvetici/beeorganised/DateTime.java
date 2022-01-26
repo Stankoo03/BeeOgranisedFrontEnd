@@ -87,6 +87,38 @@ public class DateTime {
     }
 
 
+    public int getMinutes() {
+        return minutes;
+    }
+
+    public void setMinutes(int minutes) {
+        this.minutes = minutes;
+    }
+
+    public int getDaysInYear() {
+        return daysInYear;
+    }
+
+    public int getHoursInDays() {
+        return hoursInDays;
+    }
+
+    public int getMinutesInHour() {
+        return minutesInHour;
+    }
+
+    public int getMinutesInDay() {
+        return minutesInDay;
+    }
+
+    public int getMinutesInYear() {
+        return minutesInYear;
+    }
+
+    public int getMinutesInWeek() {
+        return minutesInWeek;
+    }
+
     private void set(int year, int month, int day, int hour, int minute){
         int min = 0;
         year-=2020;

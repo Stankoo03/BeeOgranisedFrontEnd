@@ -5,13 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".WorkerActivity"
+    android:clickable="true"
     android:id="@+id/frameLayout">
     <ImageView
+        android:id="@+id/backgroundd"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_main_bg"
+        android:clickable="true"
         />
 
     <RelativeLayout
@@ -186,7 +189,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:minHeight="60dp"
+                android:minHeight="63dp"
                 android:paddingTop="15dp"
                 android:showText="false"
                 android:switchMinWidth="10dp"
@@ -244,7 +247,7 @@
             android:layout_below="@id/satHolder"
             android:layout_width="230dp"
             android:layout_height="138dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:layout_centerHorizontal="true"
             android:background="@drawable/ic_task_bckg"
             android:visibility="invisible">
@@ -252,11 +255,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <ImageButton
+                    android:id="@+id/checkbx"
                     android:layout_marginTop="24dp"
                     android:layout_marginLeft="32dp"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:background="@drawable/ic_checkbox_unchecked"
+                    />
+                <ImageView
+                    android:id="@+id/check"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginLeft="-35dp"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:visibility="invisible"
+                    android:background="@drawable/ic_check"
                     />
                 <TextView
                     android:id="@+id/imeTaska"
@@ -291,6 +304,7 @@
                 android:layout_marginTop="45dp">
 
                 <TextView
+                    android:id="@+id/startingTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="900"
@@ -309,6 +323,7 @@
                     android:textSize="15dp" />
 
                 <TextView
+                    android:id="@+id/endingTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="900"
@@ -322,13 +337,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
-                android:layout_marginTop="5dp"
                 android:gravity="center_horizontal">
 
                 <ImageView
                     android:layout_width="180dp"
                     android:layout_height="8dp"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginTop="5dp"
                     android:background="@drawable/ic_line" />
             </LinearLayout>
 
@@ -339,27 +354,28 @@
                 android:layout_marginTop="81dp"
                 android:gravity="center_horizontal">
 
-                <ImageView
+                <ImageButton
                     android:layout_width="38dp"
                     android:layout_height="38dp"
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/ic_edit_icon" />
 
-                <ImageView
+                <ImageButton
                     android:layout_width="38dp"
                     android:layout_height="38dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/ic_colors_icon" />
 
-                <ImageView
+                <ImageButton
+                    android:id="@+id/delete"
                     android:layout_width="38dp"
                     android:layout_height="38dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/ic_bin" />
 
-                <ImageView
+                <ImageButton
                     android:layout_width="38dp"
                     android:layout_height="38dp"
                     android:layout_gravity="center_vertical"

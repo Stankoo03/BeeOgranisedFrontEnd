@@ -39,6 +39,7 @@ public class ChildWorkerActivity extends AppCompatActivity {
     EditText nameInput;
     boolean prekidac =false;
     Bitmap bitmap ;
+    Intent intent;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -48,7 +49,7 @@ public class ChildWorkerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_child_worker);
-
+        intent=new Intent(this,ChildActivity.class);
 
         nameInput= findViewById(R.id.usernameInput);
         generate = findViewById(R.id.btn_generate);
@@ -75,6 +76,7 @@ public class ChildWorkerActivity extends AppCompatActivity {
                                 manager.hideSoftInputFromWindow(nameInput.getApplicationWindowToken(),0);
                                 Map<String,Object> name = new HashMap<>();
                                 name.put("name",s);
+                                intent.putExtra("id",s);
                                 docId.set(name);
                                 prekidac = true;
 
@@ -98,10 +100,9 @@ public class ChildWorkerActivity extends AppCompatActivity {
 
     public void nastavi(View view) {
         if(prekidac==true){
-            Intent intent = new Intent(this,ChildActivity.class);
             ByteArrayOutputStream bs = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 50, bs);
-            intent.putExtra("qrcode",bs.toByteArray());
+            //bitmap.compress(Bitmap.CompressFormat.PNG, 50, bs);
+            //intent.putExtra("qrcode",bs.toByteArray());
             startActivity(intent);
             save(2);
             finish();

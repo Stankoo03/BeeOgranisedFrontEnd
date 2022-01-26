@@ -47,6 +47,39 @@ public class Interval{
             //throw new Exception("Error! New Duration is NEGATIVE!");*/
         endTime = startTime.AddDur(dur);
     }
+
+    public DateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(DateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public DateTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(DateTime endTime) {
+        this.endTime = endTime;
+    }
+
+    public int getIntesectType() {
+        return intesectType;
+    }
+
+    public void setIntesectType(int intesectType) {
+        this.intesectType = intesectType;
+    }
+
+    public Task getRefferedTask() {
+        return refferedTask;
+    }
+
+    public void setRefferedTask(Task refferedTask) {
+        this.refferedTask = refferedTask;
+    }
+
     private void SetIntersectType(int type){
         if(type == 2 || type == 3 || type == 5 || type == 6)
             intesectType = type;

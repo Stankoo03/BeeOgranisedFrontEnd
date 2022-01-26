@@ -1,5 +1,7 @@
 package com.cvetici.beeorganised;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
@@ -57,10 +59,18 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.gson.Gson;
 import android.app.Dialog;
 import com.google.gson.reflect.TypeToken;
@@ -83,6 +93,7 @@ import java.util.Locale;
 
 public class ParentWorkerActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener,ListaTaskovaAdapter.OnTaskListener{
 
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private ImageView background;
     private Calendar calendar,notifyCalendar;
     private TextView d1,d2,d3;
@@ -425,17 +436,6 @@ public class ParentWorkerActivity extends AppCompatActivity implements TimePicke
             Month = Integer.parseInt(Mesec);
         }
         Year = Integer.parseInt(Godina);
-        load();
-        std.setTasks((ArrayList<Task>) mainList);
-        currentList = std.GetTasksInInterval(new Interval(new DateTime(Year,Month,Danas,0,0),new DateTime(Year,Month,Danas,23,59)));
-        adapter.setTaskovi(currentList);
-        ListaTaskova.setAdapter(adapter);
-        ListaRutina.setAdapter(adapter);
-        ListaRutina.setLayoutManager(new LinearLayoutManager(this));
-        ListaTaskova.setLayoutManager(new LinearLayoutManager(this));
-        crtaj.drawLists(currentList);
-        crtaj.Refreshuj();
-
 
 
         w1.setText(DanasNedelja.substring(0,3).toUpperCase(Locale.ROOT));
@@ -615,6 +615,7 @@ public class ParentWorkerActivity extends AppCompatActivity implements TimePicke
                     crtaj.Refreshuj();
                     adapter.setTaskovi(currentList);
                     save();
+                    saveList(std.getTasks());
 
 
                 }
@@ -768,7 +769,7 @@ public class ParentWorkerActivity extends AppCompatActivity implements TimePicke
     }
 
     public void save(){
-        String FILE_NAME="taskLists"+"_"+id;
+        String FILE_NAME="taskLists";
         SharedPreferences sharedPreferences = getSharedPreferences(FILE_NAME,MODE_PRIVATE);
         SharedPreferences.Editor  editor = sharedPreferences.edit();
         Gson gson = new Gson();
@@ -777,7 +778,7 @@ public class ParentWorkerActivity extends AppCompatActivity implements TimePicke
         editor.apply();
     }
     public void load(){
-        String FILE_NAME="taskLists"+"_"+id;
+        String FILE_NAME="taskLists";
         SharedPreferences sharedPreferences = getSharedPreferences(FILE_NAME,MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreferences.getString(FILE_NAME,null);
@@ -949,8 +950,8 @@ public class ParentWorkerActivity extends AppCompatActivity implements TimePicke
         }else{
             saveId(id);
         }
-        id.substring(1,id.length()-1);
-        Toast.makeText(ParentWorkerActivity.this, id+"", Toast.LENGTH_SHORT).show();
+        id = id.substring(1,id.length()-1);
+        Toast.makeText(ParentWorkerActivity.this, id, Toast.LENGTH_SHORT).show();
 
 
 
@@ -982,10 +983,97 @@ public class ParentWorkerActivity extends AppCompatActivity implements TimePicke
         if(json==null){
             return "";
         }else{
-            return json;
+            return json.toString();
         }
+
+    }
+    private void saveList(ArrayList<Task> list){
+        ListClass LC = new ListClass("Aleksa",list);
+        db.collection("users").document(id).set(LC)
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(ParentWorkerActivity.this,"ERROR!",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+
+    }
+
+    private ListenerRegistration listener;
+    @Override
+    protected void onStart() {
+        super.onStart();
+        listener = db.collection("users").document(id).addSnapshotListener(this,new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                if(error!=null){
+                    return;
+                }
+                if(value.exists()){
+                    ListClass LC = value.toObject(ListClass.class);
+                if(LC.getTasks()!=null) {
+                    std.setTasks(LC.getTasks());
+                    currentList = std.GetTasksInInterval(new Interval(new DateTime(Year,Month,Danas,0,0),new DateTime(Year,Month,Danas,23,59)));
+                    adapter.setTaskovi(currentList);
+                    ListaTaskova.setAdapter(adapter);
+                    ListaRutina.setAdapter(adapter);
+                    ListaRutina.setLayoutManager(new LinearLayoutManager(ParentWorkerActivity.this));
+                    ListaTaskova.setLayoutManager(new LinearLayoutManager(ParentWorkerActivity.this));
+                    crtaj.drawLists(currentList);
+                    crtaj.Refreshuj();
+                    save();
+                }else{
+                    load();
+                    std.setTasks((ArrayList<Task>) mainList);
+                    currentList = std.GetTasksInInterval(new Interval(new DateTime(Year,Month,Danas,0,0),new DateTime(Year,Month,Danas,23,59)));
+                    adapter.setTaskovi(currentList);
+                    ListaTaskova.setAdapter(adapter);
+                    ListaRutina.setAdapter(adapter);
+                    ListaRutina.setLayoutManager(new LinearLayoutManager(ParentWorkerActivity.this));
+                    ListaTaskova.setLayoutManager(new LinearLayoutManager(ParentWorkerActivity.this));
+                    crtaj.drawLists(currentList);
+                    crtaj.Refreshuj();
+
+                }
+                }else{
+
+                }
+
+            }
+        });
+
 
     }
 
 
 }
+ class ListClass{
+
+    public String idChild;
+    public ArrayList<Task> tasks;
+    public ListClass(){
+        tasks=null;
+    }
+
+    public ListClass(String id,ArrayList<Task> tasks){
+        this.tasks = tasks;
+        this.idChild = id;
+    }
+
+     public void setTasks(ArrayList<Task> tasks) {
+         this.tasks = tasks;
+     }
+
+     public String getIdChild() {
+         return idChild;
+     }
+
+     public ArrayList<Task> getTasks() {
+         return tasks;
+     }
+
+     public void setIdChild(String id) {
+         this.idChild = id;
+     }
+ }
