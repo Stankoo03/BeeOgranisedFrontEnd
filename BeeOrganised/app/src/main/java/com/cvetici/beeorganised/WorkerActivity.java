@@ -79,6 +79,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 
 public class WorkerActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener,ListaTaskovaAdapter.OnTaskListener{
@@ -102,11 +103,11 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     private LinearLayout ManualTimeLayout,AiLayout,AfterCalculateBtn,weekChecboxHolder;
 
     private RadioGroup RG;
-    private View bottomSheetView,ListView,RoutinesView;
+    private View bottomSheetView,ListView,RoutinesView,deleteView;
     private BottomSheetDialog bottomSheetDialog;
     private BottomSheetDialog ListaItema,Routines;
 
-    private Button FromTime,ToTime,CaluculateBtn,SetBtn,ConfirmBtn,ApplyBtn;
+    private Button FromTime,ToTime,CaluculateBtn,SetBtn,ConfirmBtn,ApplyBtn,deleteTask,cancelDelete;
     private int Danas=0,Sutra,PSutra,Month,Month1,Month2,Year,Year1,Year2,globalTaskPosition;
 
     private NotificationHelper mHelper;
@@ -115,16 +116,16 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     private ImageView sat;
 
     private EditText enterTask,enterTaskDuration;
-    private SmartToDo std;
+    public  SmartToDo std;
     private int h1=-1,m1=-1,h2=-1,m2=-1;
     private RecyclerView ListaTaskova,ListaRutina;
     private ListaTaskovaAdapter adapter = new ListaTaskovaAdapter(this::onTaskClick);
     private Spinner prioritySp,timeSp,durationSp,routineSp;
     private ImageButton datumPrvi,datumDrugi,datumTreci, podeshavanje, lang, srb, eng, ger, spa, fran, help;
-    private ImageButton changeUserBtn,textApply;
+    private ImageButton changeUserBtn,textApply,bin;
     public  List<Task> currentList,mainList;
     public boolean dan,backgroundClicked;
-    Dialog dialog;
+    Dialog dialog,dialogdel;
     private RelativeLayout routineHolder,changeTaskHolder;
 
     private CrtajObaveze crtaj;
@@ -156,9 +157,13 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         );
         Routines.setContentView(RoutinesView);
 
+
+
         dialog = new Dialog(WorkerActivity.this);
+        dialogdel = new Dialog(WorkerActivity.this);
 
-
+        dialogdel.setContentView(R.layout.deletetask);
+        dialogdel.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         FindViews();
         RadioGroupClicked();
@@ -169,7 +174,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         CalendarButtonClick();
         openSettings();
         applyRoutines();
-
+        deleteButtonListener();
 
 
     }
@@ -189,6 +194,9 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         w3 = (TextView) findViewById(R.id.thirdWeek);
         changeTaskHolder = findViewById(R.id.changeTask);
         background = findViewById(R.id.backgroundd);
+        deleteTask = dialogdel.findViewById(R.id.del);
+        bin = findViewById(R.id.delete);
+        cancelDelete = dialogdel.findViewById(R.id.cancel);
 
         datumPrvi = (ImageButton)findViewById(R.id.datumPrvi);
         datumDrugi = (ImageButton)findViewById(R.id.datumDrugi);
@@ -208,6 +216,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         Fri = Routines.findViewById(R.id.fri);
         Sat = Routines.findViewById(R.id.sat);
         Sun = Routines.findViewById(R.id.sun);
+
 
         rotateOpen = AnimationUtils.loadAnimation(this,R.anim.rotate_open_anim);
         rotateClose = AnimationUtils.loadAnimation(this,R.anim.rotate_close_anim);
@@ -935,5 +944,39 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         String lang = prefs.getString("my lan","");
         setLocale( lang);
     }
+    private void deleteButtonListener(){
+        bin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogdel.show();
+            }
+        });
+        deleteTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Task task=crtaj.getClickedTask();
+                std.RemoveTask(task);
+                currentList = std.GetTasksInInterval(new Interval(new DateTime(MainYear,MainMonth,MainDay,0,0),new DateTime(MainYear,MainMonth,MainDay,23,59)));
+                crtaj.drawLists(currentList);
+                crtaj.Refreshuj();
+                adapter.setTaskovi(currentList);
+                save();
+                dialogdel.dismiss();
+                changeTaskHolder.startAnimation(slowlyCLose);
+                changeTaskHolder.setVisibility(View.INVISIBLE);
+            }
+        });
+        cancelDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogdel.dismiss();
+            }
+        });
+
+
+
+    }
+
+
 
 }

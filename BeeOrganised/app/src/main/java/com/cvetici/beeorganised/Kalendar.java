@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.TimePickerDialog;
@@ -42,7 +43,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Kalendar extends AppCompatActivity implements CalendarAdapter.OnItemListener, TimePickerDialog.OnTimeSetListener  {
+public class Kalendar extends AppCompatActivity implements CalendarAdapter.OnItemListener, TimePickerDialog.OnTimeSetListener ,ListaTaskovaAdapter.OnTaskListener {
 
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
@@ -66,6 +67,7 @@ public class Kalendar extends AppCompatActivity implements CalendarAdapter.OnIte
     private BottomSheetDialog ListaItema;
     private View ListView;
     private RecyclerView ListaTaskova;
+    private ListaTaskovaAdapter adapter = new ListaTaskovaAdapter(this::onTaskClick);
 
     private List<Task> currentList, mainList;
     private Button TaskButton;
@@ -76,19 +78,6 @@ public class Kalendar extends AppCompatActivity implements CalendarAdapter.OnIte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kalendar);
-        initWigets();
-        selectDate = LocalDate.now();
-        FindViews();
-        setMonthView();
-        RadioGroupClicked();
-        FromToTimeSetter();
-
-    }
-    private void FindViews(){
-        task = (ExtendedFloatingActionButton)findViewById(R.id.SimpleButtonKalendar);
-        fromButton = AnimationUtils.loadAnimation(this,R.anim.from_bottom_anim);
-        toButton = AnimationUtils.loadAnimation(this,R.anim.to_bottom_anim);
-
 
         bottomSheetDialog = new BottomSheetDialog(
                 Kalendar.this, R.style.BottomSheetDialogTheme
@@ -104,8 +93,25 @@ public class Kalendar extends AppCompatActivity implements CalendarAdapter.OnIte
         );
         ListaItema.setContentView(ListView);
 
+        initWigets();
+        selectDate = LocalDate.now();
+        FindViews();
+        setMonthView();
+        RadioGroupClicked();
+        FromToTimeSetter();
+
+    }
+    private void FindViews(){
+        task = (ExtendedFloatingActionButton)findViewById(R.id.SimpleButtonKalendar);
+        fromButton = AnimationUtils.loadAnimation(this,R.anim.from_bottom_anim);
+        toButton = AnimationUtils.loadAnimation(this,R.anim.to_bottom_anim);
+
         ListaTaskova = ListView.findViewById(R.id.ListaRV);
+        ListaTaskova.setLayoutManager(new LinearLayoutManager(Kalendar.this));
+
         TaskButton = findViewById(R.id.TaskButton);
+
+
         RG = bottomSheetView.findViewById(R.id.RadioGroup);
         ManualTimeLayout = bottomSheetView.findViewById(R.id.ManualTimeLayout);
         AiLayout = bottomSheetView.findViewById(R.id.AiTimeLayout);
@@ -121,7 +127,11 @@ public class Kalendar extends AppCompatActivity implements CalendarAdapter.OnIte
 
         std = new SmartToDo(5);
         task.shrink();
+        load();
+        std.setTasks((ArrayList<Task>) mainList);
+        adapter.setTaskovi(new ArrayList<Task>());
 
+        ListaTaskova.setAdapter(adapter);
 
 
     }
@@ -165,6 +175,7 @@ public class Kalendar extends AppCompatActivity implements CalendarAdapter.OnIte
         hexagonIV= findViewById(R.id.hexagon);
         calendarRecyclerView = findViewById(R.id.calendarRecyclerView);
         monthYearText = findViewById(R.id.monthYearTV);
+
     }
 
 
@@ -209,6 +220,9 @@ public class Kalendar extends AppCompatActivity implements CalendarAdapter.OnIte
             }else {
                 currentMonth = Integer.parseInt(Mesec);
             }
+            load();
+            currentList = std.GetTasksInInterval(new Interval(new DateTime(currentYear,currentMonth,currentDay,0,0),new DateTime(currentYear,currentMonth,currentDay,23,59)));
+            adapter.setTaskovi(currentList);
 
         }else{
             if(task.getVisibility()==View.VISIBLE) {
@@ -300,8 +314,20 @@ public class Kalendar extends AppCompatActivity implements CalendarAdapter.OnIte
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         Fragment dateTo =Kalendar.this.getSupportFragmentManager().findFragmentByTag("tp1");
+        String hourString,minuteString;
+        if(hourOfDay<10){
+            hourString="0"+hourOfDay;
+        }else{
+            hourString=hourOfDay+"";
+        }
+        if(minute<10){
+            minuteString="0"+minute;
+        }else{
+            minuteString=""+minute;
+        }
         if(dateTo!=null) {
-            FromTime.setText("Starting time: " + hourOfDay+ ":" + minute);
+
+            FromTime.setText("Starting time: " +hourString+ ":" + minuteString);
             h1=hourOfDay;
             m1=minute;
             dateTo=null;
@@ -309,10 +335,9 @@ public class Kalendar extends AppCompatActivity implements CalendarAdapter.OnIte
         }else{
             h2=hourOfDay;
             m2=minute;
-            ToTime.setText("Ending Time: "+ hourOfDay+ ":" + minute);
-
+            ToTime.setText("Starting time: " +hourString+ ":" + minuteString);
+            ShowSetSimpleTaskBtn();
         }
-        ShowSetSimpleTaskBtn();
 
     }
 
@@ -325,9 +350,11 @@ public class Kalendar extends AppCompatActivity implements CalendarAdapter.OnIte
                     Task temp = new Task(enterTask.getText().toString(),new Interval(new DateTime(currentYear,currentMonth,currentDay,h1,m1),new DateTime(currentYear,currentMonth,currentDay,h2,m2)));
                     load();
                     std.setTasks((ArrayList<Task>) mainList);
-                    std.AddTask(temp);
-                    Toast.makeText(Kalendar.this, "Task uspesno zadat za vreme "+currentDay+"."+currentMonth+"."+currentYear, Toast.LENGTH_SHORT).show();
-                    //TODO Pogledaj ovo andrijo
+                    if(std.AddTask(temp)){
+                        Toast.makeText(Kalendar.this, R.string.settask, Toast.LENGTH_LONG).show();
+                    }else{
+                        Toast.makeText(Kalendar.this, R.string.setproblem, Toast.LENGTH_LONG).show();
+                    }
                     save();
                 }
             });
@@ -358,9 +385,13 @@ public class Kalendar extends AppCompatActivity implements CalendarAdapter.OnIte
 
     public void expandTaskList(View view) {
         currentList = std.GetTasksInInterval(new Interval(new DateTime(currentYear,currentMonth,currentDay,0,0),new DateTime(currentYear,currentMonth,currentDay,23,59)));
+        adapter.setTaskovi(currentList);
         ListaItema.show();
     }
 
 
+    @Override
+    public void onTaskClick(int position, View itemView) {
 
+    }
 }

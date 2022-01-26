@@ -1,5 +1,6 @@
 package com.cvetici.beeorganised;
 
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -52,9 +53,9 @@ public class CrtajObaveze extends View {
     private RelativeLayout taskChangerLayout;
     private Animation animacijaOtvaranja,animacijaZatvaranja;
     Context context;
-    private SmartToDo std;
     private ImageButton bin;
     private List<Task> mainList;
+    private SmartToDo std;
     private Task tasknow;
     private int[] boje = {
             getResources().getColor(R.color.UserChosing)
@@ -82,7 +83,8 @@ public class CrtajObaveze extends View {
 
     }
     private void initClock(){
-        dialogdel = new Dialog(context);
+        std = new SmartToDo(5);
+
         taskName = ((Activity)context).findViewById(R.id.imeTaska);
         startingTime=((Activity)context).findViewById(R.id.startingTime);
         endingTime = ((Activity)context).findViewById(R.id.endingTime);
@@ -101,7 +103,6 @@ public class CrtajObaveze extends View {
         animacijaOtvaranja = AnimationUtils.loadAnimation(context,R.anim.polako_pojavi);
         animacijaZatvaranja = AnimationUtils.loadAnimation(context,R.anim.polako_zatvori);
 
-        std = new SmartToDo(5);
         load();
         std.setTasks((ArrayList<Task>) mainList);
 
@@ -113,7 +114,7 @@ public class CrtajObaveze extends View {
 
     }
 
-    private void opendelete(){
+    private void opendelete(){/*
         bin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -122,11 +123,11 @@ public class CrtajObaveze extends View {
                 cancel = (Button) dialogdel.findViewById(R.id.cancel);
                 del = (Button) dialogdel.findViewById(R.id.del);
                 cancelit();
-                deletetask();
                 dialogdel.show();
 
             }
         });
+        */
 
     }
     private void cancelit(){
@@ -137,15 +138,6 @@ public class CrtajObaveze extends View {
             }
         });
 
-    }
-    private void deletetask(){
-        del.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                std.RemoveTask(tasknow.title.toString());
-                dialogdel.dismiss();
-            }
-        });
     }
 
     private void cekiraj(){
@@ -272,12 +264,11 @@ public class CrtajObaveze extends View {
 
 
     public void clickListener(float angle1, float angle2,Canvas canvas,Task current){
-        if(angle1<0){
+
+        if(angle1+angle2<0){
             angle1+=360;
         }
-        if(angle2<0){
-            angle2+=360;
-        }
+
         if(IsTouched&&angle1<=touchAngle&&touchAngle<=angle2+angle1 ){
             IsTouched = false;
             canvas.drawArc(osnovaKruga,(float) angle1, (float) angle2,true,paint1);
@@ -309,4 +300,9 @@ public class CrtajObaveze extends View {
             taskChangerLayout.startAnimation(animacijaOtvaranja);
         }
     }
+    public Task getClickedTask(){
+        return tasknow;
+
+    }
+
 }
