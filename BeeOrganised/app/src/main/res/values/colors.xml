@@ -15,6 +15,13 @@
     <color name="ColorForClicked">#d9a260</color>
 
 
+    <color name="redpick">#f5806f</color>
+    <color name="orangepick">#f2be6b</color>
+    <color name="yellowpick">#F4D66F</color>
+    <color name="greenpick">#add06c</color>
+    <color name="bluepick">#6ecef4</color>
+    <color name="dbluepick">#7f80c0</color>
+    <color name="purplepick">#ba79b3</color>
 
 
     <color name="Gray">#888</color>
