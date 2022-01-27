@@ -101,8 +101,7 @@ public class CrtajObaveze extends View {
         animacijaOtvaranja = AnimationUtils.loadAnimation(context,R.anim.polako_pojavi);
         animacijaZatvaranja = AnimationUtils.loadAnimation(context,R.anim.polako_zatvori);
 
-        load();
-        std.setTasks((ArrayList<Task>) mainList);
+
 
         bin = (ImageButton) ((Activity)context).findViewById(R.id.delete);
         check = ((Activity)context).findViewById(R.id.check);
@@ -245,18 +244,7 @@ public class CrtajObaveze extends View {
 
 
     }
-    public void load(){
-        String FILE_NAME="taskLists";
-        SharedPreferences sharedPreferences = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = sharedPreferences.getString(FILE_NAME,null);
-        Type type = new TypeToken<List<Task>>() {}.getType();
-        mainList = gson.fromJson(json,type);
-        if(mainList==null){
-            mainList = new ArrayList<>();
-        }
 
-    }
     public void changeTaskColor(){
         if(taskChangerLayout.getVisibility()==INVISIBLE) {
             taskChangerLayout.setVisibility(VISIBLE);

@@ -155,6 +155,22 @@ class AiTask extends Task
         else priority = p;
     }
 
+    public int getPriority() {
+        return priority;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
+
+    public Interval getPrefferedTime() {
+        return prefferedTime;
+    }
+
+    public void setPrefferedTime(Interval prefferedTime) {
+        this.prefferedTime = prefferedTime;
+    }
+
     public AiTask(String title, Interval time, int priority, Interval prefferedTime){
         super(title,time);
         SetPriority(priority);
@@ -217,6 +233,22 @@ class Routine{
         else{
             System.out.println("NEDELJA NEMA SEDAM DANA");
         }
+    }
+
+    public boolean[] getRepeatDays() {
+        return repeatDays;
+    }
+
+    public void setRepeatDays(boolean[] repeatDays) {
+        this.repeatDays = repeatDays;
+    }
+
+    public HashMap<String, Interval> getChangedDays() {
+        return changedDays;
+    }
+
+    public void setChangedDays(HashMap<String, Interval> changedDays) {
+        this.changedDays = changedDays;
     }
 
     public Routine(int i){

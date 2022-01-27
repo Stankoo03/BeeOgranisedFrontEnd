@@ -73,6 +73,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -123,10 +124,11 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     private Spinner prioritySp,timeSp,durationSp,routineSp;
     private ImageButton datumPrvi,datumDrugi,datumTreci, podeshavanje, lang, srb, eng, ger, spa, fran, help;
     private ImageButton changeUserBtn,textApply,bin,checkbx;
-    public  List<Task> currentList,mainList;
+    public  ArrayList<Task> currentList,mainList;
     public boolean dan,backgroundClicked;
     Dialog dialog,dialogdel;
     private RelativeLayout routineHolder,changeTaskHolder;
+    private ArrayList<AiTask> AiTaskList;
 
     private CrtajObaveze crtaj;
 
@@ -176,6 +178,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         applyRoutines();
         deleteButtonListener();
         checkButtonListener();
+
 
 
     }
@@ -262,6 +265,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
 
         crtaj = new CrtajObaveze(getApplicationContext());
         crtaj = findViewById(R.id.crtajObaveze);
+        AiTaskList = new ArrayList<AiTask>();
 
         textApply.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -434,7 +438,11 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         }
         Year = Integer.parseInt(Godina);
         load();
-        std.setTasks((ArrayList<Task>) mainList);
+        mainList.addAll(AiTaskList);
+        std.setTasks(mainList);
+
+
+
         currentList = std.GetTasksInInterval(new Interval(new DateTime(Year,Month,Danas,0,0),new DateTime(Year,Month,Danas,23,59)));
         adapter.setTaskovi(currentList);
         ListaTaskova.setAdapter(adapter);
@@ -724,7 +732,8 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
 
             }
         });
-            //Promena
+
+
         CaluculateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -763,6 +772,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                                 crtaj.drawLists(currentList);
                                 crtaj.Refreshuj();
                                 adapter.setTaskovi(currentList);
+
                                 save();
                             }
                         });
@@ -783,22 +793,42 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
 
     public void save(){
         String FILE_NAME="taskLists";
+        String AI_TASKS = "aiTaskList";
         SharedPreferences sharedPreferences = getSharedPreferences(FILE_NAME,MODE_PRIVATE);
         SharedPreferences.Editor  editor = sharedPreferences.edit();
         Gson gson = new Gson();
-        String json = gson.toJson(std.getTasks());
+        ArrayList<Task> t = std.getTasks();
+        for(int i=0; i<t.size(); i++){
+            if(t.get(i).getClass()==AiTask.class){
+                AiTaskList.add((AiTask) t.get(i));
+
+            }
+        }
+        t.removeAll(AiTaskList);
+        String json = gson.toJson(t);
+        String Aijson = gson.toJson(AiTaskList);
         editor.putString(FILE_NAME,json);
+        editor.putString(AI_TASKS,Aijson);
         editor.apply();
+
     }
+    
     public void load(){
         String FILE_NAME="taskLists";
+        String AI_TASKS = "aiTaskList";
         SharedPreferences sharedPreferences = getSharedPreferences(FILE_NAME,MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreferences.getString(FILE_NAME,null);
+        String Aijson = sharedPreferences.getString(AI_TASKS,null);
         Type type = new TypeToken<List<Task>>() {}.getType();
+        Type AiType = new TypeToken<ArrayList<AiTask>>() {}.getType();
         mainList = gson.fromJson(json,type);
         if(mainList==null){
             mainList = new ArrayList<>();
+        }
+        AiTaskList = gson.fromJson(Aijson,AiType);
+        if(AiTaskList==null){
+            AiTaskList = new ArrayList<>();
         }
         adapter.notifyDataSetChanged();
 

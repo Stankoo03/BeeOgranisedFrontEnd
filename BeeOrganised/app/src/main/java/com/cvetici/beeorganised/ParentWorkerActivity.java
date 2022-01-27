@@ -60,12 +60,10 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -89,17 +87,16 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 
 public class ParentWorkerActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener,ListaTaskovaAdapter.OnTaskListener{
 
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private ImageView background;
     private Calendar calendar,notifyCalendar;
     private TextView d1,d2,d3;
     private TextView w1,w2,w3;
     private TextView AiStartTime,AiEndTime;
-    private String id;
 
     private CheckBox Mon,Tue,Wed,Thu,Fri,Sat,Sun;
 
@@ -114,32 +111,36 @@ public class ParentWorkerActivity extends AppCompatActivity implements TimePicke
     private LinearLayout ManualTimeLayout,AiLayout,AfterCalculateBtn,weekChecboxHolder;
 
     private RadioGroup RG;
-    private View bottomSheetView,ListView,RoutinesView;
+    private View bottomSheetView,ListView,RoutinesView,deleteView;
     private BottomSheetDialog bottomSheetDialog;
     private BottomSheetDialog ListaItema,Routines;
 
-    private Button FromTime,ToTime,CaluculateBtn,SetBtn,ConfirmBtn,ApplyBtn;
+    private Button FromTime,ToTime,CaluculateBtn,SetBtn,ConfirmBtn,ApplyBtn,deleteTask,cancelDelete;
     private int Danas=0,Sutra,PSutra,Month,Month1,Month2,Year,Year1,Year2,globalTaskPosition;
 
     private NotificationHelper mHelper;
 
     private Switch daynightSwitch;
-    private ImageView sat;
+    private ImageView sat,check;
 
     private EditText enterTask,enterTaskDuration;
-    private SmartToDo std;
+    public  SmartToDo std;
     private int h1=-1,m1=-1,h2=-1,m2=-1;
     private RecyclerView ListaTaskova,ListaRutina;
     private ListaTaskovaAdapter adapter = new ListaTaskovaAdapter(this::onTaskClick);
     private Spinner prioritySp,timeSp,durationSp,routineSp;
     private ImageButton datumPrvi,datumDrugi,datumTreci, podeshavanje, lang, srb, eng, ger, spa, fran, help;
-    private ImageButton changeUserBtn,textApply;
+    private ImageButton changeUserBtn,textApply,bin,checkbx;
     public  List<Task> currentList,mainList;
     public boolean dan,backgroundClicked;
-    Dialog dialog;
+    Dialog dialog,dialogdel;
     private RelativeLayout routineHolder,changeTaskHolder;
 
     private CrtajObaveze crtaj;
+
+    private String id;
+    private ListenerRegistration listener;
+    private FirebaseFirestore db ;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -149,28 +150,34 @@ public class ParentWorkerActivity extends AppCompatActivity implements TimePicke
         setContentView(R.layout.activity_parent_worker);
         calendar = Calendar.getInstance();
         bottomSheetDialog = new BottomSheetDialog(
-                this, R.style.BottomSheetDialogTheme
+                ParentWorkerActivity.this, R.style.BottomSheetDialogTheme
         );
         bottomSheetView = LayoutInflater.from(getApplicationContext()).inflate(
                 R.layout.layout_bottom_sheet,(LinearLayout)findViewById(R.id.bottomSheetContainer)
         );
         bottomSheetDialog.setContentView(bottomSheetView);
 
-        ListaItema = new BottomSheetDialog(this,R.style.BottomSheetDialogTheme);
+        ListaItema = new BottomSheetDialog(ParentWorkerActivity.this,R.style.BottomSheetDialogTheme);
         ListView = LayoutInflater.from(getApplicationContext()).inflate(
                 R.layout.list_layout,(RelativeLayout)findViewById(R.id.ListRelative)
         );
         ListaItema.setContentView(ListView);
 
-        Routines = new BottomSheetDialog(this,R.style.BottomSheetDialogTheme);
+        Routines = new BottomSheetDialog(ParentWorkerActivity.this,R.style.BottomSheetDialogTheme);
         RoutinesView = LayoutInflater.from(getApplicationContext()).inflate(
                 R.layout.layout_rutine,(RelativeLayout)findViewById(R.id.ListRelative)
         );
         Routines.setContentView(RoutinesView);
 
-        dialog = new Dialog(this);
 
 
+        dialog = new Dialog(ParentWorkerActivity.this);
+        dialogdel = new Dialog(ParentWorkerActivity.this);
+
+        dialogdel.setContentView(R.layout.deletetask);
+        dialogdel.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        db = FirebaseFirestore.getInstance();
 
         FindViews();
         RadioGroupClicked();
@@ -181,13 +188,102 @@ public class ParentWorkerActivity extends AppCompatActivity implements TimePicke
         CalendarButtonClick();
         openSettings();
         applyRoutines();
+        deleteButtonListener();
+        checkButtonListener();
 
         ParentAdition();
+        UpdateListListener();
 
+    }
+    private void UpdateListListener(){
+        listener = db.collection("users").document(id).addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                if(error!=null){
+                    return;
+                }
+                if(value.exists()){
+                    ListClass LC = value.toObject(ListClass.class);
+                    if(LC.getTasks()!=null){
+                        std.setTasks(LC.getTasks());
+                        currentList = std.GetTasksInInterval(new Interval(new DateTime(Year,Month,Danas,0,0),new DateTime(Year,Month,Danas,23,59)));
+                        adapter.setTaskovi(currentList);
+                        crtaj.drawLists(currentList);
+                        crtaj.Refreshuj();
+                        save();
+                    }
+                }
+
+
+            }
+        });
+
+    }
+    public void ParentAdition(){
+        Intent intent;
+        intent= this.getIntent();
+        if(intent!=null){
+            id = intent.getStringExtra("id");
+        }
+        if(id==null){
+            id = loadId();
+        }else{
+            saveId(id);
+        }
+        id="Saska";
+        Toast.makeText(ParentWorkerActivity.this, id, Toast.LENGTH_SHORT).show();
+
+        saveUsr(3);
+    }
+    private void saveList(ArrayList<Task> list){
+        ListClass LC = new ListClass(id, list);
+        db.collection("users").document(id).set(LC)
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(ParentWorkerActivity.this,"ERROR!",Toast.LENGTH_SHORT).show();
+                    }
+                });
 
 
     }
 
+    @Override
+    protected void onStop() {
+        listener.remove();
+        super.onStop();
+    }
+
+    public void saveUsr(int user){
+        String FILE_NAME="UserData";
+        SharedPreferences sharedPreferences = getSharedPreferences(FILE_NAME,MODE_PRIVATE);
+        SharedPreferences.Editor  editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(user);
+        editor.putString("brUsera",json);
+        editor.apply();
+    }
+    public void saveId(String s){
+        String FILE_NAME="IdData";
+        SharedPreferences sharedPreferences = getSharedPreferences(FILE_NAME,MODE_PRIVATE);
+        SharedPreferences.Editor  editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(s);
+        editor.putString("idUsera",json);
+        editor.apply();
+    }
+    public String loadId(){
+        String FILE_NAME="IdData";
+        SharedPreferences sharedPreferences = getSharedPreferences(FILE_NAME,MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("idUsera",null);
+        if(json==null){
+            return "";
+        }else{
+            return json.substring(1,json.length()-1);
+        }
+
+    }
     private void FindViews(){
 
         std = new SmartToDo(5);
@@ -203,6 +299,9 @@ public class ParentWorkerActivity extends AppCompatActivity implements TimePicke
         w3 = (TextView) findViewById(R.id.thirdWeek);
         changeTaskHolder = findViewById(R.id.changeTask);
         background = findViewById(R.id.backgroundd);
+        deleteTask = dialogdel.findViewById(R.id.del);
+        bin = findViewById(R.id.delete);
+        cancelDelete = dialogdel.findViewById(R.id.cancel);
 
         datumPrvi = (ImageButton)findViewById(R.id.datumPrvi);
         datumDrugi = (ImageButton)findViewById(R.id.datumDrugi);
@@ -222,6 +321,7 @@ public class ParentWorkerActivity extends AppCompatActivity implements TimePicke
         Fri = Routines.findViewById(R.id.fri);
         Sat = Routines.findViewById(R.id.sat);
         Sun = Routines.findViewById(R.id.sun);
+
 
         rotateOpen = AnimationUtils.loadAnimation(this,R.anim.rotate_open_anim);
         rotateClose = AnimationUtils.loadAnimation(this,R.anim.rotate_close_anim);
@@ -257,7 +357,8 @@ public class ParentWorkerActivity extends AppCompatActivity implements TimePicke
         ConfirmBtn = bottomSheetView.findViewById(R.id.ConfirmBtn);
         textApply = bottomSheetView.findViewById(R.id.textApply);
 
-
+        check = findViewById(R.id.check);
+        checkbx = findViewById(R.id.checkbx);
 
         globalTaskPosition=-1;
 
@@ -284,12 +385,12 @@ public class ParentWorkerActivity extends AppCompatActivity implements TimePicke
     private void SwitchListener(){
         if(calendar.get(Calendar.HOUR_OF_DAY)>=12){
             daynightSwitch.setChecked(false);
-            sat.setImageResource(R.drawable.ic_amclock_ontop);
+            sat.setImageResource(R.drawable.ic_pmclock_ontop);
             crtaj.CrtajDan(true);
             crtaj.Refreshuj();
         }else{
             daynightSwitch.setChecked(true);
-            sat.setImageResource(R.drawable.ic_pmclock_ontop);
+            sat.setImageResource(R.drawable.ic_amclock_ontop);
             crtaj.CrtajDan(false);
             crtaj.Refreshuj();
         }
@@ -436,6 +537,17 @@ public class ParentWorkerActivity extends AppCompatActivity implements TimePicke
             Month = Integer.parseInt(Mesec);
         }
         Year = Integer.parseInt(Godina);
+        load();
+        std.setTasks((ArrayList<Task>) mainList);
+        currentList = std.GetTasksInInterval(new Interval(new DateTime(Year,Month,Danas,0,0),new DateTime(Year,Month,Danas,23,59)));
+        adapter.setTaskovi(currentList);
+        ListaTaskova.setAdapter(adapter);
+        ListaRutina.setAdapter(adapter);
+        ListaRutina.setLayoutManager(new LinearLayoutManager(ParentWorkerActivity.this));
+        ListaTaskova.setLayoutManager(new LinearLayoutManager(ParentWorkerActivity.this));
+        crtaj.drawLists(currentList);
+        crtaj.Refreshuj();
+
 
 
         w1.setText(DanasNedelja.substring(0,3).toUpperCase(Locale.ROOT));
@@ -493,7 +605,7 @@ public class ParentWorkerActivity extends AppCompatActivity implements TimePicke
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void otvoriKalendar(View view) {
-        Intent intent = new Intent(this , Kalendar.class);
+        Intent intent = new Intent(ParentWorkerActivity.this , Kalendar.class);
         ImageButton button = (ImageButton) findViewById(R.id.datumCetvrti);
         startActivity(intent);
 
@@ -571,7 +683,7 @@ public class ParentWorkerActivity extends AppCompatActivity implements TimePicke
     }
     @Override
     public void onTimeSet(TimePicker timePicker, int Hour, int Minute) {
-        Fragment dateTo =this.getSupportFragmentManager().findFragmentByTag("tp1");
+        Fragment dateTo =ParentWorkerActivity.this.getSupportFragmentManager().findFragmentByTag("tp1");
         String hourString,minuteString;
         if(Hour<10){
             hourString="0"+Hour;
@@ -604,7 +716,11 @@ public class ParentWorkerActivity extends AppCompatActivity implements TimePicke
             SetBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Task temp = new Task(enterTask.getText().toString(),new Interval(new DateTime(MainYear,MainMonth,MainDay,h1,m1),new DateTime(MainYear,MainMonth,MainDay,h2,m2)));
+                    String taskName = enterTask.getText().toString();
+                    if(taskName.isEmpty()){
+                        taskName = getResources().getString(R.string.NewTask);
+                    }
+                    Task temp = new Task(taskName,new Interval(new DateTime(MainYear,MainMonth,MainDay,h1,m1),new DateTime(MainYear,MainMonth,MainDay,h2,m2)));
                     if(std.AddTask(temp)){
                         Toast.makeText(ParentWorkerActivity.this, R.string.settask, Toast.LENGTH_LONG).show();
                     }else{
@@ -614,7 +730,6 @@ public class ParentWorkerActivity extends AppCompatActivity implements TimePicke
                     crtaj.drawLists(currentList);
                     crtaj.Refreshuj();
                     adapter.setTaskovi(currentList);
-                    save();
                     saveList(std.getTasks());
 
 
@@ -713,7 +828,7 @@ public class ParentWorkerActivity extends AppCompatActivity implements TimePicke
 
             }
         });
-
+        //Promena
         CaluculateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -732,7 +847,9 @@ public class ParentWorkerActivity extends AppCompatActivity implements TimePicke
                     if (durationN == 7) {
                         duration = Integer.parseInt(enterTaskDuration.getText().toString());
                     }
-
+                    if(taskName.isEmpty()){
+                        taskName = getResources().getString(R.string.NewTask);
+                    }
                     Interval tempI = std.CalcAiTask(new AiTask(taskName,durationN,priority,std.GetInterval(time,new DateTime(MainYear,MainMonth,MainDay,0,0))));
                     if(!std.isPossible()){
                         Toast.makeText(ParentWorkerActivity.this, R.string.error, Toast.LENGTH_SHORT).show();
@@ -751,6 +868,7 @@ public class ParentWorkerActivity extends AppCompatActivity implements TimePicke
                                 crtaj.Refreshuj();
                                 adapter.setTaskovi(currentList);
                                 save();
+                                saveList(std.getTasks());
                             }
                         });
 
@@ -939,141 +1057,56 @@ public class ParentWorkerActivity extends AppCompatActivity implements TimePicke
         String lang = prefs.getString("my lan","");
         setLocale( lang);
     }
-    public void ParentAdition(){
-        Intent intent;
-        intent= this.getIntent();
-        if(intent!=null){
-            id = intent.getStringExtra("id");
-        }
-        if(id==null){
-            id = loadId();
-        }else{
-            saveId(id);
-        }
-        id = id.substring(1,id.length()-1);
-        Toast.makeText(ParentWorkerActivity.this, id, Toast.LENGTH_SHORT).show();
-
-
-
-        saveUsr(3);
-    }
-    public void saveUsr(int user){
-        String FILE_NAME="UserData";
-        SharedPreferences sharedPreferences = getSharedPreferences(FILE_NAME,MODE_PRIVATE);
-        SharedPreferences.Editor  editor = sharedPreferences.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(user);
-        editor.putString("brUsera",json);
-        editor.apply();
-    }
-    public void saveId(String s){
-        String FILE_NAME="IdData";
-        SharedPreferences sharedPreferences = getSharedPreferences(FILE_NAME,MODE_PRIVATE);
-        SharedPreferences.Editor  editor = sharedPreferences.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(s);
-        editor.putString("idUsera",json);
-        editor.apply();
-    }
-    public String loadId(){
-        String FILE_NAME="IdData";
-        SharedPreferences sharedPreferences = getSharedPreferences(FILE_NAME,MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = sharedPreferences.getString("idUsera",null);
-        if(json==null){
-            return "";
-        }else{
-            return json.toString();
-        }
-
-    }
-    private void saveList(ArrayList<Task> list){
-        ListClass LC = new ListClass("Aleksa",list);
-        db.collection("users").document(id).set(LC)
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(ParentWorkerActivity.this,"ERROR!",Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-
-    }
-
-    private ListenerRegistration listener;
-    @Override
-    protected void onStart() {
-        super.onStart();
-        listener = db.collection("users").document(id).addSnapshotListener(this,new EventListener<DocumentSnapshot>() {
+    private void deleteButtonListener(){
+        bin.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                if(error!=null){
-                    return;
-                }
-                if(value.exists()){
-                    ListClass LC = value.toObject(ListClass.class);
-                if(LC.getTasks()!=null) {
-                    std.setTasks(LC.getTasks());
-                    currentList = std.GetTasksInInterval(new Interval(new DateTime(Year,Month,Danas,0,0),new DateTime(Year,Month,Danas,23,59)));
-                    adapter.setTaskovi(currentList);
-                    ListaTaskova.setAdapter(adapter);
-                    ListaRutina.setAdapter(adapter);
-                    ListaRutina.setLayoutManager(new LinearLayoutManager(ParentWorkerActivity.this));
-                    ListaTaskova.setLayoutManager(new LinearLayoutManager(ParentWorkerActivity.this));
-                    crtaj.drawLists(currentList);
-                    crtaj.Refreshuj();
-                    save();
-                }else{
-                    load();
-                    std.setTasks((ArrayList<Task>) mainList);
-                    currentList = std.GetTasksInInterval(new Interval(new DateTime(Year,Month,Danas,0,0),new DateTime(Year,Month,Danas,23,59)));
-                    adapter.setTaskovi(currentList);
-                    ListaTaskova.setAdapter(adapter);
-                    ListaRutina.setAdapter(adapter);
-                    ListaRutina.setLayoutManager(new LinearLayoutManager(ParentWorkerActivity.this));
-                    ListaTaskova.setLayoutManager(new LinearLayoutManager(ParentWorkerActivity.this));
-                    crtaj.drawLists(currentList);
-                    crtaj.Refreshuj();
+            public void onClick(View v) {
+                dialogdel.show();
+            }
+        });
+        deleteTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Task task=crtaj.getClickedTask();
+                std.RemoveTask(task);
+                currentList = std.GetTasksInInterval(new Interval(new DateTime(MainYear,MainMonth,MainDay,0,0),new DateTime(MainYear,MainMonth,MainDay,23,59)));
+                crtaj.drawLists(currentList);
+                crtaj.Refreshuj();
+                adapter.setTaskovi(currentList);
+                save();
+                saveList(std.getTasks());
+                dialogdel.dismiss();
+                changeTaskHolder.startAnimation(slowlyCLose);
+                changeTaskHolder.setVisibility(View.INVISIBLE);
+            }
+        });
+        cancelDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogdel.dismiss();
+            }
+        });
+    }
 
-                }
+    private void checkButtonListener(){
+        checkbx.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Task task = crtaj.getClickedTask();
+                if(task.GetDone()){
+                    check.startAnimation(slowlyCLose);
                 }else{
-
+                    check.startAnimation(slowlyOpen);
                 }
+                crtaj.getClickedTask().CheckDone();
 
             }
         });
 
 
+
     }
+
 
 
 }
- class ListClass{
-
-    public String idChild;
-    public ArrayList<Task> tasks;
-    public ListClass(){
-        tasks=null;
-    }
-
-    public ListClass(String id,ArrayList<Task> tasks){
-        this.tasks = tasks;
-        this.idChild = id;
-    }
-
-     public void setTasks(ArrayList<Task> tasks) {
-         this.tasks = tasks;
-     }
-
-     public String getIdChild() {
-         return idChild;
-     }
-
-     public ArrayList<Task> getTasks() {
-         return tasks;
-     }
-
-     public void setIdChild(String id) {
-         this.idChild = id;
-     }
- }
