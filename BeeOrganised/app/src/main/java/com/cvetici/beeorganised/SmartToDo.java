@@ -201,6 +201,16 @@ public class SmartToDo{
         return R;
     }
 
+    private ArrayList<Integer> ContainsInIntervals(Interval i){
+        ArrayList<Integer> r = new ArrayList<>();
+        if(new Interval(Morning, i.GetStartTime()).Intersect(i)  != null) r.add(1);
+        if(new Interval(Afternoon, i.GetStartTime()).Intersect(i)!= null) r.add(2);
+        if(new Interval(Evening, i.GetStartTime()).Intersect(i)  != null) r.add(3);
+        if(new Interval(LateNight, i.GetStartTime()).Intersect(i)!= null) r.add(4);
+
+        return r;
+    }
+
     public boolean AddTask(Task newTask){
         ArrayList<Interval> times = newTaskCheck(newTask);
         if(times == null || times.size() == 0) {
@@ -209,7 +219,49 @@ public class SmartToDo{
             return true;
         }
         else {
-            return false;
+            boolean flag = false;
+            for (Interval in : times){
+                if(in.GetRefferedTask().GetPriority() == 1) flag = true;
+            }
+            if(flag) {
+                return false;
+            }
+            else{
+                int maxTries = 150;
+
+                ArrayList<Integer> intervals = ContainsInIntervals(newTask.GetTime());
+
+                if(intervals.size() == 1){
+                    Interval prefferedInterval = GetInterval(intervals.get(0),newTask.getTime().GetStartTime());
+                    MakeChanges(new AiTask(newTask, prefferedInterval), prefferedInterval, maxTries, true, true);
+                    if(possible){
+                        tasks = newTasks;
+                        tasks.add(newTask);
+                        SortTasks(true);
+                        return true;
+                    }
+                    else{
+                        Eject(CalcUsedTime(prefferedInterval), new AiTask(newTask,prefferedInterval), prefferedInterval, maxTries, true, true);
+
+                        if(possible){
+                            tasks = newTasks;
+                            tasks.add(newTask);
+                            SortTasks(true);
+                            return true;
+                        }
+                        else
+                            return false;
+                    }
+                }
+                else if(intervals.size() == 2){
+                    return false;
+                }
+                else{
+                    return false;
+                }
+
+            }
+
         }
     }
 
@@ -235,11 +287,11 @@ public class SmartToDo{
         return t;
     }
 
-    private Task LowestPriorityT(ArrayList<Task> l){
+    private Task HighestPriorityT(ArrayList<Task> l){
         Task t = l.get(0);
 
         for (int i = 1; i < l.size(); i++) {
-            if(l.get(i).GetPriority() < t.GetPriority()){
+            if(l.get(i).GetPriority() > t.GetPriority()){
                 t = l.get(i);
             }
         }
@@ -304,9 +356,7 @@ public class SmartToDo{
         possibleIns.sort(new Comparator<Interval>() {
             @Override
             public int compare(Interval interval, Interval t1) {
-                if(interval.GetDuration().GetLongMinutes() < t1.GetDuration().GetLongMinutes()) return 1;
-                else if(interval.GetDuration().GetLongMinutes() > t1.GetDuration().GetLongMinutes()) return -1;
-                else return 0;
+                return Integer.compare(t1.GetDuration().GetLongMinutes(), interval.GetDuration().GetLongMinutes());
             }
         });
 
@@ -395,8 +445,8 @@ public class SmartToDo{
                 AiTask a = (AiTask) FindByTitle(neww, t.GetTitle());
                 if(a == null) a = (AiTask) t;
                 //Debug.log("a: " + a.ToString() + "\nt: " + t.ToString());
-                if(!a.UsedTimeF(prefferedInterval).Equals(t.UsedTimeF(prefferedInterval))){
-                    R.add(new Change(t.GetTitle(), a.UsedTimeF(prefferedInterval), t.UsedTimeF(prefferedInterval)));
+                if(!a.UsedTimeF(Interval.WholeDay(prefferedInterval)).Equals(t.UsedTimeF(Interval.WholeDay(prefferedInterval)))){
+                    R.add(new Change(t.GetTitle(), a.UsedTimeF(Interval.WholeDay(prefferedInterval)), t.UsedTimeF(Interval.WholeDay(prefferedInterval))));
                 }
             }
         }
@@ -431,7 +481,7 @@ public class SmartToDo{
         }
     }*/
 
-    private void MakeChanges(AiTask newTask, Interval prefferedInterval, int maxTries, boolean reset){
+    private void MakeChanges(AiTask newTask, Interval prefferedInterval, int maxTries, boolean reset, boolean fixed){
 
         ArrayList<Task> inPI = ConvertIntervalToTaskArray(CalcUsedTime(prefferedInterval));
 
@@ -495,29 +545,47 @@ public class SmartToDo{
             }
 
             if(localTries < maxTries-1) {
-                tt.SetNewTime(guess); // TODO TEST THIS
+                tt.SetNewTime(guess);
                 //boolean success = SetTaskNewInterval(newTasks, tt.GetTitle(), guess);
                 //Debug.log(success+" success");
                 if(tries < 10) //debug only
                     PrintAll("ASDDS" + tries,newTasks);
-                Interval c = CanFitInterval(CalcFreeTime(newTasks, prefferedInterval), newTask.GetTime());
 
-                if(c!=null){
-                    Debug.log("-*-*-KURCINAA-*-**-*-*-*-*-*-*-*-*-*-*-");
-                    if(c.GetDuration().GreaterThan(newTask.GetTime().GetDuration().Multiply(GetMulOffset(true)))){
-                        pick = new AiTask(newTask.GetTitle(), new Interval(c.GetStartTime(), newTask.GetTime().GetDuration()), newTask.GetPriority(), newTask.prefferedTime);
+
+
+                if(fixed){
+                    ArrayList<Interval> c = CalcUsedTime(newTasks, prefferedInterval);
+                    boolean flag = true;
+                    for( Interval in: c ){
+                        if(in.Intersect(newTask.GetTime()) != null)
+                            flag = false;
                     }
-                    else{
-                        pick = new AiTask(newTask.GetTitle(), c, newTask.GetPriority(), newTask.prefferedTime);
+                    if(flag){
+                        possible = true;
+                        changes = true;
+                        return;
                     }
+                }
+                else {
+                    Interval c = CanFitInterval(CalcFreeTime(newTasks, prefferedInterval), newTask.GetTime());
 
-                    //allNewTasks.add(CopyArray(newTasks));
-                    //allChanges.add(FindChanges(inPI, newTasks, prefferedInterval));
-                    //allPicks.add(new AiTask(pick));
 
-                    possible = true;
-                    changes = true;
-                    return; //possible
+                    if (c != null) {
+                        Debug.log("-*-*-KURCINAA-*-**-*-*-*-*-*-*-*-*-*-*-");
+                        if (c.GetDuration().GreaterThan(newTask.GetTime().GetDuration().Multiply(GetMulOffset(true)))) {
+                            pick = new AiTask(newTask.GetTitle(), new Interval(c.GetStartTime(), newTask.GetTime().GetDuration()), newTask.GetPriority(), newTask.prefferedTime);
+                        } else {
+                            pick = new AiTask(newTask.GetTitle(), c, newTask.GetPriority(), newTask.prefferedTime);
+                        }
+
+                        //allNewTasks.add(CopyArray(newTasks));
+                        //allChanges.add(FindChanges(inPI, newTasks, prefferedInterval));
+                        //allPicks.add(new AiTask(pick));
+
+                        possible = true;
+                        changes = true;
+                        return; //possible
+                    }
                 }
             }
 
@@ -530,7 +598,7 @@ public class SmartToDo{
         Debug.log("TRIES " + tries);
     }
 
-    private void Eject(ArrayList<Interval> inPI, AiTask newTask, Interval prefferedInterval, int maxTries, boolean threeIncluded){
+    private void Eject(ArrayList<Interval> inPI, AiTask newTask, Interval prefferedInterval, int maxTries, boolean threeIncluded, boolean fixed){
         newTasks = CopyArray(tasks);
 
         TimeSpan ts = SumOfDurations(inPI, threeIncluded).Adding( SumOfDurations(CalcFreeTime(prefferedInterval)) );
@@ -549,7 +617,7 @@ public class SmartToDo{
                 RemoveTaskFNT(in.GetRefferedTask().GetTitle());
             }
 
-            if(toEject.size() == 1){
+            if(toEject.size() == 1 && !fixed){
                 Interval in = toEject.get(0);
                 if(in.GetDuration().GreaterThan(newTask.GetTime().GetDuration().Multiply(GetMulOffset(true)))){
                     in = new Interval(in.GetStartTime(), newTask.GetTime().GetDuration());
@@ -559,13 +627,11 @@ public class SmartToDo{
                 possible = true;
             }
 
-            //TODO add if intervals to eject are next to each other
-
             PrintAll("WITH EJECT", newTasks);
 
             //Debug.log("pre possible: " + possible);
             if(!possible)
-                MakeChanges(newTask, prefferedInterval, maxTries, false);
+                MakeChanges(newTask, prefferedInterval, maxTries, false, fixed);
 
             if(possible) {
                 if (!PlaceEjected(prefferedInterval.GetStartTime())) {
@@ -589,7 +655,7 @@ public class SmartToDo{
             boolean flag = false;
             int pivot = inter + 1;
             while (pivot < 5 && !flag) {
-                ArrayList<Interval> possible = newTaskCheck(a, GetInterval(pivot,date));
+                ArrayList<Interval> possible = newTaskCheck(newTasks, a, GetInterval(pivot,date));
                 if(!possible.isEmpty()){
                     Interval localPick = possible.get(r.nextInt(possible.size()));
                     if(localPick.GetDuration().GreaterThan(a.GetTime().GetDuration().Multiply(GetMulOffset(true)))){
@@ -603,7 +669,7 @@ public class SmartToDo{
             }
             pivot = inter - 1;
             while (pivot > 0 && !flag) {
-                ArrayList<Interval> possible = newTaskCheck(a, GetInterval(pivot,date));
+                ArrayList<Interval> possible = newTaskCheck(newTasks, a, GetInterval(pivot,date));
                 if(!possible.isEmpty()){
                     Interval localPick = possible.get(r.nextInt(possible.size()));
                     if(localPick.GetDuration().GreaterThan(a.GetTime().GetDuration().Multiply(GetMulOffset(true)))){
@@ -623,20 +689,10 @@ public class SmartToDo{
 
     private void ChangesToFreeTime(AiTask newTask, Interval prefferedInterval){
 
-        //should set global variables "pick", "newTasks" and "possible"
-        //allChanges.clear();
-        //allNewTasks.clear();
-        //allPicks.clear();
-
-        int maxTries = 1000;
+        int maxTries = 150;
         Random r = new Random();
 
         ArrayList<Interval> inPI = CalcUsedTime(prefferedInterval);
-        /*
-        ArrayList<Task> couldBeChanged = ConvertIntervalToTaskArray(inPI);
-        makedChanges.clear(); /*/
-
-        //System.out.println(prefferedInterval.ToString());
 
         int lpiinpi = LowestPriorityI(inPI).GetRefferedTask().GetPriority();
 
@@ -654,101 +710,30 @@ public class SmartToDo{
                 return; //not possible
             }
             else{
-                MakeChanges(newTask, prefferedInterval, maxTries, true);
-                /*
-                int tries = 0;
-                while(!possible && tries<maxTries){
-                    tries++;
-                    int localTries = 0;
-
-                    int rtt = r.nextInt(newTasks.size());
-                    Task tt = newTasks.get(rtt);
-                    while(!IsMovable(tt,prefferedInterval) && localTries<maxTries){
-                        localTries++;
-                        rtt = r.nextInt(newTasks.size());
-                        tt = newTasks.get(rtt);
-                    }
-
-                    Interval guess = new Interval();
-                    boolean found = false;
-                    if(r.nextBoolean()){
-                        if(r.nextBoolean()){
-                            guess = new Interval(prefferedInterval.GetStartTime(), tt.GetTime().GetDuration());
-                        }
-                        else {
-                            guess = new Interval(tt.GetTime().GetDuration(), prefferedInterval.GetEndTime());
-                        }
-
-                        if(!HaveOverlays(CalcUsedTime(newTasks, prefferedInterval), guess)){
-                            found = true;
-                        }
-                    }
-
-                    if(!found) {
-                        int rtt2 = r.nextInt(newTasks.size());
-                        guess = tt.GetTime().MoveNextTo(newTasks.get(rtt2).GetTime(), r.nextBoolean());
-                        while ((guess.Intersect(prefferedInterval).GetIntersectType() != 6 || HaveOverlays(CalcUsedTime(newTasks, prefferedInterval), guess)) && localTries < maxTries) {
-
-                            //
-                            //Debug.log("intersect t - " + guess.Intersect(prefferedInterval).GetIntersectType());
-
-                            //PrintAllTimes("Try" + tries + " Local" + localTries + " ", CalcUsedTime(newTasks,prefferedInterval));
-                            //Debug.log("Guessssss: " + guess.ToString());
-
-
-                            localTries++;
-                            rtt2 = r.nextInt(newTasks.size());
-                            guess = tt.GetTime().MoveNextTo(newTasks.get(rtt2).GetTime(), r.nextBoolean());
-                        }
-                    }
-
-                    //Debug.log("local tris " + localTries);
-
-                    if(localTries < maxTries-1) {
-                        tt.SetNewTime(guess);
-                        if(tries < 10)
-                        PrintAll("ASDDS",newTasks);
-                        Interval c = CanFitInterval(CalcFreeTime(newTasks, prefferedInterval), newTask.GetTime());
-                        if(c!=null){
-                            Debug.log("-*-*-KURCINAA-*-**-*-*-*-*-*-*-*-*-*-*-");
-                            if(c.GetDuration().GreaterThan(newTask.GetTime().GetDuration().Multiply(GetMulOffset(true)))){
-                                pick = new AiTask(newTask.GetTitle(), new Interval(c.GetStartTime(), newTask.GetTime().GetDuration()), newTask.GetPriority(), newTask.prefferedTime);
-                            }
-                            else{
-                                pick = new AiTask(newTask.GetTitle(), c, newTask.GetPriority(), newTask.prefferedTime);
-                            }
-                            possible = true;
-                            changes = true;
-                            return; //possible
-                        }
-                    }
-
-                }
-
-                Debug.log("TRIES " + tries);*/
+                MakeChanges(newTask, prefferedInterval, maxTries, true, false);
             }
 
         }
         else if(lpiinpi <= 3){
 
-            MakeChanges(newTask, prefferedInterval, maxTries, true);
-
+            MakeChanges(newTask, prefferedInterval, maxTries, true, false);
+            Debug.log("exit makeChanges");
             if(!possible){
-                Debug.log("PRVA EJECT KURCIANAAA");
-                Eject(inPI,newTask,prefferedInterval,maxTries, true);
-                Debug.log("DRUGA EJECT kurcina");
+                Debug.log("enter eject");
+                Eject(inPI,newTask,prefferedInterval,maxTries, true, false);
+                Debug.log("exit eject");
             }
 
         }
         else{ // lpiinpi <= 4
-            MakeChanges(newTask, prefferedInterval, maxTries, true);
+            MakeChanges(newTask, prefferedInterval, maxTries, true, false);
 
             if(!possible){
-                Eject(inPI,newTask,prefferedInterval,maxTries, false);
+                Eject(inPI,newTask,prefferedInterval,maxTries, false, false);
             }
 
             if(!possible){
-                Eject(inPI,newTask,prefferedInterval,maxTries, true);
+                Eject(inPI,newTask,prefferedInterval,maxTries, true, false);
             }
 
         }
@@ -829,6 +814,19 @@ public class SmartToDo{
         return r;
         //RETURNS list of FREE times in prefferedInterval which can fit newTask
     }
+
+    public ArrayList<Interval> newTaskCheck(ArrayList<Task> tasks, Task newTask, Interval preferedInterval){
+        ArrayList<Interval> R = CalcFreeTime(tasks, preferedInterval);
+        ArrayList<Interval> r = new ArrayList<Interval>();
+        for(Interval i : R){
+            if(i.GetDuration().GreaterThan((newTask.GetTime().GetDuration().Multiply(GetMulOffset(false))))) {
+                r.add(i);
+            }
+        }
+        return r;
+        //RETURNS list of FREE times in prefferedInterval which can fit newTask
+    }
+
     private ArrayList<Interval> CalcUsedTime(Interval period){
         ArrayList<Interval> R = new ArrayList<Interval>();
         for(int i = 0; i<tasks.size(); i++){

@@ -177,6 +177,12 @@ class AiTask extends Task
         this.prefferedTime = prefferedTime;
     }
 
+    public AiTask(Task from, Interval prefferedTime){
+        title = from.GetTitle();
+        time = from.GetTime();
+        this.prefferedTime = prefferedTime;
+    }
+
     public AiTask(AiTask t){
         this.title = t.GetTitle();
         this.time = t.GetTime();
