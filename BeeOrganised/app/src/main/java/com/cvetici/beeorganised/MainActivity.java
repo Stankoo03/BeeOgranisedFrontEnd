@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Application;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -30,19 +31,19 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class MainActivity extends AppCompatActivity {
 
-   private ImageButton personal_use,child_use,parent_use;
+    private ImageButton personal_use, child_use, parent_use;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         super.onCreate(savedInstanceState);
-        setLocale("en");
         setContentView(R.layout.activity_main);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         personal_use = (ImageButton) findViewById(R.id.personalUse);
         child_use = (ImageButton) findViewById(R.id.child);
-        parent_use =(ImageButton) findViewById(R.id.parent);
+        parent_use = (ImageButton) findViewById(R.id.parent);
+
         personal_use.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -53,11 +54,11 @@ public class MainActivity extends AppCompatActivity {
         child_use.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(load()==2){
+                if (load() == 2) {
                     Intent intent = new Intent(MainActivity.this, ChildActivity.class);
                     startActivity(intent);
                     finish();
-                }else {
+                } else {
                     goToChild();
                 }
 
@@ -66,57 +67,72 @@ public class MainActivity extends AppCompatActivity {
         parent_use.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(load()==3){
+                if (load() == 3) {
                     goToParent();
-                }else{
+                } else {
                     Intent intent = new Intent(MainActivity.this, ParentBuilderActivity.class);
                     startActivity(intent);
                 }
             }
         });
-
-
-
+        setLocale("eng");
     }
-    private void setLocale( String lng){
-        Locale locale = new Locale (lng);
+
+    private void setLocale(String lng) {
+        Locale locale = new Locale("en");
         Locale.setDefault(locale);
         Configuration con = new Configuration();
         con.locale = locale;
+
         getBaseContext().getResources().updateConfiguration(con, getBaseContext().getResources().getDisplayMetrics());
+
         getApplicationContext().getResources().updateConfiguration(con, getApplicationContext().getResources().getDisplayMetrics());
+
+        SharedPreferences.Editor editor = getSharedPreferences("Settings", MODE_PRIVATE).edit();
+        editor.putString("my lan", lng);
+        editor.apply();
     }
-    private void goToPersonal(){
+
+    public void loadLocale() {
+        SharedPreferences prefs = getSharedPreferences("Settings", Application.MODE_PRIVATE);
+        String lang = prefs.getString("my lan", "");
+        setLocale("en");
+    }
+
+    private void goToPersonal() {
         Intent intent = new Intent(MainActivity.this, WorkerActivity.class);
         startActivity(intent);
         save(1);
     }
-    private void goToChild(){
+
+    private void goToChild() {
         Intent intent = new Intent(MainActivity.this, ChildWorkerActivity.class);
         startActivity(intent);
     }
-    private void goToParent(){
+
+    private void goToParent() {
         Intent intent = new Intent(MainActivity.this, ParentWorkerActivity.class);
         startActivity(intent);
     }
 
-    public void save(int user){
-        String FILE_NAME="UserData";
-        SharedPreferences sharedPreferences = getSharedPreferences(FILE_NAME,MODE_PRIVATE);
-        SharedPreferences.Editor  editor = sharedPreferences.edit();
+    public void save(int user) {
+        String FILE_NAME = "UserData";
+        SharedPreferences sharedPreferences = getSharedPreferences(FILE_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
         String json = gson.toJson(user);
-        editor.putString("brUsera",json);
+        editor.putString("brUsera", json);
         editor.apply();
     }
-    public int load(){
-        String FILE_NAME="UserData";
-        SharedPreferences sharedPreferences = getSharedPreferences(FILE_NAME,MODE_PRIVATE);
+
+    public int load() {
+        String FILE_NAME = "UserData";
+        SharedPreferences sharedPreferences = getSharedPreferences(FILE_NAME, MODE_PRIVATE);
         Gson gson = new Gson();
-        String json = sharedPreferences.getString("brUsera",null);
-        if(json==null){
+        String json = sharedPreferences.getString("brUsera", null);
+        if (json == null) {
             return 0;
-        }else{
+        } else {
             return Integer.parseInt(json);
         }
 
