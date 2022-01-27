@@ -9,6 +9,14 @@ public class Interval{
     private int intesectType;
     private Task refferedTask;
 
+    public static Interval WholeDay(Interval date) {
+        return new Interval(date.GetStartTime(),0,0,24,0);
+    }
+
+    public boolean IntersectExists(){
+        return intesectType != 1 && intesectType != 4;
+    }
+
     public DateTime GetStartTime() {
         return startTime;
     }
