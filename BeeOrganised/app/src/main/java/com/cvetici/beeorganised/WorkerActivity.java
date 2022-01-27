@@ -438,7 +438,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         }
         Year = Integer.parseInt(Godina);
         load();
-        mainList.addAll(AiTaskList);
+
         std.setTasks(mainList);
 
 
@@ -773,7 +773,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                                 crtaj.Refreshuj();
                                 adapter.setTaskovi(currentList);
 
-                                save();
+
                             }
                         });
 
@@ -791,17 +791,23 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
 
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        save();
+    }
+
     public void save(){
         String FILE_NAME="taskLists";
         String AI_TASKS = "aiTaskList";
         SharedPreferences sharedPreferences = getSharedPreferences(FILE_NAME,MODE_PRIVATE);
         SharedPreferences.Editor  editor = sharedPreferences.edit();
         Gson gson = new Gson();
+        AiTaskList = new ArrayList<AiTask>();
         ArrayList<Task> t = std.getTasks();
         for(int i=0; i<t.size(); i++){
             if(t.get(i).getClass()==AiTask.class){
                 AiTaskList.add((AiTask) t.get(i));
-
             }
         }
         t.removeAll(AiTaskList);
@@ -812,7 +818,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         editor.apply();
 
     }
-    
+
     public void load(){
         String FILE_NAME="taskLists";
         String AI_TASKS = "aiTaskList";
@@ -830,6 +836,8 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         if(AiTaskList==null){
             AiTaskList = new ArrayList<>();
         }
+        Log.d("Penis",mainList.size()+" "+AiTaskList.size()+" ");
+        mainList.addAll(AiTaskList);
         adapter.notifyDataSetChanged();
 
     }
@@ -998,7 +1006,6 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                 crtaj.drawLists(currentList);
                 crtaj.Refreshuj();
                 adapter.setTaskovi(currentList);
-                save();
                 dialogdel.dismiss();
                 changeTaskHolder.startAnimation(slowlyCLose);
                 changeTaskHolder.setVisibility(View.INVISIBLE);
@@ -1023,7 +1030,6 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                     check.startAnimation(slowlyOpen);
                 }
                 crtaj.getClickedTask().CheckDone();
-
             }
         });
 
