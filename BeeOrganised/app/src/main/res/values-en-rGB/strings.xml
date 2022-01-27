@@ -96,5 +96,6 @@
     <string name="rusure1">Are you sure you would like to delete this task? You can not undo.</string>
     <string name="cancel">CANCEL</string>
     <string name="delete">DELETE</string>
+    <string name="NewTask">New Task</string>
 
 </resources>

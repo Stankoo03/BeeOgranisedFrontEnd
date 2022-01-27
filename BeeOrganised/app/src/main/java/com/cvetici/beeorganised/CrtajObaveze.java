@@ -61,10 +61,8 @@ public class CrtajObaveze extends View {
             getResources().getColor(R.color.UserChosing)
     };
     private View WorkerActivity;
-    private ImageButton checkbx;
-    private ImageView check;
-    private Button cancel, del;
     Dialog dialogdel;
+    private ImageView check;
 
 
     public CrtajObaveze(Context context) {
@@ -107,52 +105,13 @@ public class CrtajObaveze extends View {
         std.setTasks((ArrayList<Task>) mainList);
 
         bin = (ImageButton) ((Activity)context).findViewById(R.id.delete);
-        opendelete();
-
         check = ((Activity)context).findViewById(R.id.check);
-        checkbx = ((Activity)context).findViewById(R.id.checkbx);
 
     }
 
-    private void opendelete(){/*
-        bin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialogdel.setContentView(R.layout.deletetask);
-                dialogdel.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                cancel = (Button) dialogdel.findViewById(R.id.cancel);
-                del = (Button) dialogdel.findViewById(R.id.del);
-                cancelit();
-                dialogdel.show();
 
-            }
-        });
-        */
 
-    }
-    private void cancelit(){
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialogdel.dismiss();
-            }
-        });
 
-    }
-
-    private void cekiraj(){
-        checkbx.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(check.getVisibility()==View.VISIBLE) {
-                    check.setVisibility(View.INVISIBLE);
-                }
-                else  if(check.getVisibility()==View.INVISIBLE) {
-                    check.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-    }
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -277,7 +236,11 @@ public class CrtajObaveze extends View {
             endingTime.setText(current.GetTime().GetEndTime().ToStringTime());
             changeTaskColor();
             tasknow = current;
-            cekiraj();
+            if(tasknow.GetDone()){
+                check.setVisibility(View.VISIBLE);
+            }else{
+                check.setVisibility(View.INVISIBLE);
+            }
         }
 
 

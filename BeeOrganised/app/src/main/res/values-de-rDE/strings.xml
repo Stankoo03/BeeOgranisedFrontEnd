@@ -94,5 +94,6 @@
     <string name="rusure1">Möchten Sie diese Aufgabe wirklich löschen? Sie können nicht rückgängig gemacht werden.</string>
     <string name="cancel">ABBRECHEN</string>
     <string name="delete">LÖSCHEN</string>
+    <string name="NewTask">Nouvelle tâche</string>
 
 </resources>

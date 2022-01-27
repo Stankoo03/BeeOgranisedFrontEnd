@@ -37,6 +37,7 @@
         <item>Custom</item>
     </string-array>
 
+    <string name="NewTask">New Task</string>
     <string name="langs"> languages </string>
     <string name="settings"> settings </string>
     <string name="user"> User type </string>

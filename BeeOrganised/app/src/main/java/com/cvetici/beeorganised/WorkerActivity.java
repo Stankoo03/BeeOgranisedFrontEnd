@@ -113,7 +113,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     private NotificationHelper mHelper;
 
     private Switch daynightSwitch;
-    private ImageView sat;
+    private ImageView sat,check;
 
     private EditText enterTask,enterTaskDuration;
     public  SmartToDo std;
@@ -122,7 +122,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     private ListaTaskovaAdapter adapter = new ListaTaskovaAdapter(this::onTaskClick);
     private Spinner prioritySp,timeSp,durationSp,routineSp;
     private ImageButton datumPrvi,datumDrugi,datumTreci, podeshavanje, lang, srb, eng, ger, spa, fran, help;
-    private ImageButton changeUserBtn,textApply,bin;
+    private ImageButton changeUserBtn,textApply,bin,checkbx;
     public  List<Task> currentList,mainList;
     public boolean dan,backgroundClicked;
     Dialog dialog,dialogdel;
@@ -175,6 +175,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         openSettings();
         applyRoutines();
         deleteButtonListener();
+        checkButtonListener();
 
 
     }
@@ -252,7 +253,8 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         ConfirmBtn = bottomSheetView.findViewById(R.id.ConfirmBtn);
         textApply = bottomSheetView.findViewById(R.id.textApply);
 
-
+        check = findViewById(R.id.check);
+        checkbx = findViewById(R.id.checkbx);
 
         globalTaskPosition=-1;
 
@@ -279,12 +281,12 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     private void SwitchListener(){
         if(calendar.get(Calendar.HOUR_OF_DAY)>=12){
             daynightSwitch.setChecked(false);
-            sat.setImageResource(R.drawable.ic_amclock_ontop);
+            sat.setImageResource(R.drawable.ic_pmclock_ontop);
             crtaj.CrtajDan(true);
             crtaj.Refreshuj();
         }else{
             daynightSwitch.setChecked(true);
-            sat.setImageResource(R.drawable.ic_pmclock_ontop);
+            sat.setImageResource(R.drawable.ic_amclock_ontop);
             crtaj.CrtajDan(false);
             crtaj.Refreshuj();
         }
@@ -610,7 +612,11 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
             SetBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Task temp = new Task(enterTask.getText().toString(),new Interval(new DateTime(MainYear,MainMonth,MainDay,h1,m1),new DateTime(MainYear,MainMonth,MainDay,h2,m2)));
+                    String taskName = enterTask.getText().toString();
+                    if(taskName.isEmpty()){
+                        taskName = getResources().getString(R.string.NewTask);
+                    }
+                    Task temp = new Task(taskName,new Interval(new DateTime(MainYear,MainMonth,MainDay,h1,m1),new DateTime(MainYear,MainMonth,MainDay,h2,m2)));
                     if(std.AddTask(temp)){
                         Toast.makeText(WorkerActivity.this, R.string.settask, Toast.LENGTH_LONG).show();
                     }else{
@@ -718,7 +724,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
 
             }
         });
-
+            //Promena
         CaluculateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -737,7 +743,9 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                     if (durationN == 7) {
                         duration = Integer.parseInt(enterTaskDuration.getText().toString());
                     }
-
+                    if(taskName.isEmpty()){
+                        taskName = getResources().getString(R.string.NewTask);
+                    }
                     Interval tempI = std.CalcAiTask(new AiTask(taskName,durationN,priority,std.GetInterval(time,new DateTime(MainYear,MainMonth,MainDay,0,0))));
                     if(!std.isPossible()){
                         Toast.makeText(WorkerActivity.this, R.string.error, Toast.LENGTH_SHORT).show();
@@ -970,6 +978,22 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
             @Override
             public void onClick(View v) {
                 dialogdel.dismiss();
+            }
+        });
+    }
+
+    private void checkButtonListener(){
+        checkbx.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Task task = crtaj.getClickedTask();
+                if(task.GetDone()){
+                    check.startAnimation(slowlyCLose);
+                }else{
+                    check.startAnimation(slowlyOpen);
+                }
+                crtaj.getClickedTask().CheckDone();
+
             }
         });
 

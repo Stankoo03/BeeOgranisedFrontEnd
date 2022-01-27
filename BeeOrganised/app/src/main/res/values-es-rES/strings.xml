@@ -39,7 +39,7 @@
 
     <string name="langs">idiomas</string>
     <string name="lan">Idiomas</string>
-    <string name="settings">ajustes</string>
+    <string name="settings">Nueva tarea</string>
     <string name="user">Tipo de usuario</string>
     <string name="themes">Temas</string>
     <string name="sound">Sonar</string>
@@ -88,5 +88,6 @@
     <string name="rusure1">¿Está seguro de que desea eliminar esta tarea? No se puede deshacer.</string>
     <string name="cancel">CANCELAR</string>
     <string name="delete">ELIMINAR</string>
+    <string name="NewTask">Nueva tarea</string>
 
 </resources>

@@ -90,5 +90,6 @@
     <string name="rusure1">Voulez-vous vraiment supprimer cette tâche ? Vous ne pouvez pas annuler.</string>
     <string name="cancel">ANNULER</string>
     <string name="delete">EFFACER</string>
+    <string name="NewTask">Neue Aufgabe</string>
 
 </resources>
