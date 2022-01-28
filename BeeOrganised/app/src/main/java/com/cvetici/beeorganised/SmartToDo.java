@@ -153,7 +153,7 @@ public class SmartToDo{
     }
 
     public void RemoveTask(Task t){
-        tasks.remove(t);
+        RemoveTask(t.GetTitle());
     }
 
     public boolean RemoveTask(String title){
@@ -219,6 +219,11 @@ public class SmartToDo{
     }
 
     public boolean AddTask(Task newTask){
+        boolean flag1 = true;
+        while(flag1){
+            flag1 = TitleExist(newTask.GetTitle());
+            if (flag1) newTask.SetTitle(newTask.GetTitle() + " i");
+        }
         ArrayList<Interval> times = newTaskCheck(newTask);
         if(times == null || times.size() == 0) {
             tasks.add(newTask);
@@ -272,8 +277,21 @@ public class SmartToDo{
         }
     }
 
+    private boolean TitleExist(String title){
+        for (Task t :
+                tasks) {
+            if(t.GetTitle().equals(title)) return true;
+        }
+        return false;
+    }
+
     private void AddFluidTask(AiTask newTask){
         //Check recommended
+        boolean flag = true;
+        while(flag){
+            flag = TitleExist(newTask.GetTitle());
+            if (flag) newTask.SetTitle(newTask.GetTitle() + " i");
+        }
         tasks.add(newTask);
         SortTasks(true);
     }
