@@ -22,7 +22,7 @@ public class DateTime {
     public int GetDay() { return DaysInCurrentYear() - MonthToDays(GetMonth(),isLeapYear(GetYear())); }
     public int GetHour(){ return MinutesInCurrentDay()/minutesInHour; }
     public int GetMinute(){ return MinutesInCurrentDay()%minutesInHour; }
-    public int GetDayInWeek(){ return (minutes/minutesInDay + 2) % 7; } // 0-6
+    public int GetDayInWeek(){ return (minutes/minutesInDay + 3) % 7; } // 0-6
     public int GetWeekID() { return (minutes+ 2*minutesInDay)/ minutesInWeek; }
     public int GetLongMinutes() { return minutes; }
 
