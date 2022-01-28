@@ -22,11 +22,13 @@ public class DateTime {
     public int GetDay() { return DaysInCurrentYear() - MonthToDays(GetMonth(),isLeapYear(GetYear())); }
     public int GetHour(){ return MinutesInCurrentDay()/minutesInHour; }
     public int GetMinute(){ return MinutesInCurrentDay()%minutesInHour; }
-    public int GetDayInWeek(){ return (minutes/minutesInDay + 2) % 7; } // 0-6
+    public int GetDayInWeek(){ return (minutes/minutesInDay + 3) % 7; } // 0-6
     public int GetWeekID() { return (minutes+ 2*minutesInDay)/ minutesInWeek; }
     public int GetLongMinutes() { return minutes; }
 
-    public boolean isLeapYear(int year){if(year%4 == 0) return true; else return false;}
+    public boolean isLeapYear(int year){
+        return year % 4 == 0;
+    }
 
     private int MinutesInCurrentDay(){
         return (minutes%minutesInDay);
@@ -123,15 +125,12 @@ public class DateTime {
         int min = 0;
         year-=2020;
         min += year*minutesInYear;
-        //min += LeapDays(year) * minutesInDay;
         min += MonthToDays(month,isLeapYear(year+2020))*minutesInDay;
         min += (day-1) * minutesInDay;
         min += hour * minutesInHour;
         min += minute;
 
         if(min<0) min = 0;
-
-        //System.out.println("minutsss" + min);
 
         this.minutes = min;
     }
@@ -194,9 +193,6 @@ public class DateTime {
     }
 
     public static DateTime Now(){
-        //Date now = Calendar.getInstance().getTime();
-        //return new DateTime(now.getYear(),now.getMonth(),now.getDay(),now.getHours(),now.getMinutes());
-
         Calendar c = Calendar.getInstance();
         int day = c.get(Calendar.DAY_OF_MONTH);
         int month = c.get(Calendar.MONTH);
