@@ -31,6 +31,12 @@
         <item name="android:textSize">16sp</item>
         <item name="android:dropDownListViewStyle">@style/SpinnerStyle</item>
     </style>
+    <style name="Spinner3" parent="Widget.AppCompat.Light.DropDownItem.Spinner">
+        <item name="android:textColor">@color/DateColor</item>
+        <item name="android:fontFamily">@font/font</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:dropDownListViewStyle">@style/SpinnerStyle</item>
+    </style>
     <style name="SpinnerStyle" parent="Widget.AppCompat.ListView.DropDown">
     <item name="android:divider">@color/DarkBrwn</item>
         <item name="android:dividerHeight">1dp</item></style>

@@ -205,12 +205,13 @@ public class ParentWorkerActivity extends AppCompatActivity implements TimePicke
                 if(value.exists()){
                     ListClass LC = value.toObject(ListClass.class);
                     if(LC.getTasks()!=null){
-                        std.setTasks(LC.getTasks());
+                        ArrayList<Task> merge= LC.getTasks();
+                        std.setTasks(merge);
                         currentList = std.GetTasksInInterval(new Interval(new DateTime(Year,Month,Danas,0,0),new DateTime(Year,Month,Danas,23,59)));
                         adapter.setTaskovi(currentList);
                         crtaj.drawLists(currentList);
                         crtaj.Refreshuj();
-                        save();
+
                     }
                 }
 
@@ -230,9 +231,6 @@ public class ParentWorkerActivity extends AppCompatActivity implements TimePicke
         }else{
             saveId(id);
         }
-        id="Saska";
-        Toast.makeText(ParentWorkerActivity.this, id, Toast.LENGTH_SHORT).show();
-
         saveUsr(3);
     }
     private void saveList(ArrayList<Task> list){
@@ -374,8 +372,6 @@ public class ParentWorkerActivity extends AppCompatActivity implements TimePicke
                 imm.hideSoftInputFromWindow(enterTask.getWindowToken(),0);
             }
         });
-
-
 
         routine.shrink();
         task.shrink();
@@ -537,8 +533,6 @@ public class ParentWorkerActivity extends AppCompatActivity implements TimePicke
             Month = Integer.parseInt(Mesec);
         }
         Year = Integer.parseInt(Godina);
-        load();
-        std.setTasks((ArrayList<Task>) mainList);
         currentList = std.GetTasksInInterval(new Interval(new DateTime(Year,Month,Danas,0,0),new DateTime(Year,Month,Danas,23,59)));
         adapter.setTaskovi(currentList);
         ListaTaskova.setAdapter(adapter);
@@ -607,6 +601,7 @@ public class ParentWorkerActivity extends AppCompatActivity implements TimePicke
     public void otvoriKalendar(View view) {
         Intent intent = new Intent(ParentWorkerActivity.this , Kalendar.class);
         ImageButton button = (ImageButton) findViewById(R.id.datumCetvrti);
+        intent.putExtra("id",id);
         startActivity(intent);
 
     }
@@ -768,7 +763,6 @@ public class ParentWorkerActivity extends AppCompatActivity implements TimePicke
                         public void onClick(View v) {
                             Task current = currentList.get(globalTaskPosition);
                             current.SetRoutine(new Routine(new boolean[]{Mon.isChecked(),Tue.isChecked(),Wed.isChecked(),Thu.isChecked(),Fri.isChecked(),Sat.isChecked(),Sun.isChecked()}));
-                            save();
                         }
                     });
                 }
@@ -779,7 +773,6 @@ public class ParentWorkerActivity extends AppCompatActivity implements TimePicke
                     public void onClick(View v) {
                         Task current = currentList.get(globalTaskPosition);
                         current.SetRoutine(new Routine(tempPosition));
-                        save();
 
                     }
                 });
@@ -793,7 +786,6 @@ public class ParentWorkerActivity extends AppCompatActivity implements TimePicke
                     public void onClick(View v) {
                         Task current = currentList.get(globalTaskPosition);
                         current.SetRoutine(new Routine(1));
-                        save();
                     }
                 });
             }
@@ -867,7 +859,6 @@ public class ParentWorkerActivity extends AppCompatActivity implements TimePicke
                                 crtaj.drawLists(currentList);
                                 crtaj.Refreshuj();
                                 adapter.setTaskovi(currentList);
-                                save();
                                 saveList(std.getTasks());
                             }
                         });
@@ -886,28 +877,7 @@ public class ParentWorkerActivity extends AppCompatActivity implements TimePicke
 
     }
 
-    public void save(){
-        String FILE_NAME="taskLists";
-        SharedPreferences sharedPreferences = getSharedPreferences(FILE_NAME,MODE_PRIVATE);
-        SharedPreferences.Editor  editor = sharedPreferences.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(std.getTasks());
-        editor.putString(FILE_NAME,json);
-        editor.apply();
-    }
-    public void load(){
-        String FILE_NAME="taskLists";
-        SharedPreferences sharedPreferences = getSharedPreferences(FILE_NAME,MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = sharedPreferences.getString(FILE_NAME,null);
-        Type type = new TypeToken<List<Task>>() {}.getType();
-        mainList = gson.fromJson(json,type);
-        if(mainList==null){
-            mainList = new ArrayList<>();
-        }
-        adapter.notifyDataSetChanged();
 
-    }
 
     View prosli;
     @Override
@@ -1073,7 +1043,6 @@ public class ParentWorkerActivity extends AppCompatActivity implements TimePicke
                 crtaj.drawLists(currentList);
                 crtaj.Refreshuj();
                 adapter.setTaskovi(currentList);
-                save();
                 saveList(std.getTasks());
                 dialogdel.dismiss();
                 changeTaskHolder.startAnimation(slowlyCLose);
@@ -1099,6 +1068,7 @@ public class ParentWorkerActivity extends AppCompatActivity implements TimePicke
                     check.startAnimation(slowlyOpen);
                 }
                 crtaj.getClickedTask().CheckDone();
+                saveList(std.getTasks());
 
             }
         });

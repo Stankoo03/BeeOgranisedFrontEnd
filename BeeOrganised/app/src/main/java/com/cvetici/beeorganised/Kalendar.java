@@ -1,5 +1,7 @@
 package com.cvetici.beeorganised;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
@@ -10,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
@@ -33,8 +36,14 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -48,6 +57,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Kalendar extends AppCompatActivity implements CalendarAdapter.OnItemListener, TimePickerDialog.OnTimeSetListener ,ListaTaskovaAdapter.OnTaskListener {
+
+    private ListenerRegistration listener;
+    private FirebaseFirestore db ;
 
     private TextView monthYearText,AiStartTime,AiEndTime;
     private RecyclerView calendarRecyclerView;
@@ -77,6 +89,7 @@ public class Kalendar extends AppCompatActivity implements CalendarAdapter.OnIte
     private ArrayList<Task> currentList,mainList;
     private ArrayList<AiTask>AiTaskList;
     private Button TaskButton;
+    private Intent workerIntent;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     //istrazi sta je ovo Requires API
@@ -106,6 +119,10 @@ public class Kalendar extends AppCompatActivity implements CalendarAdapter.OnIte
         RadioGroupClicked();
         FromToTimeSetter();
         AiTaskCalculation();
+        db = FirebaseFirestore.getInstance();
+        if(workerIntent.getStringExtra("id")!=null){
+            UpdateListListener();
+        }
 
     }
     private void FindViews(){
@@ -137,7 +154,7 @@ public class Kalendar extends AppCompatActivity implements CalendarAdapter.OnIte
         AiStartTime = bottomSheetView.findViewById(R.id.AiStarTime);
         AiEndTime = bottomSheetView.findViewById(R.id.AiEndTime);
         textApply = bottomSheetView.findViewById(R.id.textApply);
-
+        workerIntent = this.getIntent();
         std = new SmartToDo(5);
         task.shrink();
         load();
@@ -379,7 +396,9 @@ public class Kalendar extends AppCompatActivity implements CalendarAdapter.OnIte
                     }
                     currentList = std.GetTasksInInterval(new Interval(new DateTime(currentYear,currentMonth,currentDay,h1,m1),new DateTime(currentYear,currentMonth,currentDay,h2,m2)));
                     adapter.setTaskovi(currentList);
-
+                    if(workerIntent.getStringExtra("id")!=null){
+                        saveList(std.getTasks());
+                    }
 
                 }
             });
@@ -441,7 +460,9 @@ public class Kalendar extends AppCompatActivity implements CalendarAdapter.OnIte
                                 Toast.makeText(Kalendar.this, R.string.settask, Toast.LENGTH_SHORT).show();
                                 currentList = std.GetTasksInInterval(new Interval(new DateTime(currentYear,currentMonth,currentDay,0,0),new DateTime(currentYear,currentMonth,currentDay,23,59)));
                                 adapter.setTaskovi(currentList);
-
+                                if(workerIntent.getStringExtra("id")!=null){
+                                    saveList(std.getTasks());
+                                }
 
                             }
                         });
@@ -466,7 +487,12 @@ public class Kalendar extends AppCompatActivity implements CalendarAdapter.OnIte
     protected void onPause() {
         super.onPause();
         Log.d("Stop","Saved in calendar");
-        save();
+        if(workerIntent.getStringExtra("id")!=null){
+            listener.remove();
+        }else{
+            save();
+        }
+
         finish();
     }
 
@@ -525,5 +551,41 @@ public class Kalendar extends AppCompatActivity implements CalendarAdapter.OnIte
     public void onTaskClick(int position, View itemView) {
 
     }
+    private void saveList(ArrayList<Task> list){
+        ListClass LC = new ListClass(workerIntent.getStringExtra("id"), list);
+        db.collection("users").document(workerIntent.getStringExtra("id")).set(LC)
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(Kalendar.this,"ERROR!",Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
+    }
+    private void UpdateListListener(){
+        listener = db.collection("users").document(workerIntent.getStringExtra("id")).addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                if(error!=null){
+                    return;
+                }
+                if(value.exists()){
+                    ListClass LC = value.toObject(ListClass.class);
+                    if(LC.getTasks()!=null){
+                        ArrayList<Task> merge= LC.getTasks();
+                        std.setTasks(merge);
+                        currentList = std.GetTasksInInterval(new Interval(new DateTime(currentYear,currentMonth,currentDay,0,0),new DateTime(currentYear,currentMonth,currentDay,23,59)));
+                        adapter.setTaskovi(currentList);
+
+                    }
+                }
+
+
+            }
+        });
+
+    }
+
 
 }

@@ -34,6 +34,8 @@ import android.os.Bundle;
 
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +43,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -57,7 +60,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.cvetici.beeorganised.databinding.SettingsBinding;
+
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -109,7 +112,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     private BottomSheetDialog bottomSheetDialog;
     private BottomSheetDialog ListaItema,Routines;
 
-    private Button FromTime,ToTime,CaluculateBtn,SetBtn,ConfirmBtn,ApplyBtn,deleteTask,cancelDelete;
+    private Button FromTime,ToTime,CaluculateBtn,SetBtn,ConfirmBtn,ApplyBtn,deleteTask,cancelDelete,remember;
     private int Danas=0,Sutra,PSutra,Month,Month1,Month2,Year,Year1,Year2,globalTaskPosition;
 
     private NotificationHelper mHelper;
@@ -130,6 +133,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     Dialog dialog,dialogdel;
     private RelativeLayout routineHolder,changeTaskHolder;
     private ArrayList<AiTask> AiTaskList;
+    private ArrayList<String> names;
     boolean resume=false;
 
     private CrtajObaveze crtaj;
@@ -182,8 +186,8 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         checkButtonListener();
 
 
-
     }
+
 
     @Override
     protected void onResume() {
@@ -201,7 +205,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         std = new SmartToDo(5);
         clicked=false;
         backgroundClicked =false;
-
+        names = new ArrayList<>();
         daynightSwitch = (Switch) findViewById(R.id.daynightSwitch);
         d1 = (TextView) findViewById(R.id.firstDate);
         d2 = (TextView) findViewById(R.id.secondDate);
@@ -455,7 +459,6 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         load();
 
         std.setTasks(mainList);
-        Log.d("ispis",mainList.size()+"");
 
 
         currentList = std.GetTasksInInterval(new Interval(new DateTime(Year,Month,Danas,0,0),new DateTime(Year,Month,Danas,23,59)));
@@ -1041,16 +1044,13 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
             public void onClick(View v) {
                 Task task = crtaj.getClickedTask();
                 if(task.GetDone()){
-                    check.startAnimation(slowlyCLose);
                     check.setVisibility(View.INVISIBLE);
                 }else{
-                    check.startAnimation(slowlyOpen);
                     check.setVisibility(View.VISIBLE);
                 }
                 std.RemoveTask(task);
                 task.CheckDone();
                 std.AddTask(task);
-
             }
         });
 

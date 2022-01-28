@@ -55,16 +55,6 @@
 
 
 
-
-    <TextView
-        android:id="@+id/rememberText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/font"
-        android:layout_marginLeft="8dp"
-        android:textSize="17sp"
-        android:text="@string/orchoose"/>
-
     <RadioGroup
         android:id="@+id/RadioGroup"
         android:layout_width="match_parent"

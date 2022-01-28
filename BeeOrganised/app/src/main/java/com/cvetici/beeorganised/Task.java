@@ -123,8 +123,9 @@ public class Task
 
 class AiTask extends Task
 {
-    protected int priority; //1-4
+    public int priority; //1-4
     protected Interval prefferedTime;
+
 
     @Override
     public int GetPriority(){
@@ -169,6 +170,7 @@ class AiTask extends Task
         SetPriority(priority);
         this.prefferedTime = prefferedTime;
     }
+
 
     public AiTask(Task from, Interval prefferedTime){
         title = from.GetTitle();

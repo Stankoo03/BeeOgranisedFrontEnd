@@ -235,11 +235,14 @@ public class CrtajObaveze extends View {
             endingTime.setText(current.GetTime().GetEndTime().ToStringTime());
             changeTaskColor();
             tasknow = current;
+
             if(tasknow.GetDone()){
                 check.setVisibility(View.VISIBLE);
             }else{
                 check.setVisibility(View.INVISIBLE);
             }
+
+
         }
 
 
