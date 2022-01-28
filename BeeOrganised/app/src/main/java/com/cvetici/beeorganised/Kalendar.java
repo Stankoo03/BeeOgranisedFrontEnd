@@ -9,14 +9,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -45,7 +49,7 @@ import java.util.List;
 
 public class Kalendar extends AppCompatActivity implements CalendarAdapter.OnItemListener, TimePickerDialog.OnTimeSetListener ,ListaTaskovaAdapter.OnTaskListener {
 
-    private TextView monthYearText;
+    private TextView monthYearText,AiStartTime,AiEndTime;
     private RecyclerView calendarRecyclerView;
     private LocalDate selectDate;
     private ExtendedFloatingActionButton task;
@@ -54,22 +58,24 @@ public class Kalendar extends AppCompatActivity implements CalendarAdapter.OnIte
     private BottomSheetDialog bottomSheetDialog;
     private View bottomSheetView;
     private RadioGroup RG;
-    private ImageView hexagonIV,prevHexagon;
+    private ImageView hexagonIV,prevHexagon,textApply;
 
-    private EditText enterTask;
+    private EditText enterTask,enterTaskDuration;
     private Button CalculateBtn,SetBtn;
     private LinearLayout ManualTimeLayout,AiLayout,AfterCalculateBtn;
     private Spinner prioritySp,timeSp,durationSp;
 
-    private Button FromTime,ToTime;
-    private int h1=-1,h2=-1,m1=-1,m2=-1;
+    private Button FromTime,ToTime,ConfirmBtn,CaluculateBtn;
+    private int h1=-1,h2=-1,m1=-1,m2=-1,priority,durationN,time,duration;
     private SmartToDo std;
     private BottomSheetDialog ListaItema;
     private View ListView;
     private RecyclerView ListaTaskova;
     private ListaTaskovaAdapter adapter = new ListaTaskovaAdapter(this::onTaskClick);
+    private String taskName;
 
-    private List<Task> currentList, mainList;
+    private ArrayList<Task> currentList,mainList;
+    private ArrayList<AiTask>AiTaskList;
     private Button TaskButton;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -99,6 +105,7 @@ public class Kalendar extends AppCompatActivity implements CalendarAdapter.OnIte
         setMonthView();
         RadioGroupClicked();
         FromToTimeSetter();
+        AiTaskCalculation();
 
     }
     private void FindViews(){
@@ -124,15 +131,28 @@ public class Kalendar extends AppCompatActivity implements CalendarAdapter.OnIte
         prioritySp = bottomSheetView.findViewById(R.id.prioritySpinner);
         timeSp = bottomSheetView.findViewById(R.id.whenSpinner);
         durationSp = bottomSheetView.findViewById(R.id.durationSpinner);
+        ConfirmBtn = bottomSheetView.findViewById(R.id.ConfirmBtn);
+        CaluculateBtn = bottomSheetView.findViewById(R.id.CalculateBtn);
+        enterTaskDuration = bottomSheetView.findViewById(R.id.durationEditText);
+        AiStartTime = bottomSheetView.findViewById(R.id.AiStarTime);
+        AiEndTime = bottomSheetView.findViewById(R.id.AiEndTime);
+        textApply = bottomSheetView.findViewById(R.id.textApply);
 
         std = new SmartToDo(5);
         task.shrink();
         load();
         std.setTasks((ArrayList<Task>) mainList);
         adapter.setTaskovi(new ArrayList<Task>());
-
+        AiLayout.setVisibility(View.GONE);
         ListaTaskova.setAdapter(adapter);
 
+        textApply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(enterTask.getWindowToken(),0);
+            }
+        });
 
     }
 
@@ -220,7 +240,6 @@ public class Kalendar extends AppCompatActivity implements CalendarAdapter.OnIte
             }else {
                 currentMonth = Integer.parseInt(Mesec);
             }
-            load();
             currentList = std.GetTasksInInterval(new Interval(new DateTime(currentYear,currentMonth,currentDay,0,0),new DateTime(currentYear,currentMonth,currentDay,23,59)));
             adapter.setTaskovi(currentList);
 
@@ -267,6 +286,7 @@ public class Kalendar extends AppCompatActivity implements CalendarAdapter.OnIte
     }
 
     private void RadioGroupClicked(){
+
         RG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
@@ -275,9 +295,10 @@ public class Kalendar extends AppCompatActivity implements CalendarAdapter.OnIte
                         ManualTimeLayout.setVisibility(View.VISIBLE);
                         AiLayout.setVisibility(View.GONE);
                         AfterCalculateBtn.setVisibility(View.GONE);
-                        CalculateBtn.setVisibility(View.GONE);
+                        CaluculateBtn.setVisibility(View.GONE);
                         durationSp.setVisibility(View.GONE);
-
+                        ConfirmBtn.setVisibility(View.GONE);
+                        SetBtn.setVisibility(View.GONE);
                         break;
                     case R.id.AiTime:
                         if(ManualTimeLayout.getVisibility()==View.VISIBLE){
@@ -285,8 +306,7 @@ public class Kalendar extends AppCompatActivity implements CalendarAdapter.OnIte
                         }
                         AiLayout.setVisibility(View.VISIBLE);
                         durationSp.setVisibility(View.VISIBLE);
-                        CalculateBtn.setVisibility(View.VISIBLE);
-
+                        CaluculateBtn.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -341,45 +361,156 @@ public class Kalendar extends AppCompatActivity implements CalendarAdapter.OnIte
 
     }
 
-    private void ShowSetSimpleTaskBtn() {
-        if(h1!=-1 && h2!=-1 && m1!=-1 && m2 !=-1){
+    public void ShowSetSimpleTaskBtn(){
+        if(h1+h2+m1+m2>0){
             SetBtn.setVisibility(View.VISIBLE);
             SetBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Task temp = new Task(enterTask.getText().toString(),new Interval(new DateTime(currentYear,currentMonth,currentDay,h1,m1),new DateTime(currentYear,currentMonth,currentDay,h2,m2)));
-                    load();
-                    std.setTasks((ArrayList<Task>) mainList);
+                    String taskName = enterTask.getText().toString();
+                    if(taskName.isEmpty()){
+                        taskName = getResources().getString(R.string.NewTask);
+                    }
+                    Task temp = new Task(taskName,new Interval(new DateTime(currentYear,currentMonth,currentDay,h1,m1),new DateTime(currentYear,currentMonth,currentDay,h2,m2)));
                     if(std.AddTask(temp)){
                         Toast.makeText(Kalendar.this, R.string.settask, Toast.LENGTH_LONG).show();
                     }else{
                         Toast.makeText(Kalendar.this, R.string.setproblem, Toast.LENGTH_LONG).show();
                     }
-                    save();
+                    currentList = std.GetTasksInInterval(new Interval(new DateTime(currentYear,currentMonth,currentDay,h1,m1),new DateTime(currentYear,currentMonth,currentDay,h2,m2)));
+                    adapter.setTaskovi(currentList);
+
+
                 }
             });
+
         }
+    }
+    public void AiTaskCalculation(){
+
+
+        durationSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position==7){
+                    enterTaskDuration.setVisibility(View.VISIBLE);
+                }else{
+                    enterTaskDuration.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+        CaluculateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                taskName=enterTask.getText().toString();
+                priority=prioritySp.getSelectedItemPosition();
+                time = timeSp.getSelectedItemPosition();
+                durationN = durationSp.getSelectedItemPosition();
+                if(priority==0){
+                    Toast.makeText(Kalendar.this, R.string.priorityprob, Toast.LENGTH_SHORT).show();
+                }else if(time==0){
+                    Toast.makeText(Kalendar.this, R.string.timeprob, Toast.LENGTH_SHORT).show();
+                }else if(durationN==0){
+                    Toast.makeText(Kalendar.this, R.string.durationprob, Toast.LENGTH_SHORT).show();
+                }else {
+                    if (durationN == 7) {
+                        duration = Integer.parseInt(enterTaskDuration.getText().toString());
+                    }
+                    if(taskName.isEmpty()){
+                        taskName = getResources().getString(R.string.NewTask);
+                    }
+                    Interval tempI = std.CalcAiTask(new AiTask(taskName,durationN,priority,std.GetInterval(time,new DateTime(currentYear,currentMonth,currentDay,0,0))));
+                    if(!std.isPossible()){
+                        Toast.makeText(Kalendar.this, R.string.error, Toast.LENGTH_SHORT).show();
+                    }else{
+                        AfterCalculateBtn.setVisibility(View.VISIBLE);
+                        ConfirmBtn.setVisibility(View.VISIBLE);
+                        AiStartTime.setText(tempI.GetStartTime().ToStringTime());
+                        AiEndTime.setText(tempI.GetEndTime().ToStringTime());
+                        ConfirmBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                std.AcceptGuess();
+                                Toast.makeText(Kalendar.this, R.string.settask, Toast.LENGTH_SHORT).show();
+                                currentList = std.GetTasksInInterval(new Interval(new DateTime(currentYear,currentMonth,currentDay,0,0),new DateTime(currentYear,currentMonth,currentDay,23,59)));
+                                adapter.setTaskovi(currentList);
+
+
+                            }
+                        });
+
+
+
+                    }
+
+
+
+                }
+
+            }
+        });
+
+
+    }
+
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("Stop","Saved in calendar");
+        save();
+        finish();
     }
 
     public void save(){
         String FILE_NAME="taskLists";
+        String AI_TASKS = "aiTaskList";
         SharedPreferences sharedPreferences = getSharedPreferences(FILE_NAME,MODE_PRIVATE);
         SharedPreferences.Editor  editor = sharedPreferences.edit();
         Gson gson = new Gson();
-        String json = gson.toJson(std.getTasks());
+        AiTaskList = new ArrayList<AiTask>();
+        ArrayList<Task> t = std.getTasks();
+        for(int i=0; i<t.size(); i++){
+            if(t.get(i).getClass()==AiTask.class){
+                AiTaskList.add((AiTask) t.get(i));
+            }
+        }
+        t.removeAll(AiTaskList);
+        String json = gson.toJson(t);
+        String Aijson = gson.toJson(AiTaskList);
         editor.putString(FILE_NAME,json);
+        editor.putString(AI_TASKS,Aijson);
         editor.apply();
+
     }
+
     public void load(){
         String FILE_NAME="taskLists";
+        String AI_TASKS = "aiTaskList";
         SharedPreferences sharedPreferences = getSharedPreferences(FILE_NAME,MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreferences.getString(FILE_NAME,null);
+        String Aijson = sharedPreferences.getString(AI_TASKS,null);
         Type type = new TypeToken<List<Task>>() {}.getType();
+        Type AiType = new TypeToken<ArrayList<AiTask>>() {}.getType();
         mainList = gson.fromJson(json,type);
         if(mainList==null){
             mainList = new ArrayList<>();
         }
+        AiTaskList = gson.fromJson(Aijson,AiType);
+        if(AiTaskList==null){
+            AiTaskList = new ArrayList<>();
+        }
+        mainList.addAll(AiTaskList);
+        adapter.notifyDataSetChanged();
 
     }
 
@@ -394,4 +525,5 @@ public class Kalendar extends AppCompatActivity implements CalendarAdapter.OnIte
     public void onTaskClick(int position, View itemView) {
 
     }
+
 }

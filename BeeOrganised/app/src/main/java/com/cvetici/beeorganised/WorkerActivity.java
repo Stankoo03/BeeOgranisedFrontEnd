@@ -57,6 +57,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.cvetici.beeorganised.databinding.SettingsBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -129,6 +130,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
     Dialog dialog,dialogdel;
     private RelativeLayout routineHolder,changeTaskHolder;
     private ArrayList<AiTask> AiTaskList;
+    boolean resume=false;
 
     private CrtajObaveze crtaj;
 
@@ -180,6 +182,17 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         checkButtonListener();
 
 
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(resume){
+            load();
+            std.setTasks(mainList);
+            resume=false;
+        }
 
     }
 
@@ -380,6 +393,8 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                         AfterCalculateBtn.setVisibility(View.GONE);
                         CaluculateBtn.setVisibility(View.GONE);
                         durationSp.setVisibility(View.GONE);
+                        ConfirmBtn.setVisibility(View.GONE);
+                        SetBtn.setVisibility(View.GONE);
                         break;
                     case R.id.AiTime:
                         if(ManualTimeLayout.getVisibility()==View.VISIBLE){
@@ -440,7 +455,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         load();
 
         std.setTasks(mainList);
-
+        Log.d("ispis",mainList.size()+"");
 
 
         currentList = std.GetTasksInInterval(new Interval(new DateTime(Year,Month,Danas,0,0),new DateTime(Year,Month,Danas,23,59)));
@@ -512,6 +527,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         Intent intent = new Intent(WorkerActivity.this , Kalendar.class);
         ImageButton button = (ImageButton) findViewById(R.id.datumCetvrti);
         startActivity(intent);
+         resume = true;
 
     }
 
@@ -572,12 +588,13 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         enterTask.setText("");
         enterTaskDuration.setVisibility(View.GONE);
         ConfirmBtn.setVisibility(View.GONE);
-        bottomSheetDialog.show();
+
 
     }
     public void simpleTaskCard(View view) {
+        showBottomCard();
         if(task.isExtended()){
-            showBottomCard();
+            bottomSheetDialog.show();
             task.shrink();
         }else{
             task.extend();
@@ -672,7 +689,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                         public void onClick(View v) {
                             Task current = currentList.get(globalTaskPosition);
                             current.SetRoutine(new Routine(new boolean[]{Mon.isChecked(),Tue.isChecked(),Wed.isChecked(),Thu.isChecked(),Fri.isChecked(),Sat.isChecked(),Sun.isChecked()}));
-                            save();
+
                         }
                     });
                 }
@@ -683,7 +700,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                     public void onClick(View v) {
                         Task current = currentList.get(globalTaskPosition);
                         current.SetRoutine(new Routine(tempPosition));
-                        save();
+
 
                     }
                 });
@@ -697,7 +714,7 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                     public void onClick(View v) {
                         Task current = currentList.get(globalTaskPosition);
                         current.SetRoutine(new Routine(1));
-                        save();
+
                     }
                 });
             }
@@ -836,7 +853,6 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
         if(AiTaskList==null){
             AiTaskList = new ArrayList<>();
         }
-        Log.d("Penis",mainList.size()+" "+AiTaskList.size()+" ");
         mainList.addAll(AiTaskList);
         adapter.notifyDataSetChanged();
 
@@ -1026,10 +1042,15 @@ public class WorkerActivity extends AppCompatActivity implements TimePickerDialo
                 Task task = crtaj.getClickedTask();
                 if(task.GetDone()){
                     check.startAnimation(slowlyCLose);
+                    check.setVisibility(View.INVISIBLE);
                 }else{
                     check.startAnimation(slowlyOpen);
+                    check.setVisibility(View.VISIBLE);
                 }
-                crtaj.getClickedTask().CheckDone();
+                std.RemoveTask(task);
+                task.CheckDone();
+                std.AddTask(task);
+
             }
         });
 
