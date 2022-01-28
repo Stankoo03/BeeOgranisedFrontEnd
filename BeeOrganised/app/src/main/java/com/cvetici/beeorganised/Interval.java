@@ -153,6 +153,8 @@ public class Interval{
     }
 
     public Interval MoveNextTo(Interval other, boolean rightSide){
+        if(other == null)
+            return null;
         if(rightSide){
             return new Interval(other.GetEndTime(), GetDuration());
         }

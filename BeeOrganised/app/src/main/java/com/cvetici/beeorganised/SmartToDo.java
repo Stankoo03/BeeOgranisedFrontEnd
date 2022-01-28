@@ -41,7 +41,14 @@ public class SmartToDo{
         else return (1f-allowedOffset/100f);
     }
     public void setTasks(ArrayList<Task> tasks){
-        this.tasks = tasks;
+        ArrayList<Task> neww = new ArrayList<>();
+        for (Task t :
+                tasks) {
+            if(t.GetTime().GetEndTime().After(new DateTime(DateTime.Now(),0,0))){
+                neww.add(t);
+            }
+        }
+        this.tasks = neww;
     }
     public ArrayList<Task> getTasks(){
         return tasks;
@@ -523,7 +530,7 @@ public class SmartToDo{
             if(!found) {
                 int rtt2 = r.nextInt(newTasks.size());
                 guess = tt.GetTime().MoveNextTo(newTasks.get(rtt2).UsedTimeF(prefferedInterval), r.nextBoolean());
-                while ((guess.Intersect(prefferedInterval).GetIntersectType() != 6 || HaveOverlays(CalcUsedTime(newTasks, prefferedInterval), guess)) && localTries < maxTries) {
+                while (  ( guess == null || guess.Intersect(prefferedInterval).GetIntersectType() != 6 || HaveOverlays(CalcUsedTime(newTasks, prefferedInterval), guess)  ) && localTries < maxTries) {
 
                     //
                     //Debug.log("intersect t - " + guess.Intersect(prefferedInterval).GetIntersectType());
